@@ -1,0 +1,91 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "5: Add the Gmail tool",
+  "steps": [
+    {
+      "title": "Integrate the Gmail tool with your app",
+      "description": "# Integrate the Gmail tool with your app\n\nNow for the exciting part! Let's add the Gmail tool to Assistant0 so it can read and compose emails on your behalf.\n\n## Auth0 Token Vault\n\nWhen a user prompt requires the agent to use the Gmail tool, the user be redirected to grant permission on the required scopes. Auth0 will then securely store the necessary tokens (access and refresh tokens) in the [Token Vault](https://auth0.com/docs/secure/tokens/token-vault).\n\nOur AI agent, through the Auth0 AI SDK, will then request these tokens from Auth0 to make authenticated API calls to Gmail on the user's behalf. This keeps sensitive credentials out of our application code and gives users control over what the agent can access.",
+      "type": "markdown"
+    },
+    {
+      "file": "auth0-assistant0/src/lib/auth0-ai.ts",
+      "description": "## Import functions from Auth0 AI Vercel SDK and helper function\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\nFirst, we need to get an access token for the Gmail API. We can get this using the Auth0 Token Vault.\n\n1. Import the `Auth0AI` constructor and the `getAccessTokenFromTokenVault` functions from the Auth0 AI Vercel SDK and our `getRefreshToken` function from `./auth0` by selecting the **Insert code** button below:\n\n\n```ts\nimport { Auth0AI, getAccessTokenFromTokenVault } from '@auth0/ai-vercel';\nimport { getRefreshToken } from './auth0';\n```\n",
+      "line": 2,
+      "title": "Import functions from Auth0 AI Vercel SDK and helper function"
+    },
+    {
+      "file": "auth0-assistant0/src/lib/auth0-ai.ts",
+      "description": "## Get an access token for a connection\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\n1. Next, we'll add a function that will request an access token from Token Vault. Select **Insert Code** to add this code:\n\n```ts\n// Get the access token for a connection via Auth0\nexport const getAccessToken = async () => {\n  console.log('🔑 Requesting Gmail access token...');\n  const token = await getAccessTokenFromTokenVault();\n  console.log('🔑 Gmail access token obtained:', token ? 'Yes' : 'No');\n  return token;\n};\n```\n\n> Note: We'll still need to specify which connection we are requesting a token from. We will do that next!\n",
+      "line": 4,
+      "selection": {
+        "start": {
+          "line": 4,
+          "character": 1
+        },
+        "end": {
+          "line": 4,
+          "character": 72
+        }
+      }
+    },
+    {
+      "file": "auth0-assistant0/src/lib/auth0-ai.ts",
+      "description": "## Initialize the Auth0 AI client and Google Connection for Token Vault\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\n1. Next, we'll initialize a new Auth0AI client and specify the connection with Google so the Auth0 AI Vercel SDK can request tokens from Token Vault. Notice that the scopes are the ones that will allow the agent to read and compose emails. Select the **Insert Code** below to add this code segment to the agent code:\n\n```ts\n// Initialize Auth0AI client\nconst auth0AI = new Auth0AI();\n\n// Connection for Google services\nexport const withGmailRead = auth0AI.withTokenVault({\n  connection: 'google-oauth2',\n  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.readonly'],\n  refreshToken: getRefreshToken,\n});\nexport const withGmailWrite = auth0AI.withTokenVault({\n  connection: 'google-oauth2',\n  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.compose'],\n  refreshToken: getRefreshToken,\n});\n```\n",
+      "line": 13,
+      "selection": {
+        "start": {
+          "line": 12,
+          "character": 1
+        },
+        "end": {
+          "line": 13,
+          "character": 72
+        }
+      }
+    },
+    {
+      "file": "auth0-assistant0/src/app/api/chat/route.ts",
+      "description": "## Import the Gmail tools\n\n**Notice that the agent code implemented in the `src/api/chat/route.ts` has been opened for you above. We will add some code in this step.**\n\nIn order to implement Gmail tool-calling, we'll need to import the Gmail tools.\n\n1. Import the Gmail tools with the code below by selecting **Insert Code**.\n\n```ts\nimport { gmailDraftTool, gmailSearchTool } from '@/lib/tools/gmail';\n\n```\n\n> The `gmailDraftTool` is used compose email while `gmailSearchTool` is used to search and reach emails from your inbox.",
+      "line": 13,
+      "selection": {
+        "start": {
+          "line": 13,
+          "character": 1
+        },
+        "end": {
+          "line": 13,
+          "character": 25
+        }
+      },
+      "title": "Import the Gmail tools"
+    },
+    {
+      "file": "auth0-assistant0/src/app/api/chat/route.ts",
+      "description": "## Update the list of tools\n\n1. Now we need to add our Gmail tools to the list the agent has access to. Currently the list is empty so let's replace that code with the snippet below by selecting **Insert Code** below:\n\n```ts\n const tools = { gmailSearchTool, gmailDraftTool };\n```\n",
+      "line": 30,
+      "title": "Update the list of tools",
+      "selection": {
+        "start": {
+          "line": 31,
+          "character": 3
+        },
+        "end": {
+          "line": 31,
+          "character": 38
+        }
+      }
+    },
+    {
+      "title": "Test the tooling",
+      "description": "## Test the tooling\n\n1. [Run the application](command:codetour.sendTextToTerminal?[\"cd auth0-assistant0;npm run dev\"]) if it isn't already running. \n\n1. Log out of the application if you're logged in and log in with Gmail.\n1. Accept the consent screen to allow the requested scopes.\n1. Now try a prompt like: _\"**Check my last unread email?**\"_\n1. If this is your first time authorizing the agent to look up emails on your behalf, you will be redirected to authorize the request. Once you complete this flow, you may have to issue the prompt again once you're redirected to the agent application.\n\nWhile you're waiting for a response, look at the terminal on this screen. You should see this something similar to the output below logged:\n\n```\n🔍 Gmail Search Tool called with args: { query: 'is:unread', maxResults: 1, resource: 'messages' }\n🔑 Requesting Gmail access token...\n🔑 Gmail access token obtained: Yes\n🔍 Gmail Search Tool result: Result for the query is:unread:\n[{\"id\":\"19d2b2a9be2ab90a\",\"threadId\":\"19d2b2a9be2ab90a\",\"snippet\":\"Email snippet\":{\"name\":\"Subject\",\"value\":\"Email Subject\"},\"sender\":{\"name\":\"From\",\"value\":\"Sender Name <email@address.com>\"}}]\n🤖 AI response finished with reason: tool-calls\n```\n\n> Note: Make sure to use a Google account you added as a test user, otherwise the login will fail."
+    },
+    {
+      "title": "Bonus: Draft an email",
+      "description": "## Bonus: Draft an email\n\nIf you'd like to try the email composition tool, try this bonus activity!\n\n1. If it isn't already running, run the application](command:codetour.sendTextToTerminal?[\"cd auth0-assistant0;npm run dev\"]).\n\n2. Ask Assistant0 to draft an email\n\n >\"Hey Assistant0, can you draft an email to **(insert an email address here)** to tell them I just completed the the Auth0 for AI lab? Mention that now I know how tool calling works and I'm very excited to know how to secure my AI apps with Auth0.\"\n\n\nThe expected behavior:\n\n- Recognize the intent to draft an email. Identify the recipient and the email as well as the core message - to talk about the lab and what was learned.\n- Use the gmailTool with an action like draft_email.\n- Retrieve the Google access token using the Auth0 SDKs to draft the email.\n- Show the drafted email in chat and ask if there's anything else they could do.\n\n3. Finally, check the Drafts folder in your e-mail account to see the e-mail drafted by Assistant0."
+    },
+    {
+      "title": "Congratulations!",
+      "description": "## Congratulations! 🎉🎉🎉\n\nNow Assistant0 has access to Gmail tooling.\n\nIn this lab you:\n\n- Used Auth0 AI SDKs to integrate your agent with Auth0 Token Vault.\n- Integrated tool calling with your agent application.\n- Set up your agent to call Google APIs on behalf of an authenticated user.\n"
+    }
+  ]
+}

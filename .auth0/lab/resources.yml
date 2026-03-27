@@ -1,13 +1,16 @@
 clients: # Add other client settings https://auth0.com/docs/api/management/v2#!/Clients/post_clients
   -
-    name: "Lab: Drive App"
+    name: "Assistant0"
     app_type: "regular_web"
     callbacks:
-      - "http://localhost:30000/api/auth/callback"
-      - https://##CODESPACE_NAME##-3000.app.github.dev/api/auth/callback
+      - "http://localhost:3000/auth/callback"
+      - https://##CODESPACE_NAME##-3000.app.github.dev/auth/callback
     allowed_logout_urls:
       - "http://localhost:3000"
       - https://##CODESPACE_NAME##-3000.app.github.dev
+    grant_type:
+      - "authorization_code"
+      - "refresh_token"
+      - "urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token"
     jwt_configuration: 
       alg: "RS256"
-      

@@ -1,20 +1,21 @@
 {
-  "name": "Lab Node Working with Okta FGA",
+  "name": "Lab: Secure Your AI Agents to Act on Behalf of Users",
   "version": "1.1.1",
   "resources": "resources.yml",
   "unauthenticatedTour": ".auth0/lab/guides/signin.tour",
-  "postConfigureTour": ".auth0/lab/guides/register-the-sample-app.tour",
+  "postConfigureTour": ".auth0/lab/guides/01-intro.tour",
   "clients": [
     {
-      "name": "Lab: Drive App",
-      "directory": "src/app",
-      "env": {
-        "API_URL": "Lab: Drive App",
-        "ISSUER_BASE_URL": "$tenant_base_url",
-        "CLIENT_ID": "$client_id",
-        "CLIENT_SECRET": "$client_secret",
-        "SESSION_SECRET": "a long, randomly-generated string stored in env",
-        "PORT": 3000
+      "name": "Assistant0",
+      "directory": "auth0-assistant0",
+       "env": {
+        "OPENAI_API_KEY": "YOUR_API_KEY",
+        "LANGCHAIN_CALLBACKS_BACKGROUND": "false",
+        "AUTH0_SECRET": "use [openssl rand -hex 32] to generate a 32 bytes value",
+        "APP_BASE_URL": "",
+        "AUTH0_DOMAIN" : "$tenant_base_url",
+        "AUTH0_CLIENT_ID": "$client_id",
+        "AUTH0_CLIENT_SECRET" : "$client_secret"
       }
     }
   ]

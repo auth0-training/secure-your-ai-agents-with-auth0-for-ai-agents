@@ -1,5 +1,5 @@
 {
-  "comments.maxHeight": false,  
+  "comments.maxHeight": false,
   "editor.minimap.enabled": false,
   "editor.formatOnSave": false,
     // Enable per-language
@@ -13,17 +13,17 @@
   },
   "[typescript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[html]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "never"
-  },
   "workbench.sideBar.location": "right",
   "codetour.promptForWorkspaceTours": false,
   "codetour.showMarkers": false,
-  "codetour.customTourDirectory": ".auth0/lab/guides"
+  "codetour.customTourDirectory": ".auth0/lab/guides",
+  "githubPullRequests.ignoredPullRequestBranches": [
+    "main"
+  ]
 }

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "2: Integrate Assistant0 with Auth0",
+  "nextTour": "3: Set up a Google project",
+  "steps": [
+    {
+      "title": "Assistant0",
+      "description": "## About Assistant0\n\nAssistant0 is built in NextJS. This Codespace container already installed all the needed dependencies, includin the [Auth0 NextJS SDK](https://auth0.com/docs/quickstart/webapp/nextjs/01-login#install-the-auth0-next-js-sdk), which is used to implement authentication with Auth0. This part has already been done for you since the focus of this lab is to integrate tools with the agent so that the agent can perform tasks (via the associated first- or third-party APIs) on the authenticated user's behalf. \n\nFor the agentic AI implementation we use [Vercel AI](https://auth0.com/ai/docs/sdks/vercel-ai-sdk)."
+    },
+    {
+      "title": "Understanding the code",
+      "description": "## Understanding the code\n\nThis is the application structure:\n\n- `src/app`: Contains the Next.js application routes, layout, and pages.\n- `src/app/page.tsx`: Home page with chat interface.\n- `src/app/api/chat/route.ts`: API route for handling chat requests. This is where the AI agent is defined.\n- `src/components`: UI components used in the application.\n- `src/lib`: Services and configurations. This is where custom tools will be defined.\n- `src/utils`: Utility functions\n- `.env.local`: File to hold the environment variables"
+    },
+    {
+      "file": "auth0-assistant0/.env.local",
+      "description": "## Update `.env.local` - generate an application secret\n\nNow let's generate a secret to encode the values.\n\n1. Select [this link](command:codetour.sendTextToTerminal?[\"openssl rand -hex 32\"]) to run the command `openssl rand -hex 32` in the terminal.\n\n2. Copy the output and update the value of the `AUTH0_SECRET` variable highlighted on the line above.",
+      "line": 5,
+      "selection": {
+        "start": {
+          "line": 5,
+          "character": 15
+        },
+        "end": {
+          "line": 5,
+          "character": 70
+        }
+      }
+    },
+    {
+      "title": "Update `.env.local` - Set the app base URL",
+      "file": "auth0-assistant0/.env.local",
+      "description": "## Update `.env.local` - Set the app base URL\n\nIn order to configure the app to work properly in the Codespace you need to set the base URL.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev/\"]) to run the command on the terminal.\n2. Copy the output and update the `APP_BASE_URL` with that value.\n\n-----\n\nAfter the update your APP_BASE_URL should look something like this:\n\n```\nAPP_BASE_URL=\"https://humble-winner-74xv5jxw462r9pv-3000.app.github.dev/\"\n```",
+      "line": 6,
+      "selection": {
+        "start": {
+          "line": 6,
+          "character": 15
+        },
+        "end": {
+          "line": 6,
+          "character": 32
+        }
+      }
+    },
+    {
+      "title": "Create an Auth0 application integration",
+      "description": "## Create an Auth0 application integration\n\n1. Go to the [Auth0 Dashboard](https://manage.auth0.com/#/applications). And create and configure an Auth0 Application with the following properties:\n\n    - Name: **Assistant0**\n    - Type: **Regular Web**\n\n2. Then select the **Settings** tab on your Assistant0 page.\n\n3. Scroll down to **Application URIs** and configure the following:\n\n    * In the **Allowed Callback URLs**: [Select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/auth/callback\\\"\"]) and copy the output\n    * In the **Allowed Logout URLs**: [Select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/\\\"\"]) and copy the output\n\n4. Select **Save** at the bottom of the page.",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 1,
+          "character": 43
+        }
+      }
+    },
+    {
+      "file": "auth0-assistant0/.env.local",
+      "description": "## Update `.env.local` - Domain\n\n1. Still on your application's Settings tab, scroll up to the **Basic Information** section.\n1. Copy the **Domain**.\n1. Paste the Domain value to the line highlighted above to set the `AUTH0_DOMAIN` variable. Ensure you **don't** have a `https://` otherwise the connection with Gmail later will fail.",
+      "line": 7,
+      "selection": {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 27
+        }
+      }
+    },
+    {
+      "file": "auth0-assistant0/.env.local",
+      "description": "## Update `.env.local` - Client ID\n\n1. From your application's Setting tab, copy the **Client ID**.\n1. Paste the Client ID to the line highlighted above to set the `AUTH0_CLIENT_ID` variable.",
+      "line": 8,
+      "selection": {
+        "start": {
+          "line": 8,
+          "character": 18
+        },
+        "end": {
+          "line": 8,
+          "character": 32
+        }
+      }
+    },
+    {
+      "file": "auth0-assistant0/.env.local",
+      "description": "## Update `.env.local` - Client Secret\n\n1. From your application's Setting tab, copy the **Client Secret**.\n1. Paste the Client Secret to the line highlighted above to set the `AUTH0_CLIENT_SECRET` variable.",
+      "line": 9,
+      "selection": {
+        "start": {
+          "line": 9,
+          "character": 22
+        },
+        "end": {
+          "line": 9,
+          "character": 40
+        }
+      }
+    },
+    {
+      "title": "Test the app",
+      "description": "## Test the Assistant0 app\n\nWe haven't yet integrated our Gmail tool, but we can run the app to ensure it works with our OpenAI API key.\n\n1. Select [this link](command:workbench.action.debug.start) to run the application. \n\n1. Select the **Open in Browser** in the dialog that appears in the bottom right corner to visit your app's URL. \n>If you miss the dialog, you can always select the **PORTS** tab below next to **TERMINAL** and then hover over the **FORWARDED ADDRESS** and select the globe icon to open your app's URL.\n\n1. Sign up for the application using Google. This will be necessary for when we integrate the Gmail tool.\n\n1. Once logged into Assistant0, test that your OpenAPI key works by asking \"What can you help me with?\"\n\n> Note: On the first try it might take a while for the Assistant to respond to you. Look for the the `POST /api/chat` call in the terminal to know that everything is functioning as expected.",
+      "selection": {
+        "start": {
+          "line": 6,
+          "character": 119
+        },
+        "end": {
+          "line": 6,
+          "character": 136
+        }
+      }
+    }
+  ]
+}

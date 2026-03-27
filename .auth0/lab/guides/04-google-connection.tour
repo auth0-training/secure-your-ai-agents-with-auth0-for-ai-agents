@@ -1,0 +1,38 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "4: Configure your Google connection in Auth0",
+  "nextTour": "5: Add the Gmail tool",
+  "description": "# Setting up Google Project for Tool Calling\n\nTo allow your application to",
+  "steps": [
+    {
+      "title": "Add Google OAuth 2.0 client credentials to your Google connection",
+      "description": "## Add Google OAuth 2.0 client credentials to your Google connection\n\nLet's configure your Google connection in Auth0 with the Google OAuth 2.0 client credentials you just created. \n\n1. From the Auth0 Dashboard, go to [Authentication > Social](https://manage.auth0.com/#/connections/social).\n3. Select on the **google-oauth2** in the list of social connections.\n> By default, this connection is configured with Auth0 dev keys. But now we'll update them with the ones you just created.\n4. In the General section, enter the client credentials from the Google OAuth 2.0 client you just created (if you navigated away, you can find this here: https://console.cloud.google.com/auth/clients).\n    * **Client ID**: Paste the Client ID from your Assistant0 Web Client on the Google Cloud Console.\n    * **Client Secret**: Paste the Client Secret from your Assistant0 Web Client on the Google Cloud Console.\n\n> ⚠️ Note: Make sure that your Client ID and Client Secret **do not have** any leading or trailing blank spaces when you paste them into the Google connection configuration.",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 1,
+          "character": 69
+        }
+      }
+    },
+    {
+      "title": "Enable Connected Accounts for Token Vault and select permissions",
+      "description": "## Enable Connected Accounts for Token Vault and select permissions\n\nIn order for this connection to retrieve and securely store access tokens for the external Gmail API, we need to enable Connected Accounts for Token Vault. We will also need to select which permissions the client application will be allowed to request when requesting an access token from Google.\n\n1. Still on the google-oauth2 connection page, scroll down to the Purpose section.\n2. Select **Authentication and Connected Accounts for Token Vault**.\n\n3. Scroll to the **Permissions** section and:\n    - From the Access Type section, select **Offline Access**.\n    - From the Gmail section, select: **Gmail.Readonly** and **Gmail.Compose**.\n\n4. Scroll down and select **Save Changes**."
+    },
+    {
+      "title": "Enable My Accounts API",
+      "description": "## Enable My Account API\n\nThe [Connected Accounts](https://auth0.com/docs/secure/call-apis-on-users-behalf/token-vault/connected-accounts-for-token-vault) flow uses the [My Account API](https://auth0.com/docs/manage-users/my-account-api), which is currently early access, so we will have to manually enable it on the tenant.\n\n1. From the Auth0 Dashboard, got to **Applications > APIs**.\n2. From the My Account API banner, select **Activate**."
+    },
+    {
+      "title": "Add the Token Vault grant to the Assistant0 configuration",
+      "description": "## Add the Token Vault grant to the Assistant0 configuration\n\nNow that the Google connection is configured for Token Vault, you'll need to enable the Token Vault grant type on your Assistant0 application configuration.\n\n1. From the Auth0 dashboard, go to **Applications > Applications** and select **Assisstant0**.\n2. Scroll down and select **Advanced Settings**.\n3. Select **Grant Types**.\n4. Select **Token Vault**.\n5. Select **Save**."
+    },
+    {
+      "title": "Google connection configuration complete!",
+      "description": "## Google connection configuration complete!\n\nYour Google connection on your Auth0 tenant and your application integration for Assistant0 are now complete. Next, we'll update Assistant0's code to add Gmail tooling and connection details so it can use the Auth0 Vercel AI SDK to retrieve a third-party access token from Token Vault."
+    }
+  ]
+}

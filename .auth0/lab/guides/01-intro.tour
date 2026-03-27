@@ -1,0 +1,53 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "1: Setup",
+  "nextTour": "2: Integrate Assistant0 with Auth0",
+  "steps": [
+    {
+      "title": "Introduction",
+      "description": "## Introduction \n\nIn this lab, you will set up an NextJS+Vercel AI assistant named Assistant0 that uses Gmail tools to help you with reading and writing emails. Tools add to your AI agent's capabilities by exptending its pretrained knowledge by connecting to first- or third-party APIs to perform actions on behalf of the authenticated user. \nFor example, a tool with Gmail and Google Calendar integration can help you speedily draft emails and schedule meetings.\n\nWe are going to add a tool to our AI assistant:\n\n- **Gmail Integration**: Assistant0 will be able to search and draft emails on your behalf."
+    },
+    {
+      "title": "Prerequisites",
+      "description": "## Prerequisites\n\nIn addition to your Auth0 account, you will need to:\n\n1. Get an OpenAI API key.\n2. Sign up for a Google Cloud account.\n3. Create a Google project.\n\nWe'll go through each of these."
+    },
+    {
+      "title": "Get an OpenAI API key",
+      "file": "auth0-assistant0/.env.local",
+      "description": "## Get an OpenAI API key\n\n1. Sign up for the OpenAI Platform here: https://platform.openai.com/signup\n2. Once signed in, go to the **API keys** section of your dashboard.\n3. Select **Create new secret key** and name your key **Auth0 labs**.\n4. Select **Create new secret key** to generate a new API key.\n5. Select the **Copy** button to copy the API key.\n6. Paste this value on the line highlighted above to set the **OPENAI_API_KEY** variable.\n\n**Note**: You must set up billing information and add a minimum credit amount to your OpenAI account or else your API calls will be rejected. You can set up billing by selecting the **gear icon** at the top right of the OpenAI Platform and going to **Billing**.\n",
+      "line": 1,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 17
+        },
+        "end": {
+          "line": 1,
+          "character": 29
+        }
+      }
+    },
+    {
+      "title": "Sign up for a Google Cloud account",
+      "description": "## Sign up for a Google Cloud account\n\n1. Sign up for a Google Cloud developer account here: https://console.developers.google.com/.\n\n> If you already have an account, you can use that one.",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 1,
+          "character": 38
+        }
+      }
+    },
+    {
+      "title": "Create a Google project",
+      "description": "## Create a Google project\n\n\nTo create a Google project:\n\n1. Log into the API Console here: https://console.developers.google.com/\n\n2. Select the projects list, then select the **New Project (+)** button.\n\n   > Note: You don't need to setup the billing account to complete this lab.\n\n3. For the project name, enter **Auth0 labs**.\n\n4. Optionally edit the Project ID.\n\n    > Note: the project ID cannot be changed after the project is created, so choose an ID that you'll be comfortable using for the lifetime of the project.\n    \n4. Select **Create**.\n\nFor more details see this [Google Support Topic](https://support.google.com/googleapi/answer/6251787?ref_topic=7014522)."
+    },
+    {
+      "title": "Prerequisites complete!",
+      "description": "## Prerequisites complete!\n\nYou now have all the accounts needed to complete this lab!"
+    }
+  ]
+}

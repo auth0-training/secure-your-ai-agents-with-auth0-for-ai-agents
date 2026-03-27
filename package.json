@@ -1,0 +1,34 @@
+{
+  "name": "auth0-for-ai-agents",
+  "version": "1.0.0",
+  "description": "Leverage Auth0 FGA and Auth0 for AI Agents to implement [fine-grained authorization for Retrieval Augmented Generation (RAG)](https://auth0.com/ai/docs/authorization-for-rag). When a user prompts an AI agent for for information, the AI agent uses the RAG pipeline to generate a response. But what if the response has sensitive data? Using FGA, you can ensure  the user has authorization to receive the data in the response before the response is rendered.",
+  "main": "index.js",
+  "dependencies": {
+    "@auth0/ai": "^6.0.0",
+    "@auth0/ai-langchain": "^5.0.0",
+    "@langchain/core": "^0.3.78",
+    "@langchain/google-genai": "^0.2.15",
+    "@langchain/langgraph": "^0.4.9",
+    "@openfga/sdk": "^0.8.0",
+    "dotenv": "^16.4.7",
+    "langchain": "^0.3.35",
+    "tsx": "^4.20.3",
+    "zod": "^3.25.76"
+  },
+  "scripts": {
+    "start": "npx tsx index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/auth0-training/fga-for-rag.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/auth0-training/fga-for-rag/issues"
+  },
+  "homepage": "https://github.com/auth0-training/fga-for-rag#readme"
+}

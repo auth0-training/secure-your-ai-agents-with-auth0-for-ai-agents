@@ -1,0 +1,85 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "1: Create an Auth0 FGA store and client",
+  "steps": [
+    {
+      "title": "Create and Auth0 FGA store",
+      "description": "## Create an Auth0 FGA store\n1. In the [Auth0 FGA dashboard](https://dashboard.fga.dev/) select the dropdown menu under **SELECT STORE**.\n2. Select **Add new store**.\n3. Name your store **FGA for RAG Lab**.\n4. Select **United States (US)** under Store Jurisdiction.\n5. Select the **Finish** button."
+    },
+    {
+      "file": "",
+      "line": 1,
+      "title": "Create an Auth0 FGA client",
+      "description": "## Create an Auth0 FGA client\n\n> Your **Oktane Lab** store should now be selected in the dashboard.\n\n1. In the [Auth0 FGA dashboard](https://dashboard.fga.dev/), go to **Store Settings**.\n2. Scroll down to the Authorized Clients section, and select the **+ Create Client** button.\n3. Name the client **FGA for RAG**.\n4. Select the following Client Permissions boxes:\n    - **Read/Write model, changes, and assertions**\n    - **Write and delete tuples**\n    - **Read and query**\n    - **Search logs**\n3. Select the **Create** button.\n\n> You will see a window with your client credentials pop up. Keep this open for the following steps."
+    },
+    {
+      "title": "Create the .env file",
+      "description": "## Create the `.env` file\n\nSelect [this link](command:codetour.sendTextToTerminal?[\"cp .env-sample .env\"]) to create the .env file. We'll use this file to set environment variables that will be referenced by our sample application."
+    },
+    {
+      "file": ".env",
+      "description": "## Set `FGA_STORE_ID`\n1. From the window that popped up when you created the Auth0 FGA client, copy the **Store ID** value.\n1. Paste this value on the line highlighted above to set the **FGA_STORE_ID** variable.\n",
+      "line": 5,
+      "title": "Set FGA_STORE_ID",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 1,
+          "character": 7
+        }
+      }
+    },
+    {
+      "file": ".env",
+      "description": "## Set `FGA_CLIENT_ID`\n1. Copy the **Client ID** value from the window that popped up when you created the Auth0 FGA client.\n1. Paste this value on the line highlighted above to set the **FGA_CLIENT_ID** variable.\n",
+      "line": 8,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 25
+        },
+        "end": {
+          "line": 1,
+          "character": 30
+        }
+      },
+      "title": "Set FGA_CLIENT_ID"
+    },
+    {
+      "file": ".env",
+      "description": "## Set `FGA_CLIENT_SECRET`\n1. Copy the **Client Secret** value from the window that popped up when you created the Auth0 FGA client.\n1. Paste this value on the line highlighted above to set the **FGA_CLIENT_SECRET** variable.\n",
+      "line": 9,
+      "title": "Set FGA_CLIENT_SECRET"
+    },
+    {
+      "file": ".env",
+      "description": "## Check `FGA_API_URL`\n\n1. Select the **Continue** button to display additional credentials needed to call the Auth0 FGA API.\n2. Check that the **FGA_API_URL** value matches the one on the line above that sets the **FGA_API_URL** variable. If it doesn't, update it so that it does.\n3. You can now select **Done** on the Auth0 FGA credential window.",
+      "line": 4,
+      "selection": {
+        "start": {
+          "line": 4,
+          "character": 1
+        },
+        "end": {
+          "line": 4,
+          "character": 94
+        }
+      },
+      "title": "Check the FGA_API_URL"
+    },
+    {
+      "title": "Create Google Gemini API key",
+      "description": "## Create an Google Gemini API key\n\n>If you haven't already, create an [Google AI Studio account](https://ai.google.dev/aistudio).\n\n1. Sign into your Google AI Studio account at https://ai.google.dev/aistudio\n3. Select the **Get API key** button.\n4. Select the **+ Create API key** button.\n5. *If you have multiple existing projects in your account*, you will be asked to select a project and prompted to select an additional **Create API key in existing project** button.\n\n> Your Gemini API key is generated on the next page. Keep this open for the next step."
+    },
+    {
+      "file": ".env",
+      "description": "## Set GOOGLE_API_KEY\n1. From the Google Gemini window, select the key that was just generated (under the **Key** column to reveal its value.\n2. Select the **Copy** button to copy your API key.\n2. Paste this value on the line highlighted above to set the **GOGGLE_API_KEY** variable.\n3. You may now exit the Google AI Studio tab.",
+      "line": 12,
+      "title": "Set GOOGLE_API_KEY"
+    }
+  ],
+  "nextTour": "2: Create an Auth0 FGA model"
+}

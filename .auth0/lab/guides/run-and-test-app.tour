@@ -1,0 +1,49 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "4: Run and test the application",
+  "nextTour": "5: Bonus: Earn an Early Adopter Auth for AI Agents Skill Badge",
+  "steps": [
+    {
+      "title": "Checkpoint",
+      "description": "## Checkpoint\n\n### You just:\n1. Created a RAG pipeline using LangChain and the Node.js Auth0 AI SDK.\n\n### Next you will:\n1. Run the application to test FGA on our RAG pipeline."
+    },
+    {
+      "file": "",
+      "line": 1,
+      "title": "Run the application",
+      "description": "## Deploy the application\n1. Select [this link](command:workbench.action.debug.start) to deploy the application.\n>The agent will respond that it cannot find the required information to answer the query, since the information is only available in the private document the user does not have permissions on.\n>In this case, the agent can only retrieve the information needed for the answer if you change the query to something available in the public document.\n\n\n\n",
+      "selection": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 1
+        }
+      }
+    },
+    {
+      "title": "Give the user access to the private doc",
+      "description": "## Give the user access to the private doc\n\nFor the agent to access information in the private doc on the user's behalf, we'll need to add a new tuple in Auth0 FGA.\n\n1. From the Auth0 FGA dashboard, select **Tuple Management**.\n2. Select the **+ Add Tuple** button.\n3. Fill in the following values:\n    - User:  **user:Sara**\n    - Object: select **doc** and add **private-doc** in the ID field\n    - Relation: **viewer**\n4. Select the **Add Tuple** button.\n\nIt should look like this:\n\n![img](https://cdn.auth0.com/website/auth0-training/oktane25/fga-tuple-restricted.png)"
+    },
+    {
+      "title": "Re-run the application",
+      "description": "## Re-run the application\n\n1. Select [this link](command:workbench.action.debug.start) to re-run the application.\n> This time, the agent should respond with the forecast information since the user has permission to view the private-doc.\n"
+    },
+    {
+      "title": "Finished!",
+      "description": "## Finished!\n🎉 Congratulations, you have completed the lab! \n\nIn this lab, you:\n\n1. Created an Auth0 FGA store and client.\n2. Set the Auth0 FGA and Google Gemini specific environment variables in your .env file so that you can call the Auth0 FGA and Google Gemini APIs from an included sample application.\n3. Created an Auth0 FGA model.\n4. Created a relationship tuple that specifies that all users can view the public-doc.\n5. Created a RAG pipeline using LangChain and the Node.js Auth0 AI SDK.\n6. Ran the application to test FGA on our RAG pipeline.\n7. Updated the relationship tuples to give a user access to the private-doc, so the agent could answer a question requiring restricted information.\n\n## Next steps \n\n1. ⭐ **Earn a Skill Badge**: Further your learning with our [Secure Your RAG Pipelines with Auth0 Fine-Grained Access](https://learning.okta.com/path/secure-your-rag-pipelines-with-auth0-fine-grained-access) learning path. Pass the assessment and earn a skill badge that you can show off on social media!\n2. **Check out the quickstarts**: Not using Node.js + LangChain? Check out our quickstarts for other tech stacks: https://auth0.com/ai/docs/get-started/authorization-for-rag",
+      "selection": {
+        "start": {
+          "line": 2,
+          "character": 1
+        },
+        "end": {
+          "line": 2,
+          "character": 3
+        }
+      }
+    }
+  ]
+}

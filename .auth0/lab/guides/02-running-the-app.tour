@@ -102,6 +102,10 @@
       }
     },
     {
+      "title": "Enable Google connection",
+      "description": "## Enable Google connection\n\n1. In the Auth0 dashboard, go to the **Connections** tab.\n2. Ensure that only the **google-oauth2** connection is enabled."
+    },
+    {
       "title": "Test the app",
       "description": "## Test the Assistant0 app\n\nWe haven't yet integrated our Gmail tool, but we can run the app to ensure it works with our OpenAI API key.\n\n1. Select [this link](command:workbench.action.debug.start) to run the application. \n\n1. Select the **Open in Browser** in the dialog that appears in the bottom right corner to visit your app's URL. \n>If you miss the dialog, you can always select the **PORTS** tab below next to **TERMINAL** and then hover over the **FORWARDED ADDRESS** and select the globe icon to open your app's URL.\n\n1. Sign up for the application using Google. This will be necessary for when we integrate the Gmail tool.\n\n1. Once logged into Assistant0, test that your OpenAPI key works by asking \"What can you help me with?\"\n\n> Note: On the first try it might take a while for the Assistant to respond to you. Look for the the `POST /api/chat` call in the terminal to know that everything is functioning as expected.",
       "selection": {

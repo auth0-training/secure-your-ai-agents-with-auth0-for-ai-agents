@@ -26,5 +26,13 @@
   "codetour.customTourDirectory": ".auth0/lab/guides",
   "githubPullRequests.ignoredPullRequestBranches": [
     "main"
-  ]
+  ],
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/node_modules/**": true
+  },
+  "search.exclude": {
+    "**/.next/**": true,
+    "**/node_modules/**": true
+  }
 }

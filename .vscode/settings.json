@@ -19,6 +19,7 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "js/ts.tsserver.maxMemory": 4096,
   "workbench.sideBar.location": "right",
   "codetour.promptForWorkspaceTours": false,
   "codetour.showMarkers": false,

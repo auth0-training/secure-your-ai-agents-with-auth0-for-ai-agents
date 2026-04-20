@@ -2,7 +2,7 @@
   "name": "Lab: Secure Your AI Agents to Act on Behalf of Users",
   "version": "1.1.1",
   "resources": "resources.yml",
-  "unauthenticatedTour": ".auth0/lab/guides/signin.tour",
+  "unauthenticatedTour": ".auth0/lab/guides/01-intro.tour",
   "postConfigureTour": ".auth0/lab/guides/01-intro.tour",
   "clients": [
     {

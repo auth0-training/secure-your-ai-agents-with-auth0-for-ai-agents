@@ -2,7 +2,8 @@
   "comments.maxHeight": false,
   "editor.minimap.enabled": false,
   "editor.formatOnSave": false,
-    // Enable per-language
+  
+  // Enable per-language
   "[json]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -13,17 +14,36 @@
   },
   "[typescript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    // Offload formatting to Prettier so the TS server isn't stressed on save
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[html]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
+  // THE REAL FIX: Using the newly unified VS Code settings
+  "js/ts.tsserver.web.projectWideIntellisense.enabled": false,
+  "js/ts.tsserver.maxMemory": 4096,
+  
+  // Force syntax-only mode to prevent the dependency tree crashes 
+  "js/ts.tsserver.useSyntaxServer": "always",
+
   "workbench.sideBar.location": "right",
   "codetour.promptForWorkspaceTours": false,
   "codetour.showMarkers": false,
   "codetour.customTourDirectory": ".auth0/lab/guides",
   "githubPullRequests.ignoredPullRequestBranches": [
     "main"
-  ]
+  ],
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/node_modules/**": true,
+    "**/.tsbuildinfo": true
+  },
+  "search.exclude": {
+    "**/.next/**": true,
+    "**/node_modules/**": true,
+    "**/.tsbuildinfo": true
+  }
 }

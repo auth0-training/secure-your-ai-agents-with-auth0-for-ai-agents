@@ -5,7 +5,7 @@ import {
   streamText,
   UIMessage,
 } from 'ai';
-import { NextRequest } from 'next/server';
+
 import { openai } from '@ai-sdk/openai';
 import { setAIContext } from '@auth0/ai-vercel';
 import { errorSerializer, InterruptionPrefix, withInterruptions } from '@auth0/ai-vercel/interrupts';
@@ -19,7 +19,7 @@ const AGENT_SYSTEM_TEMPLATE = `You are a personal assistant named Assistant0 wit
 /**
  * This handler initializes and calls an tool calling agent.
  */
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   const { id, messages }: { id: string; messages: Array<UIMessage> } = await req.json();
 
   console.log('💬 Chat request received:', { id, messageCount: messages.length });

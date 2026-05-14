@@ -5,7 +5,7 @@
   "steps": [
     {
       "title": "Assistant0",
-      "description": "## About Assistant0\n\nAssistant0 is built in NextJS. This Codespace container already installed all the needed dependencies, includin the [Auth0 NextJS SDK](https://auth0.com/docs/quickstart/webapp/nextjs/01-login#install-the-auth0-next-js-sdk), which is used to implement authentication with Auth0. This part has already been done for you since the focus of this lab is to integrate tools with the agent so that the agent can perform tasks (via the associated first- or third-party APIs) on the authenticated user's behalf. \n\nFor the agentic AI implementation we use [Vercel AI](https://auth0.com/ai/docs/sdks/vercel-ai-sdk)."
+      "description": "## About Assistant0\n\nAssistant0 is built with Express and Vite. This Codespace container already installed all the needed dependencies, including the [Auth0 NextJS SDK](https://auth0.com/docs/quickstart/webapp/nextjs/01-login#install-the-auth0-next-js-sdk), which is used to implement authentication with Auth0. This part has already been done for you since the focus of this lab is to integrate tools with the agent so that the agent can perform tasks (via the associated first- or third-party APIs) on the authenticated user's behalf. \n\nFor the agentic AI implementation we use [Vercel AI](https://auth0.com/ai/docs/sdks/vercel-ai-sdk)."
     },
     {
       "title": "Understanding the code",

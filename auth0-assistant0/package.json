@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "tsx src/server.ts",
+    "dev": "tsx --require ./load-env.cjs src/server.ts",
     "build": "vite build",
-    "start": "NODE_ENV=production tsx src/server.ts",
+    "start": "NODE_ENV=production tsx --require ./load-env.cjs src/server.ts",
     "lint": "eslint src",
     "format": "prettier --write \"src\""
   },

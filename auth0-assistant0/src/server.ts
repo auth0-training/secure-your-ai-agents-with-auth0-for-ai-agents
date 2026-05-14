@@ -1,7 +1,3 @@
-import { config as loadEnv } from 'dotenv';
-loadEnv({ path: '.env.local' });
-loadEnv(); // fallback to .env
-
 import express from 'express';
 import type { Request as ExpressReq, Response as ExpressRes } from 'express';
 import { auth, requiresAuth } from 'express-openid-connect';

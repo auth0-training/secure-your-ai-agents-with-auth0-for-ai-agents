@@ -1,7 +1,7 @@
 # Lab: Secure Your AI Agents to Act on the Behalf of Users
 
 
-As part of Auth0 for AI Agents, you can securely manage users and control the actions your AI agent takes when calling external tools and APIs. This lab is adapted from the Oktane 2025 lab built by [@jtemporal](https://github.com/jtemporal/authing-your-genai) and uses a modified version of the Assistant0 NextJS/Vercel AI agent app built by [@deepu105](https://github.com/auth0-samples/auth0-assistant0). We will add Gmail tooling to this application and integrate the application with Auth0 Token Vault so that the agent can read and compose emails on your behalf.
+As part of Auth0 for AI Agents, you can securely manage users and control the actions your AI agent takes when calling external tools and APIs. This lab is adapted from the Oktane 2025 lab built by [@jtemporal](https://github.com/jtemporal/authing-your-genai) and uses a modified version of the Assistant0 AI agent app built by [@deepu105](https://github.com/auth0-samples/auth0-assistant0). We will add Gmail tooling to this application and integrate the application with Auth0 Token Vault so that the agent can read and compose emails on your behalf.
 
 ---
 # How to Get Started with this Lab

@@ -22,12 +22,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  // THE REAL FIX: Using the newly unified VS Code settings
-  "js/ts.tsserver.web.projectWideIntellisense.enabled": false,
-  "js/ts.tsserver.maxMemory": 4096,
-  
-  // Force syntax-only mode to prevent the dependency tree crashes 
-  "js/ts.tsserver.useSyntaxServer": "always",
+  "typescript.tsserver.maxTsServerMemory": 3072,
 
   "workbench.sideBar.location": "right",
   "codetour.promptForWorkspaceTours": false,

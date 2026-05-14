@@ -17,11 +17,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": false,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "@/*": [
         "./src/*"
@@ -29,11 +24,8 @@
     }
   },
   "include": [
-    "next-env.d.ts",
-    "next.config.ts",
     "src/**/*.ts",
-    "src/**/*.tsx",
-    ".next/types/**/*.ts"
+    "src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
@@ -42,14 +34,5 @@
     "build",
     "dist",
     "coverage"
-  ],
-  "watchOptions": {
-    "watchFile": "useFsEvents",
-    "watchDirectory": "useFsEvents",
-    "fallbackPolling": "dynamicPriority",
-    "excludeDirectories": [
-      "**/node_modules",
-      ".next"
-    ]
-  }
+  ]
 }

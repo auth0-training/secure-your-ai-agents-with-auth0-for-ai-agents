@@ -23,6 +23,7 @@
   },
 
   "typescript.tsserver.maxTsServerMemory": 3072,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
 
   "workbench.sideBar.location": "right",
   "codetour.promptForWorkspaceTours": false,

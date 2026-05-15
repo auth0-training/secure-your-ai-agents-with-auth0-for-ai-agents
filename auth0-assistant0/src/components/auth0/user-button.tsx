@@ -47,7 +47,7 @@ function getAvatarFallback(user: KeyValueMap) {
     return nickname[0];
   }
 
-  return name[0];
+  return name?.[0] ?? '?';
 }
 
 export default function UserButton({

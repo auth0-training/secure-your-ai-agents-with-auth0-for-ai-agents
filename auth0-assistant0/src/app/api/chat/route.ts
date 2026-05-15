@@ -9,6 +9,7 @@ import {
 import { openai } from '@ai-sdk/openai';
 import { setAIContext } from '@auth0/ai-vercel';
 import { errorSerializer, withInterruptions } from '@auth0/ai-vercel/interrupts';
+import { getErrorMessage } from '@ai-sdk/provider-utils';
 // import Gmail tools
 
 const date = new Date().toISOString();
@@ -47,15 +48,21 @@ export async function POST(req: Request) {
               if (chunk.type === 'tool-error') {
                 const tokenError = chunk.error as any;
                 if (tokenError && tokenError.code === 'TOKEN_VAULT_ERROR') {
-                  console.log('🔐 Token vault error detected in stream, serializing interrupt');
-                  // errorSerializer checks error.cause instanceof Auth0Interrupt and reads
-                  // error.toolCallId, error.toolArgs (not .input), and error.toolName
+                  console.log('🔐 Token vault error detected in stream, emitting interrupt');
+                  // 1. Forward the tool-error so toUIMessageStream emits tool-output-error,
+                  //    which closes the tool call on the client (prevents MissingToolResultsError)
+                  controller.enqueue(chunk);
+                  // 2. Emit a model-level error chunk carrying the wrapper error.
+                  //    toUIMessageStream's onError (errorSerializer) will detect
+                  //    wrapperError.cause instanceof Auth0Interrupt and return
+                  //    the AUTH0_AI_INTERRUPTION: prefix string to the client.
                   const wrapperError: any = new Error(tokenError.message);
                   wrapperError.cause = tokenError;
                   wrapperError.toolCallId = chunk.toolCallId;
                   wrapperError.toolArgs = chunk.input;
                   wrapperError.toolName = chunk.toolName;
-                  throw wrapperError;
+                  controller.enqueue({ type: 'error', error: wrapperError } as any);
+                  return;
                 }
               }
               controller.enqueue(chunk);
@@ -75,6 +82,7 @@ export async function POST(req: Request) {
         writer.merge(
           result.toUIMessageStream({
             sendReasoning: true,
+            onError: errorSerializer((e) => getErrorMessage(e)),
           }),
         );
       },

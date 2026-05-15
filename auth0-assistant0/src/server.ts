@@ -41,11 +41,13 @@ app.get('/auth/connect', requiresAuth(), (req: ExpressReq, res: ExpressRes) => {
   const scopeList = (Array.isArray(scopes) ? scopes : typeof scopes === 'string' ? [scopes] : [])
     .filter((s): s is string => typeof s === 'string');
 
+  const finalScope = ['openid', 'profile', 'email', 'offline_access', ...scopeList].join(' ');
+  console.log('🔑 /auth/connect called — connection:', connection, '| scope:', finalScope);
   res.oidc.login({
     returnTo: (returnTo as string) || '/',
     authorizationParams: {
       connection: connection as string,
-      scope: ['openid', 'profile', 'email', 'offline_access', ...scopeList].join(' '),
+      scope: finalScope,
       ...Object.fromEntries(
         Object.entries(extraAuthParams)
           .filter(([, v]) => typeof v === 'string')
@@ -82,6 +84,8 @@ function toWebRequest(req: ExpressReq): Request {
 
 // Chat API
 app.post('/api/chat', requiresAuth(), async (req: ExpressReq, res: ExpressRes) => {
+  const refreshToken = (req.oidc as any).refreshToken;
+  console.log('🔐 /api/chat — refreshToken present:', !!refreshToken);
   const webRes = await chatHandler(toWebRequest(req));
   res.status(webRes.status);
   for (const [key, value] of webRes.headers.entries()) res.append(key, value);

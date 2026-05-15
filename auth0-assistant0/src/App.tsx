@@ -113,7 +113,7 @@ export default function App() {
               <ChatWindow
                 endpoint="api/chat"
                 emoji="🤖"
-                placeholder={`Hello ${user?.name}, I'm your personal assistant. How can I help you today?`}
+                placeholder={`Hello ${user?.name ?? 'there'}, I'm your personal assistant. How can I help you today?`}
                 emptyStateComponent={InfoCard}
               />
             )}

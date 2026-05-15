@@ -45,7 +45,7 @@ app.get('/auth/connect', requiresAuth(), (req: ExpressReq, res: ExpressRes) => {
     returnTo: (returnTo as string) || '/',
     authorizationParams: {
       connection: connection as string,
-      scope: scopeList.join(' '),
+      scope: ['openid', 'profile', 'email', 'offline_access', ...scopeList].join(' '),
       ...Object.fromEntries(
         Object.entries(extraAuthParams)
           .filter(([, v]) => typeof v === 'string')

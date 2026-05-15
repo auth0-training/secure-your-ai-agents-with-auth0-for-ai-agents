@@ -1,6 +1,6 @@
 'use client';
 
-import { DefaultChatTransport, generateId, lastAssistantMessageIsCompleteWithToolCalls, type UIMessage } from 'ai';
+import { DefaultChatTransport, generateId, isToolUIPart, type UIMessage } from 'ai';
 import { useChat } from '@ai-sdk/react';
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { toast } from 'sonner';
@@ -124,7 +124,13 @@ export function ChatWindow(props: {
         console.error('Error: ', e);
         toast.error(`Error while processing your request`, { description: e.message });
       }),
-      sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
+      sendAutomaticallyWhen: ({ messages }) => {
+        const message = messages[messages.length - 1];
+        if (!message || message.role !== 'assistant') return false;
+        const lastStepStart = message.parts.reduce((last, part, i) => part.type === 'step-start' ? i : last, -1);
+        const toolParts = message.parts.slice(lastStepStart + 1).filter(isToolUIPart).filter(p => !p.providerExecuted);
+        return toolParts.length > 0 && toolParts.every(p => p.state === 'output-available');
+      },
     })
   );
 

@@ -8,8 +8,7 @@ import {
 
 import { openai } from '@ai-sdk/openai';
 import { setAIContext } from '@auth0/ai-vercel';
-import { errorSerializer, InterruptionPrefix, withInterruptions } from '@auth0/ai-vercel/interrupts';
-import { TokenVaultInterrupt } from '@auth0/ai/interrupts';
+import { errorSerializer, withInterruptions } from '@auth0/ai-vercel/interrupts';
 // import Gmail tools
 
 const date = new Date().toISOString();
@@ -48,15 +47,15 @@ export async function POST(req: Request) {
               if (chunk.type === 'tool-error') {
                 const tokenError = chunk.error as any;
                 if (tokenError && tokenError.code === 'TOKEN_VAULT_ERROR') {
-                  console.log('🔐 Token vault error detected in stream, throwing interrupt');
-                  const interrupt = new TokenVaultInterrupt(tokenError.message || 'Token vault authorization required', {
-                    connection: tokenError.connection,
-                    scopes: tokenError.scopes || [],
-                    requiredScopes: tokenError.requiredScopes || [],
-                    authorizationParams: tokenError.authorizationParams || {},
-                    behavior: tokenError.behavior || 'resume',
-                  });
-                  throw interrupt;
+                  console.log('🔐 Token vault error detected in stream, serializing interrupt');
+                  // errorSerializer checks error.cause instanceof Auth0Interrupt and reads
+                  // error.toolCallId, error.toolArgs (not .input), and error.toolName
+                  const wrapperError: any = new Error(tokenError.message);
+                  wrapperError.cause = tokenError;
+                  wrapperError.toolCallId = chunk.toolCallId;
+                  wrapperError.toolArgs = chunk.input;
+                  wrapperError.toolName = chunk.toolName;
+                  throw wrapperError;
                 }
               }
               controller.enqueue(chunk);

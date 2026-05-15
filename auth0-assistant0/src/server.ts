@@ -4,6 +4,21 @@ import { auth, requiresAuth } from 'express-openid-connect';
 import { requestStore } from './lib/auth0.js';
 import { POST as chatHandler } from './app/api/chat/route.js';
 
+// Intercept Auth0 token exchange calls to log failures that are otherwise silent
+const _originalFetch = globalThis.fetch;
+globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+  const url = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
+  const isTokenEndpoint = url.includes('/oauth/token');
+  const res = await _originalFetch(input, init);
+  if (isTokenEndpoint && !res.ok) {
+    const body = init?.body ? JSON.parse(init.body as string) : {};
+    const errText = await res.clone().text();
+    console.error('❌ Auth0 token exchange FAILED — status:', res.status, '| grant_type:', body.grant_type, '| connection:', body.connection);
+    console.error('❌ Auth0 response:', errText);
+  }
+  return res;
+};
+
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 

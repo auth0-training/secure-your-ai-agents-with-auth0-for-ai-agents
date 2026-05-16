@@ -1,6 +1,12 @@
-import 'dotenv/config';
+import { config } from 'dotenv';
 import { Auth0AI, getAccessTokenFromTokenVault } from '@auth0/ai-vercel';
 import { getRefreshToken } from './auth0.js';
+
+// Load env vars at the top of the module body — before new Auth0AI() reads process.env.
+// .env.local is created by the devcontainer postCreateCommand and filled in by the Auth0
+// lab extension. .env is the fallback for plain local development.
+config({ path: '.env.local', override: false });
+config({ path: '.env', override: false });
 
 const auth0AI = new Auth0AI({
   auth0: {

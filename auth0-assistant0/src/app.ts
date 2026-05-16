@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import { config } from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
@@ -10,6 +10,12 @@ import { setAIContext } from '@auth0/ai-vercel';
 import { nanoid } from 'nanoid';
 import { requestStore } from './lib/auth0.js';
 import { gmailSearchTool, gmailComposeTool } from './tools/gmail.js';
+
+// auth0-ai.ts (loaded above via the gmail import chain) already called config() during
+// its own module-body execution, so these are effectively no-ops at this point.
+// They're kept here so app.ts remains self-contained if the import graph ever changes.
+config({ path: '.env.local', override: false });
+config({ path: '.env', override: false });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

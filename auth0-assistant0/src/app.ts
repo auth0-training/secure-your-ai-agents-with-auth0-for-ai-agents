@@ -43,8 +43,11 @@ app.use(
     issuerBaseURL: `https://${process.env.AUTH0_DOMAIN}`,
     authorizationParams: {
       response_type: 'code',
-      // offline_access is required so Auth0 returns a refresh token for Token Vault exchange
-      scope: 'openid profile email offline_access',
+      // offline_access: refresh token for Token Vault exchange.
+      // audience + create:me:connected_accounts: required so the refresh token can later be
+      // exchanged for a My Account API access token to initiate the Connected Accounts flow.
+      scope: 'openid profile email offline_access create:me:connected_accounts',
+      audience: `https://${process.env.AUTH0_DOMAIN}/me/`,
     },
     routes: {
       login: '/auth/login',
@@ -108,8 +111,9 @@ app.get('/auth/connect', requiresAuth(), async (req: ExpressRequest, res: Expres
   });
 
   if (!tokenRes.ok) {
-    console.error('My Account API token exchange failed:', await tokenRes.text());
-    res.status(500).send('Failed to obtain My Account API access token.');
+    const body = await tokenRes.text();
+    console.error('My Account API token exchange failed:', body);
+    res.status(500).send(`Failed to obtain My Account API access token: ${body}`);
     return;
   }
 

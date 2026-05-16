@@ -63,6 +63,8 @@ app.get('/auth/connect', requiresAuth(), (req: ExpressReq, res: ExpressRes) => {
     authorizationParams: {
       connection: connection as string,
       scope: finalScope,
+      access_type: 'offline',
+      prompt: 'consent',
       ...Object.fromEntries(
         Object.entries(extraAuthParams)
           .filter(([, v]) => typeof v === 'string')

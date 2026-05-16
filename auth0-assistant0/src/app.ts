@@ -289,9 +289,11 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
       switch (p.type) {
         // Text chunks — Vercel AI SDK may use 'text-delta' (v4/v5) or 'text' (v6)
         case 'text-delta':
+          console.log(`[chat] text-delta: ${JSON.stringify(p.textDelta)}`);
           send('text', { delta: p.textDelta ?? '' });
           break;
         case 'text':
+          console.log(`[chat] text: ${JSON.stringify(p.text)}`);
           send('text', { delta: p.text ?? '' });
           break;
 
@@ -327,7 +329,11 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
           break;
 
         default:
-          console.log(`[chat] unhandled part type: ${p.type}`);
+          if (p.type === 'text-end') {
+            console.log(`[chat] text-end — text: ${JSON.stringify(p.text)}, experimental_text: ${JSON.stringify(p.experimental_text)}`);
+          } else {
+            console.log(`[chat] unhandled part type: ${p.type}`);
+          }
       }
     }
 

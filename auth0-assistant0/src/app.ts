@@ -244,6 +244,8 @@ Today's date: ${new Date().toISOString().split('T')[0]}.`;
 
 app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressResponse) => {
   const { messages, sessionId } = req.body as { messages: any[]; sessionId?: string };
+  const threadID = sessionId ?? nanoid();
+  console.log(`[chat] request — messages: ${messages.length}, threadID: ${threadID}`);
 
   // Server-Sent Events headers
   res.writeHead(200, {
@@ -261,8 +263,9 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
 
   try {
     // Thread ID scopes Token Vault credential caching across tool calls
-    setAIContext({ threadID: sessionId ?? nanoid() });
+    setAIContext({ threadID });
 
+    console.log('[chat] calling streamText...');
     const result = streamText({
       model: openai('gpt-4o-mini'),
       system: SYSTEM_PROMPT,
@@ -270,8 +273,14 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
       tools: { gmailSearch: gmailSearchTool, gmailCompose: gmailComposeTool },
       stopWhen: stepCountIs(5),
       onError: ({ error }) => {
-        console.error('streamText error:', error);
+        console.error('[chat] streamText onError:', error);
         send('error', { message: (error as any)?.message ?? 'Model error.' });
+      },
+      onStepFinish: ({ stepType, toolCalls, toolResults, finishReason }) => {
+        console.log(`[chat] step finished — type: ${stepType}, finishReason: ${finishReason}, tools called: ${toolCalls?.map((t: any) => t.toolName).join(', ') || 'none'}`);
+      },
+      onFinish: ({ finishReason, usage }) => {
+        console.log(`[chat] stream finished — finishReason: ${finishReason}, tokens: ${JSON.stringify(usage)}`);
       },
     });
 
@@ -288,14 +297,17 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
 
         // Inform the UI which tool is running
         case 'tool-call':
+          console.log(`[chat] tool-call: ${p.toolName}`);
           send('tool_call', { toolName: p.toolName });
           break;
         case 'tool-result':
+          console.log(`[chat] tool-result: ${p.toolName}`);
           send('tool_result', { toolName: p.toolName });
           break;
 
         // Token Vault error: user hasn't authorized the Google connection yet
         case 'tool-error': {
+          console.error(`[chat] tool-error: ${p.toolName}`, p.error);
           const err = p.error;
           if (isTokenVaultError(err)) {
             send('auth_required', buildAuthPayload(err));
@@ -304,20 +316,32 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
           break;
         }
 
+        case 'error':
+          console.error('[chat] stream error part:', p.error);
+          send('error', { message: (p.error as any)?.message ?? 'Stream error.' });
+          break;
+
         case 'finish':
+          console.log(`[chat] finish event — reason: ${p.finishReason}`);
           send('done', { finishReason: p.finishReason });
           break;
+
+        default:
+          console.log(`[chat] unhandled part type: ${p.type}`);
       }
     }
+
+    console.log('[chat] fullStream iteration complete');
   } catch (err: unknown) {
     const e = err as any;
+    console.error('[chat] caught error:', e);
     if (isTokenVaultError(e)) {
       send('auth_required', buildAuthPayload(e));
     } else {
-      console.error('Chat error:', e);
       send('error', { message: e?.message ?? 'An unexpected error occurred.' });
     }
   } finally {
+    console.log('[chat] closing response');
     if (!res.writableEnded) res.end();
   }
 });

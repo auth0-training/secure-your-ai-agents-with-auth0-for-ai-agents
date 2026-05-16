@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import crypto from 'crypto';
 import express from 'express';
 import type { Request as ExpressRequest, Response as ExpressResponse } from 'express';
 import { createRequire } from 'module';
@@ -12,7 +13,7 @@ import { streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { setAIContext } from '@auth0/ai-vercel';
 import { nanoid } from 'nanoid';
-import { requestStore } from './lib/auth0.js';
+import { requestStore, getRefreshToken } from './lib/auth0.js';
 import { gmailSearchTool, gmailComposeTool } from './tools/gmail.js';
 
 // auth0-ai.ts (loaded above via the gmail import chain) already called config() during
@@ -60,37 +61,152 @@ app.use((req: ExpressRequest, _res: ExpressResponse, next) => {
   requestStore.run(req, next);
 });
 
-// ─── Token Vault consent route ────────────────────────────────────────────────
-// Starts a connection-scoped authorization code flow so the user can grant
-// the app access to their Google account through Auth0.
-app.get('/auth/connect', requiresAuth(), (req: ExpressRequest, res: ExpressResponse) => {
-  const { connection, returnTo, scopes, ...extra } = req.query;
+// In-memory store for in-flight Connected Accounts PKCE transactions (keyed by state, 10-min TTL).
+const connectTransactions = new Map<string, {
+  codeVerifier: string;
+  authSession: string;
+  accessToken: string; // My Account API access token cached to avoid a second refresh-token use
+  returnTo: string;
+  expiresAt: number;
+}>();
+setInterval(() => {
+  const now = Date.now();
+  for (const [k, tx] of connectTransactions) {
+    if (tx.expiresAt < now) connectTransactions.delete(k);
+  }
+}, 5 * 60 * 1000).unref();
+
+// ─── Token Vault Connected Accounts: initiate ─────────────────────────────────
+// Calls Auth0's My Account API to create a connected-account ticket, then
+// redirects the popup to Auth0 → Google. On completion Auth0 stores the Google
+// tokens in Token Vault so later federated-token-exchange calls succeed.
+app.get('/auth/connect', requiresAuth(), async (req: ExpressRequest, res: ExpressResponse) => {
+  const { connection, returnTo, scopes } = req.query;
 
   const scopeList = (
     Array.isArray(scopes) ? scopes : typeof scopes === 'string' ? [scopes] : []
-  ).filter((s): s is string => typeof s === 'string');
+  ).filter((s): s is string => typeof s === 'string' && s !== 'openid');
 
-  const extraParams = Object.fromEntries(
-    Object.entries(extra)
-      .filter(([, v]) => typeof v === 'string')
-      .map(([k, v]) => [k, v as string]),
+  // Exchange the user's Auth0 refresh token for a My Account API access token.
+  const refreshToken = await getRefreshToken();
+  if (!refreshToken) {
+    res.status(401).send('No refresh token found in session.');
+    return;
+  }
+
+  const tokenRes = await fetch(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      grant_type: 'refresh_token',
+      client_id: process.env.AUTH0_CLIENT_ID,
+      client_secret: process.env.AUTH0_CLIENT_SECRET,
+      refresh_token: refreshToken,
+      audience: `https://${process.env.AUTH0_DOMAIN}/me/`,
+      scope: 'create:me:connected_accounts',
+    }),
+  });
+
+  if (!tokenRes.ok) {
+    console.error('My Account API token exchange failed:', await tokenRes.text());
+    res.status(500).send('Failed to obtain My Account API access token.');
+    return;
+  }
+
+  const { access_token } = await tokenRes.json() as { access_token: string };
+
+  // PKCE parameters for the connected-account flow.
+  const codeVerifier = crypto.randomBytes(32).toString('base64url');
+  const codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest('base64url');
+  const state = crypto.randomBytes(16).toString('hex');
+
+  const connectRes = await fetch(
+    `https://${process.env.AUTH0_DOMAIN}/me/v1/connected-accounts/connect`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${access_token}`,
+      },
+      body: JSON.stringify({
+        connection: connection as string,
+        redirect_uri: `${process.env.APP_BASE_URL}/auth/connect/callback`,
+        state,
+        code_challenge: codeChallenge,
+        code_challenge_method: 'S256',
+        scopes: scopeList,
+      }),
+    },
   );
 
-  (res as any).oidc.login({
+  if (!connectRes.ok) {
+    console.error('Connected-accounts initiation failed:', await connectRes.text());
+    res.status(500).send('Failed to initiate connected account.');
+    return;
+  }
+
+  const { connect_uri, connect_params, auth_session } = await connectRes.json() as {
+    connect_uri: string;
+    connect_params: { ticket: string };
+    auth_session: string;
+  };
+
+  connectTransactions.set(state, {
+    codeVerifier,
+    authSession: auth_session,
+    accessToken: access_token,
     returnTo: (returnTo as string) || '/',
-    authorizationParams: {
-      connection: connection as string,
-      // scope: Auth0/OIDC scopes only — never put upstream (Google) scopes here or
-      // Auth0 silently drops them and Token Vault never gets the Gmail grants.
-      scope: 'openid profile email offline_access',
-      // connection_scope: the scopes Auth0 requests from Google on the user's behalf.
-      // extraParams may already carry this from the TokenVaultInterrupt; fall back to scopeList.
-      connection_scope: (extraParams.connection_scope as string) || scopeList.join(' '),
-      access_type: 'offline',
-      prompt: 'consent',
-      ...extraParams,
-    },
+    expiresAt: Date.now() + 10 * 60 * 1000,
   });
+
+  res.redirect(`${connect_uri}?ticket=${encodeURIComponent(connect_params.ticket)}`);
+});
+
+// ─── Token Vault Connected Accounts: callback ─────────────────────────────────
+// Auth0 calls back here with connect_code after the user grants Google access.
+// We complete the flow so Auth0 stores the Google tokens in Token Vault.
+// NOTE: /auth/connect/callback must be added to Auth0's Allowed Callback URLs.
+app.get('/auth/connect/callback', requiresAuth(), async (req: ExpressRequest, res: ExpressResponse) => {
+  const { connect_code, state } = req.query;
+
+  if (!connect_code || !state) {
+    res.status(400).send('Missing connect_code or state.');
+    return;
+  }
+
+  const transaction = connectTransactions.get(state as string);
+  connectTransactions.delete(state as string);
+
+  if (!transaction || transaction.expiresAt < Date.now()) {
+    res.status(400).send('Invalid or expired state.');
+    return;
+  }
+
+  const completeRes = await fetch(
+    `https://${process.env.AUTH0_DOMAIN}/me/v1/connected-accounts/complete`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${transaction.accessToken}`,
+      },
+      body: JSON.stringify({
+        auth_session: transaction.authSession,
+        connect_code: connect_code as string,
+        redirect_uri: `${process.env.APP_BASE_URL}/auth/connect/callback`,
+        code_verifier: transaction.codeVerifier,
+      }),
+    },
+  );
+
+  if (!completeRes.ok) {
+    console.error('Connected-accounts completion failed:', await completeRes.text());
+    res.status(500).send('Failed to complete connected account setup.');
+    return;
+  }
+
+  // Google tokens are now in Token Vault. Redirect to /close to trigger popup auto-retry.
+  res.redirect(transaction.returnTo);
 });
 
 // Helper page closed by popup-mode Token Vault flows.

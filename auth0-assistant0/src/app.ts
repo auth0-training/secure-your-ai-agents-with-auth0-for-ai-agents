@@ -289,7 +289,7 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
       switch (p.type) {
         // Text chunks — Vercel AI SDK may use 'text-delta' (v4/v5) or 'text' (v6)
         case 'text-delta':
-          console.log(`[chat] text-delta: ${JSON.stringify(p.textDelta)}`);
+          console.log(`[chat] text-delta full part: ${JSON.stringify(p)}`);
           send('text', { delta: p.textDelta ?? '' });
           break;
         case 'text':

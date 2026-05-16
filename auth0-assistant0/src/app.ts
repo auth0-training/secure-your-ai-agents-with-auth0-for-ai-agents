@@ -3,7 +3,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import type { Request as ExpressRequest, Response as ExpressResponse } from 'express';
-import { auth, requiresAuth } from 'express-openid-connect';
+import { createRequire } from 'module';
+import type * as ExpressOIDC from 'express-openid-connect';
+const { auth, requiresAuth } = createRequire(import.meta.url)(
+  'express-openid-connect',
+) as typeof ExpressOIDC;
 import { streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { setAIContext } from '@auth0/ai-vercel';

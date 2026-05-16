@@ -70,20 +70,25 @@ app.get('/auth/connect', requiresAuth(), (req: ExpressRequest, res: ExpressRespo
     Array.isArray(scopes) ? scopes : typeof scopes === 'string' ? [scopes] : []
   ).filter((s): s is string => typeof s === 'string');
 
-  const finalScope = ['openid', 'profile', 'email', 'offline_access', ...scopeList].join(' ');
+  const extraParams = Object.fromEntries(
+    Object.entries(extra)
+      .filter(([, v]) => typeof v === 'string')
+      .map(([k, v]) => [k, v as string]),
+  );
 
   (res as any).oidc.login({
     returnTo: (returnTo as string) || '/',
     authorizationParams: {
       connection: connection as string,
-      scope: finalScope,
+      // scope: Auth0/OIDC scopes only — never put upstream (Google) scopes here or
+      // Auth0 silently drops them and Token Vault never gets the Gmail grants.
+      scope: 'openid profile email offline_access',
+      // connection_scope: the scopes Auth0 requests from Google on the user's behalf.
+      // extraParams may already carry this from the TokenVaultInterrupt; fall back to scopeList.
+      connection_scope: (extraParams.connection_scope as string) || scopeList.join(' '),
       access_type: 'offline',
       prompt: 'consent',
-      ...Object.fromEntries(
-        Object.entries(extra)
-          .filter(([, v]) => typeof v === 'string')
-          .map(([k, v]) => [k, v as string]),
-      ),
+      ...extraParams,
     },
   });
 });

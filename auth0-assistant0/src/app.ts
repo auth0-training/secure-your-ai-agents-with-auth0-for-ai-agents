@@ -9,7 +9,7 @@ import type * as ExpressOIDC from 'express-openid-connect';
 const { auth, requiresAuth } = createRequire(import.meta.url)(
   'express-openid-connect',
 ) as typeof ExpressOIDC;
-import { streamText } from 'ai';
+import { streamText, stepCountIs } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { setAIContext } from '@auth0/ai-vercel';
 import { nanoid } from 'nanoid';
@@ -268,7 +268,11 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
       system: SYSTEM_PROMPT,
       messages,
       tools: { gmailSearch: gmailSearchTool, gmailCompose: gmailComposeTool },
-      maxSteps: 5,
+      stopWhen: stepCountIs(5),
+      onError: ({ error }) => {
+        console.error('streamText error:', error);
+        send('error', { message: (error as any)?.message ?? 'Model error.' });
+      },
     });
 
     for await (const part of result.fullStream) {

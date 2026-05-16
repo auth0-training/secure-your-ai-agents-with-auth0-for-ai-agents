@@ -124,6 +124,9 @@ app.get('/auth/connect', requiresAuth(), async (req: ExpressRequest, res: Expres
   const codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest('base64url');
   const state = crypto.randomBytes(16).toString('hex');
 
+  const connectCallbackUri = `${process.env.APP_BASE_URL}/auth/connect/callback`;
+  console.log('[connect] redirect_uri:', connectCallbackUri);
+
   const connectRes = await fetch(
     `https://${process.env.AUTH0_DOMAIN}/me/v1/connected-accounts/connect`,
     {
@@ -134,7 +137,7 @@ app.get('/auth/connect', requiresAuth(), async (req: ExpressRequest, res: Expres
       },
       body: JSON.stringify({
         connection: connection as string,
-        redirect_uri: `${process.env.APP_BASE_URL}/auth/connect/callback`,
+        redirect_uri: connectCallbackUri,
         state,
         code_challenge: codeChallenge,
         code_challenge_method: 'S256',
@@ -186,6 +189,11 @@ app.get('/auth/connect/callback', requiresAuth(), async (req: ExpressRequest, re
     return;
   }
 
+  const completeCallbackUri = `${process.env.APP_BASE_URL}/auth/connect/callback`;
+  console.log('[complete] redirect_uri:', completeCallbackUri);
+  console.log('[complete] connect_code:', connect_code);
+  console.log('[complete] auth_session:', transaction.authSession);
+
   const completeRes = await fetch(
     `https://${process.env.AUTH0_DOMAIN}/me/v1/connected-accounts/complete`,
     {
@@ -197,7 +205,7 @@ app.get('/auth/connect/callback', requiresAuth(), async (req: ExpressRequest, re
       body: JSON.stringify({
         auth_session: transaction.authSession,
         connect_code: connect_code as string,
-        redirect_uri: `${process.env.APP_BASE_URL}/auth/connect/callback`,
+        redirect_uri: completeCallbackUri,
         code_verifier: transaction.codeVerifier,
       }),
     },

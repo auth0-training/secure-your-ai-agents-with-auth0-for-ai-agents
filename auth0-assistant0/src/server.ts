@@ -57,7 +57,7 @@ app.get('/auth/connect', requiresAuth(), (req: ExpressReq, res: ExpressRes) => {
     .filter((s): s is string => typeof s === 'string');
 
   const finalScope = ['openid', 'profile', 'email', 'offline_access', ...scopeList].join(' ');
-  console.log('🔑 /auth/connect called — connection:', connection, '| scope:', finalScope);
+  console.log('🔑 /auth/connect called — connection:', connection, '| scope:', finalScope, '| access_type: offline | prompt: consent');
   res.oidc.login({
     returnTo: (returnTo as string) || '/',
     authorizationParams: {

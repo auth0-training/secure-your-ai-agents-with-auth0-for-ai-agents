@@ -1,9 +1,10 @@
-// Stable session ID for Token Vault credential caching within a conversation
+// Stable session ID for Token Vault credential caching within a conversation.
+// Must survive the auth popup flow — never regenerated on the same page load.
 const sessionId = crypto.randomUUID();
 
-// Conversation history sent with every request for multi-turn context
 let messages = [];
 let busy = false;
+let pendingRetry = null; // user message to replay after popup auth completes
 
 const inputEl   = document.getElementById('msg-input');
 const sendBtn   = document.getElementById('send-btn');
@@ -52,24 +53,45 @@ function addMessage(role, text) {
   return div;
 }
 
-// ── Token Vault redirect ──────────────────────────────────────────────────────
+// ── Token Vault popup auth ────────────────────────────────────────────────────
 
+// Opens a popup instead of redirecting the whole page.
+// The popup hits /close which postMessages 'auth_complete' back here, then closes.
 function showAuthBanner(connection, scopes, authorizationParams) {
-  const params = new URLSearchParams({ connection, returnTo: '/' });
+  const params = new URLSearchParams({ connection, returnTo: '/close' });
   (scopes || []).forEach(s => params.append('scopes', s));
   Object.entries(authorizationParams || {}).forEach(([k, v]) => params.set(k, v));
-  connectBtn.onclick = () => { window.location.href = `/auth/connect?${params}`; };
+
+  connectBtn.onclick = () => {
+    window.open(
+      `/auth/connect?${params}`,
+      'auth_popup',
+      'width=600,height=700,popup=yes',
+    );
+  };
+
   banner.classList.add('visible');
 }
 
-// ── Send a message ────────────────────────────────────────────────────────────
+// When the popup completes auth it sends this message, then closes itself.
+window.addEventListener('message', (e) => {
+  if (e.origin !== window.location.origin || e.data !== 'auth_complete') return;
+  banner.classList.remove('visible');
+  if (pendingRetry) {
+    const msg = pendingRetry;
+    pendingRetry = null;
+    sendMessage(msg);
+  }
+});
 
-async function send() {
-  const text = inputEl.value.trim();
+// ── Core send logic ───────────────────────────────────────────────────────────
+
+// Sends `text` as a user turn. Called directly for retries; called via send() for
+// new user input so the textarea can be cleared first.
+async function sendMessage(text) {
   if (!text || busy) return;
 
   banner.classList.remove('visible');
-  inputEl.value = '';
   messages.push({ role: 'user', content: text });
   addMessage('user', text);
 
@@ -92,7 +114,6 @@ async function send() {
       return;
     }
 
-    // Parse the SSE-style stream emitted by the server
     const reader  = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';
@@ -129,7 +150,9 @@ async function send() {
               break;
 
             case 'auth_required':
-              // Remove the empty assistant bubble and show the connect banner
+              // Remove the failed user turn from history so the retry sends it cleanly.
+              pendingRetry = messages[messages.length - 1]?.content ?? null;
+              messages.pop();
               assistantDiv.remove();
               showAuthBanner(data.connection, data.scopes, data.authorizationParams);
               break;
@@ -159,6 +182,14 @@ async function send() {
     sendBtn.disabled = false;
     setStatus('');
   }
+}
+
+async function send() {
+  const text = inputEl.value.trim();
+  if (!text || busy) return;
+  inputEl.value = '';
+  pendingRetry = null; // discard stale retry if user sends a fresh message
+  await sendMessage(text);
 }
 
 function setStatus(text) {

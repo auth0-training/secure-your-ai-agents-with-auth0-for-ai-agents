@@ -88,10 +88,14 @@ app.get('/auth/connect', requiresAuth(), (req: ExpressRequest, res: ExpressRespo
   });
 });
 
-// Helper page closed by popup-mode Token Vault flows
+// Helper page closed by popup-mode Token Vault flows.
+// Signals the opener that auth completed, then closes itself.
 app.get('/close', (_req, res) => {
   res.send(
-    '<!DOCTYPE html><html><head><script>window.close();</script></head><body></body></html>',
+    '<!DOCTYPE html><html><head><script>' +
+    'if(window.opener){window.opener.postMessage("auth_complete",window.location.origin);}' +
+    'window.close();' +
+    '</script></head><body></body></html>',
   );
 });
 

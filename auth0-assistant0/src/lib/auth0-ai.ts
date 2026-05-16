@@ -8,26 +8,18 @@ import { getRefreshToken } from './auth0.js';
 config({ path: '.env.local', override: false });
 config({ path: '.env', override: false });
 
-const auth0AI = new Auth0AI({
-  auth0: {
-    domain: process.env.AUTH0_DOMAIN!,
-    clientId: process.env.AUTH0_CLIENT_ID!,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET!,
-  },
-});
+// Auth0AI reads AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_CLIENT_SECRET from process.env.
+const auth0AI = new Auth0AI();
 
-// Wraps a tool so it automatically obtains a Google token scoped for reading Gmail.
-// Throws TokenVaultInterrupt if the user hasn't authorized the Google connection yet.
 export const withGmailRead = auth0AI.withTokenVault({
   connection: 'google-oauth2',
-  scopes: ['https://www.googleapis.com/auth/gmail.readonly'],
+  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.readonly'],
   refreshToken: getRefreshToken,
 });
 
-// Wraps a tool so it automatically obtains a Google token scoped for composing/sending Gmail.
 export const withGmailWrite = auth0AI.withTokenVault({
   connection: 'google-oauth2',
-  scopes: ['https://www.googleapis.com/auth/gmail.compose'],
+  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.compose'],
   refreshToken: getRefreshToken,
 });
 

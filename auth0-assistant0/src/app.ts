@@ -276,9 +276,6 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
         console.error('[chat] streamText onError:', error);
         send('error', { message: (error as any)?.message ?? 'Model error.' });
       },
-      onStepFinish: ({ stepType, toolCalls, toolResults, finishReason }) => {
-        console.log(`[chat] step finished — type: ${stepType}, finishReason: ${finishReason}, tools called: ${toolCalls?.map((t: any) => t.toolName).join(', ') || 'none'}`);
-      },
       onFinish: ({ finishReason, usage }) => {
         console.log(`[chat] stream finished — finishReason: ${finishReason}, tokens: ${JSON.stringify(usage)}`);
       },

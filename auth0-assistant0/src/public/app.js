@@ -10,6 +10,7 @@ const inputEl   = document.getElementById('msg-input');
 const sendBtn   = document.getElementById('send-btn');
 const msgsEl    = document.getElementById('messages');
 const statusEl  = document.getElementById('status');
+const inputRow  = document.getElementById('input-row');
 const banner    = document.getElementById('auth-banner');
 const connectBtn= document.getElementById('connect-btn');
 const authBtn   = document.getElementById('auth-btn');
@@ -27,13 +28,14 @@ async function loadSession() {
     authBtn.textContent = 'Log Out';
     authBtn.className = 'btn btn-logout';
     authBtn.onclick = () => { window.location.href = '/auth/logout'; };
+    inputRow.style.display = '';
     setInputEnabled(true);
   } else {
     userNameEl.textContent = '';
     authBtn.textContent = 'Log In';
     authBtn.className = 'btn btn-login';
     authBtn.onclick = () => { window.location.href = '/auth/login'; };
-    setInputEnabled(false);
+    inputRow.style.display = 'none';
   }
 }
 

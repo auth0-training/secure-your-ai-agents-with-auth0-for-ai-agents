@@ -24,10 +24,10 @@ export const withGmailRead = auth0AI.withTokenVault({
   refreshToken: getRefreshToken,
 });
 
-// Wraps a tool so it automatically obtains a Google token scoped for sending Gmail.
+// Wraps a tool so it automatically obtains a Google token scoped for composing/sending Gmail.
 export const withGmailWrite = auth0AI.withTokenVault({
   connection: 'google-oauth2',
-  scopes: ['https://mail.google.com/'],
+  scopes: ['https://www.googleapis.com/auth/gmail.compose'],
   refreshToken: getRefreshToken,
 });
 

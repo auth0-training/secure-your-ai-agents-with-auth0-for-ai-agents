@@ -10,7 +10,6 @@ export const requestStore = new AsyncLocalStorage<Request>();
 export const getRefreshToken = async (): Promise<string | undefined> => {
   const req = requestStore.getStore();
   const oidc = (req as any)?.oidc;
-  // express-openid-connect stores the refresh token when offline_access scope is granted
-  // req.oidc.refreshToken is { token: string }, not the string itself.
-  return oidc?.refreshToken?.token ?? oidc?.tokenSet?.refresh_token ?? undefined;
+  // express-openid-connect context.js getter returns refresh_token as a plain string.
+  return (oidc?.refreshToken as string | undefined) ?? undefined;
 };

@@ -27,8 +27,18 @@
       "description": "## Enable My Account API\n\nThe [Connected Accounts](https://auth0.com/docs/secure/call-apis-on-users-behalf/token-vault/connected-accounts-for-token-vault) flow uses the [My Account API](https://auth0.com/docs/manage-users/my-account-api), which is currently early access, so we will have to manually enable it on the tenant.\n\n1. From the Auth0 Dashboard, got to **Applications > APIs**.\n2. From the My Account API banner, select **Activate**."
     },
     {
-      "title": "Add the Token Vault grant to the Assistant0 configuration",
-      "description": "## Add the Token Vault grant to the Assistant0 configuration\n\nNow that the Google connection is configured for Token Vault, you'll need to enable the Token Vault grant type on your Assistant0 application configuration.\n\n1. From the Auth0 dashboard, go to **Applications > Applications** and select **Assisstant0**.\n2. Scroll down and select **Advanced Settings**.\n3. Select **Grant Types**.\n4. Select **Token Vault**.\n5. Select **Save**."
+      "title": "Enable Multi-Resource Refresh Token and the Token Vault Grant",
+      "description": "## Enable Multi-Resource Refresh Token and the Token Vault Grant\n\nNow that you have enabled the My Accounts API and linked it to your application, you will need to enable Multi-Resource Refresh Tokens for the My Accounts API. Once activated, all currently enabled scopes and permissions on the API are automatically granted. You also need to enable the Token Vault grant type on your Assistant0 application configuration now that the Google connection is configured for Token Vault.\n\n1. From the Auth0 dashboard, go to **Applications > Applications** and select **Assisstant0**.\n2. Scroll down to Multi-Resource Refresh Token and edit the configuration.\n2. Toggle on the **Auth0 My Account API**.\n2. Select the pencil icon next to Auth0 My Account API to edit the scopes and select all scopes.\n2. Select **Save** and exit out of the MRRT window. Stay on the Assitant0 application settings screen.\n2. Scroll down and select **Advanced Settings**.\n3. Select **Grant Types**.\n4. Select **Token Vault**.\n5. Select **Save**.",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 1
+        }
+      }
     },
     {
       "title": "Google connection configuration complete!",

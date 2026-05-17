@@ -5,11 +5,11 @@
   "steps": [
     {
       "title": "Assistant0",
-      "description": "## About Assistant0\n\nAssistant0 is built in NextJS. This Codespace container already installed all the needed dependencies, includin the [Auth0 NextJS SDK](https://auth0.com/docs/quickstart/webapp/nextjs/01-login#install-the-auth0-next-js-sdk), which is used to implement authentication with Auth0. This part has already been done for you since the focus of this lab is to integrate tools with the agent so that the agent can perform tasks (via the associated first- or third-party APIs) on the authenticated user's behalf. \n\nFor the agentic AI implementation we use [Vercel AI](https://auth0.com/ai/docs/sdks/vercel-ai-sdk)."
+      "description": "## About Assistant0\n\nAssistant0 is built in Node Express. This Codespace container already installed all the needed dependencies, including the [Auth0 express-openid-connect middleware](https://github.com/auth0/express-openid-connect), which is used to implement authentication with Auth0. This part has already been done for you since the focus of this lab is to integrate tools with the agent so that the agent can perform tasks via third-party APIs on the authenticated user's behalf. \n\nFor the agentic AI implementation we use [Vercel AI](https://auth0.com/ai/docs/sdks/vercel-ai-sdk)."
     },
     {
       "title": "Understanding the code",
-      "description": "## Understanding the code\n\nThis is the application structure:\n\n- `src/app`: Contains the Next.js application routes, layout, and pages.\n- `src/app/page.tsx`: Home page with chat interface.\n- `src/app/api/chat/route.ts`: API route for handling chat requests. This is where the AI agent is defined.\n- `src/components`: UI components used in the application.\n- `src/lib`: Services and configurations. This is where custom tools will be defined.\n- `src/utils`: Utility functions\n- `.env.local`: File to hold the environment variables"
+      "description": "## Understanding the code\n\nThis is the application structure:\n```\nsrc/\n├── app.ts                  # Express server — routes, OIDC middleware, chat endpoint\n├── lib/\n│   ├── auth0.ts            # AsyncLocalStorage store + getRefreshToken() helper\n│   └── auth0-ai.ts         # You will modify this to include Auth0 AI SDK initialization, withGmailRead/Write wrappers\n├── tools/\n│   └── gmail.ts            # Vercel AI SDK tool definitions for Gmail search and compose\n└── public/\n    ├── index.html          # Single-page chat UI\n    └── app.js              # Vanilla JS — session check, SSE stream reader, pop-up authorization\n```"
     },
     {
       "file": "auth0-assistant0/.env.local",

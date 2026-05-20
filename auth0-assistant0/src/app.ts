@@ -31,6 +31,74 @@ const PORT = Number(process.env.PORT ?? 3000);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// In-memory store for in-flight Connected Accounts PKCE transactions (keyed by state, 10-min TTL).
+const connectTransactions = new Map<string, {
+  codeVerifier: string;
+  authSession: string;
+  accessToken: string; // My Account API access token cached to avoid a second refresh-token use
+  returnTo: string;
+  expiresAt: number;
+}>();
+setInterval(() => {
+  const now = Date.now();
+  for (const [k, tx] of connectTransactions) {
+    if (tx.expiresAt < now) connectTransactions.delete(k);
+  }
+}, 5 * 60 * 1000).unref();
+
+// ─── Token Vault Connected Accounts: callback ─────────────────────────────────
+// Registered before auth() so express-openid-connect does not mistake
+// connect_code for an OIDC authorization code. Requests without connect_code
+// fall through to the OIDC handler below.
+app.get('/auth/callback', async (req: ExpressRequest, res: ExpressResponse, next) => {
+  if (!req.query.connect_code) return next();
+
+  const { connect_code, state } = req.query;
+  if (!state) {
+    res.status(400).send('Missing state.');
+    return;
+  }
+
+  const transaction = connectTransactions.get(state as string);
+  connectTransactions.delete(state as string);
+
+  if (!transaction || transaction.expiresAt < Date.now()) {
+    res.status(400).send('Invalid or expired state.');
+    return;
+  }
+
+  const callbackUri = `${process.env.APP_BASE_URL}/auth/callback`;
+  console.log('[complete] redirect_uri:', callbackUri);
+  console.log('[complete] connect_code:', connect_code);
+  console.log('[complete] auth_session:', transaction.authSession);
+
+  const completeRes = await fetch(
+    `https://${process.env.AUTH0_DOMAIN}/me/v1/connected-accounts/complete`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${transaction.accessToken}`,
+      },
+      body: JSON.stringify({
+        auth_session: transaction.authSession,
+        connect_code: connect_code as string,
+        redirect_uri: callbackUri,
+        code_verifier: transaction.codeVerifier,
+      }),
+    },
+  );
+
+  if (!completeRes.ok) {
+    console.error('Connected-accounts completion failed:', await completeRes.text());
+    res.status(500).send('Failed to complete connected account setup.');
+    return;
+  }
+
+  // Google tokens are now in Token Vault. Redirect to trigger popup auto-retry.
+  res.redirect(transaction.returnTo);
+});
+
 // ─── Auth0 OIDC middleware ────────────────────────────────────────────────────
 app.use(
   auth({
@@ -63,21 +131,6 @@ app.use(
 app.use((req: ExpressRequest, _res: ExpressResponse, next) => {
   requestStore.run(req, next);
 });
-
-// In-memory store for in-flight Connected Accounts PKCE transactions (keyed by state, 10-min TTL).
-const connectTransactions = new Map<string, {
-  codeVerifier: string;
-  authSession: string;
-  accessToken: string; // My Account API access token cached to avoid a second refresh-token use
-  returnTo: string;
-  expiresAt: number;
-}>();
-setInterval(() => {
-  const now = Date.now();
-  for (const [k, tx] of connectTransactions) {
-    if (tx.expiresAt < now) connectTransactions.delete(k);
-  }
-}, 5 * 60 * 1000).unref();
 
 // ─── Token Vault Connected Accounts: initiate ─────────────────────────────────
 // Calls Auth0's My Account API to create a connected-account ticket, then
@@ -124,7 +177,7 @@ app.get('/auth/connect', requiresAuth(), async (req: ExpressRequest, res: Expres
   const codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest('base64url');
   const state = crypto.randomBytes(16).toString('hex');
 
-  const connectCallbackUri = `${process.env.APP_BASE_URL}/auth/connect/callback`;
+  const connectCallbackUri = `${process.env.APP_BASE_URL}/auth/callback`;
   console.log('[connect] redirect_uri:', connectCallbackUri);
 
   const connectRes = await fetch(
@@ -167,58 +220,6 @@ app.get('/auth/connect', requiresAuth(), async (req: ExpressRequest, res: Expres
   });
 
   res.redirect(`${connect_uri}?ticket=${encodeURIComponent(connect_params.ticket)}`);
-});
-
-// ─── Token Vault Connected Accounts: callback ─────────────────────────────────
-// Auth0 calls back here with connect_code after the user grants Google access.
-// We complete the flow so Auth0 stores the Google tokens in Token Vault.
-// NOTE: /auth/connect/callback must be added to Auth0's Allowed Callback URLs.
-app.get('/auth/connect/callback', requiresAuth(), async (req: ExpressRequest, res: ExpressResponse) => {
-  const { connect_code, state } = req.query;
-
-  if (!connect_code || !state) {
-    res.status(400).send('Missing connect_code or state.');
-    return;
-  }
-
-  const transaction = connectTransactions.get(state as string);
-  connectTransactions.delete(state as string);
-
-  if (!transaction || transaction.expiresAt < Date.now()) {
-    res.status(400).send('Invalid or expired state.');
-    return;
-  }
-
-  const completeCallbackUri = `${process.env.APP_BASE_URL}/auth/connect/callback`;
-  console.log('[complete] redirect_uri:', completeCallbackUri);
-  console.log('[complete] connect_code:', connect_code);
-  console.log('[complete] auth_session:', transaction.authSession);
-
-  const completeRes = await fetch(
-    `https://${process.env.AUTH0_DOMAIN}/me/v1/connected-accounts/complete`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${transaction.accessToken}`,
-      },
-      body: JSON.stringify({
-        auth_session: transaction.authSession,
-        connect_code: connect_code as string,
-        redirect_uri: completeCallbackUri,
-        code_verifier: transaction.codeVerifier,
-      }),
-    },
-  );
-
-  if (!completeRes.ok) {
-    console.error('Connected-accounts completion failed:', await completeRes.text());
-    res.status(500).send('Failed to complete connected account setup.');
-    return;
-  }
-
-  // Google tokens are now in Token Vault. Redirect to /close to trigger popup auto-retry.
-  res.redirect(transaction.returnTo);
 });
 
 // Helper page closed by popup-mode Token Vault flows.

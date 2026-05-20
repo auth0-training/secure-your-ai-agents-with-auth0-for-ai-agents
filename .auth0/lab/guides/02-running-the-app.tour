@@ -29,7 +29,7 @@
     {
       "title": "Update `.env.local` - Set the app base URL",
       "file": "auth0-assistant0/.env.local",
-      "description": "## Update `.env.local` - Set the app base URL\n\nIn order to configure the app to work properly in the Codespace you need to set the base URL.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev/\"]) to run the command on the terminal.\n2. Copy the output and update the `APP_BASE_URL` with that value.\n\n-----\n\nAfter the update your APP_BASE_URL should look something like this:\n\n```\nAPP_BASE_URL=\"https://humble-winner-74xv5jxw462r9pv-3000.app.github.dev/\"\n```",
+      "description": "## Update `.env.local` - Set the app base URL\n\nIn order to configure the app to work properly in the Codespace you need to set the base URL.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev\"]) to run the command on the terminal.\n2. Copy the output and update the `APP_BASE_URL` with that value.\n\n-----\n\nAfter the update your APP_BASE_URL should look something like this:\n\n```\nAPP_BASE_URL=\"https://humble-winner-74xv5jxw462r9pv-3000.app.github.dev\"\n```",
       "line": 6,
       "selection": {
         "start": {

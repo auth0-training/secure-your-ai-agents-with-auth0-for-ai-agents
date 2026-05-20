@@ -11,12 +11,32 @@
       "file": "auth0-assistant0/src/lib/auth0-ai.ts",
       "description": "## Import functions from Auth0 AI SDK and helper function\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\nFirst, we need to get an access token for the Gmail API. We can get this using the Auth0 Token Vault.\n\n1. Import the `Auth0AI` constructor and the `getAccessTokenFromTokenVault` functions from the Auth0 AI SDK and our `getRefreshToken` function from `./auth0.js` by selecting the **Insert code** button below:\n\n\n```ts\nimport { Auth0AI, getAccessTokenFromTokenVault } from '@auth0/ai-vercel';\nimport { getRefreshToken } from './auth0.js';\n```\n",
       "line": 2,
-      "title": "Import functions from Auth0 AI SDK and helper function"
+      "title": "Import functions from Auth0 AI SDK and helper function",
+      "selection": {
+        "start": {
+          "line": 2,
+          "character": 1
+        },
+        "end": {
+          "line": 2,
+          "character": 33
+        }
+      }
     },
     {
       "file": "auth0-assistant0/src/lib/auth0-ai.ts",
       "description": "## Get an access token for a connection\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\n1. Next, we'll export a helper that retrieves the Google access token stored by the Token Vault during tool execution. Select **Insert Code** to add this code:\n\n```ts\nexport const getAccessToken = getAccessTokenFromTokenVault;\n```\n\n> Note: We'll still need to specify which connection we are requesting a token from. We will do that next!\n",
-      "line": 28
+      "line": 10,
+      "selection": {
+        "start": {
+          "line": 10,
+          "character": 1
+        },
+        "end": {
+          "line": 10,
+          "character": 35
+        }
+      }
     },
     {
       "file": "auth0-assistant0/src/lib/auth0-ai.ts",
@@ -28,22 +48,42 @@
           "character": 1
         },
         "end": {
-          "line": 13,
-          "character": 72
+          "line": 12,
+          "character": 80
         }
       }
     },
     {
       "file": "auth0-assistant0/src/app.ts",
-      "description": "## Import the Gmail tools\n\n**Notice that the Express app code in `src/app.ts` has been opened for you above. We will add some code in this step.**\n\nIn order to implement Gmail tool-calling, we'll need to import the Gmail tools.\n\n1. Import the Gmail tools with the code below by selecting **Insert Code**.\n\n```ts\nimport { gmailSearchTool, gmailComposeTool } from './tools/gmail.js';\n\n```\n\n> The `gmailComposeTool` is used to send email while `gmailSearchTool` is used to search and read emails from your inbox.",
+      "description": "## Import the Gmail tools\n\n**Notice that the Express app code in `src/app.ts` has been opened for you above. We will add some code in this step.**\n\nIn order to implement Gmail tool-calling, we'll need to import the Gmail tools.\n\n1. Import the Gmail tools with the code below by selecting **Insert Code**.\n\n```ts\nimport { gmailSearchTool, gmailComposeTool } from './tools/gmail.js';\n```\n\n> The `gmailComposeTool` is used to send email while `gmailSearchTool` is used to search and read emails from your inbox.",
       "line": 17,
-      "title": "Import the Gmail tools"
+      "title": "Import the Gmail tools",
+      "selection": {
+        "start": {
+          "line": 17,
+          "character": 1
+        },
+        "end": {
+          "line": 17,
+          "character": 32
+        }
+      }
     },
     {
       "file": "auth0-assistant0/src/app.ts",
       "description": "## Update the list of tools\n\n1. Now we need to add our Gmail tools to the `streamText` call. Currently the tools object is empty so let's replace that code with the snippet below by selecting **Insert Code** below:\n\n```ts\n      tools: { gmailSearch: gmailSearchTool, gmailCompose: gmailComposeTool },\n```\n",
       "line": 273,
-      "title": "Update the list of tools"
+      "title": "Update the list of tools",
+      "selection": {
+        "start": {
+          "line": 273,
+          "character": 1
+        },
+        "end": {
+          "line": 273,
+          "character": 16
+        }
+      }
     },
     {
       "title": "Test the tooling",

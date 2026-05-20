@@ -14,7 +14,7 @@ import { openai } from '@ai-sdk/openai';
 import { setAIContext } from '@auth0/ai-vercel';
 import { nanoid } from 'nanoid';
 import { requestStore, getRefreshToken } from './lib/auth0.js';
-import { gmailSearchTool, gmailComposeTool } from './tools/gmail.js';
+// TODO: Import Gmail tools here
 
 // auth0-ai.ts (loaded above via the gmail import chain) already called config() during
 // its own module-body execution, so these are effectively no-ops at this point.
@@ -270,7 +270,7 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
       model: openai('gpt-4o-mini'),
       system: SYSTEM_PROMPT,
       messages,
-      tools: { gmailSearch: gmailSearchTool, gmailCompose: gmailComposeTool },
+      tools: {},
       stopWhen: stepCountIs(5),
       onError: ({ error }) => {
         console.error('[chat] streamText onError:', error);

@@ -26,21 +26,6 @@
     {
       "file": "auth0-assistant0/src/lib/auth0-ai.ts",
       "description": "## Get an access token for a connection\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\n1. Next, we'll export a helper that retrieves the Google access token stored by the Token Vault during tool execution. Select **Insert Code** to add this code:\n\n```ts\nexport const getAccessToken = getAccessTokenFromTokenVault;\n```\n\n> Note: We'll still need to specify which connection we are requesting a token from. We will do that next!\n",
-      "line": 10,
-      "selection": {
-        "start": {
-          "line": 10,
-          "character": 1
-        },
-        "end": {
-          "line": 10,
-          "character": 36
-        }
-      }
-    },
-    {
-      "file": "auth0-assistant0/src/lib/auth0-ai.ts",
-      "description": "## Initialize the Auth0 AI client and Google Connection for Token Vault\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\n1. Next, we'll initialize a new Auth0AI client and specify the connection with Google so the Auth0 AI SDK can request tokens from Token Vault. Notice that the scopes are the ones that will allow the agent to read and compose emails. Select the **Insert Code** below to add this code segment to the agent code:\n\n```ts\n// Initialize Auth0AI client\nconst auth0AI = new Auth0AI();\n\n// Connection for Google services\nexport const withGmailRead = auth0AI.withTokenVault({\n  connection: 'google-oauth2',\n  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.readonly'],\n  refreshToken: getRefreshToken,\n});\nexport const withGmailWrite = auth0AI.withTokenVault({\n  connection: 'google-oauth2',\n  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.compose'],\n  refreshToken: getRefreshToken,\n});\n```\n",
       "line": 12,
       "selection": {
         "start": {
@@ -49,6 +34,21 @@
         },
         "end": {
           "line": 12,
+          "character": 36
+        }
+      }
+    },
+    {
+      "file": "auth0-assistant0/src/lib/auth0-ai.ts",
+      "description": "## Initialize the Auth0 AI client and Google Connection for Token Vault\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\n1. Next, we'll initialize a new Auth0AI client and specify the connection with Google so the Auth0 AI SDK can request tokens from Token Vault. Notice that the scopes are the ones that will allow the agent to read and compose emails. Select the **Insert Code** below to add this code segment to the agent code:\n\n```ts\n// Initialize Auth0AI client\nconst auth0AI = new Auth0AI();\n\n// Connection for Google services\nexport const withGmailRead = auth0AI.withTokenVault({\n  connection: 'google-oauth2',\n  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.readonly'],\n  refreshToken: getRefreshToken,\n});\nexport const withGmailWrite = auth0AI.withTokenVault({\n  connection: 'google-oauth2',\n  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.compose'],\n  refreshToken: getRefreshToken,\n});\n```\n",
+      "line": 14,
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 14,
           "character": 81
         }
       }
@@ -72,15 +72,15 @@
     {
       "file": "auth0-assistant0/src/app.ts",
       "description": "## Update the list of tools\n\n1. Now we need to add our Gmail tools to the `streamText` call. Currently the tools object is empty so let's replace that code with the snippet below by selecting **Insert Code** below:\n\n```ts\n      tools: { gmailSearch: gmailSearchTool, gmailCompose: gmailComposeTool },\n```\n",
-      "line": 273,
+      "line": 321,
       "title": "Update the list of tools",
       "selection": {
         "start": {
-          "line": 273,
+          "line": 321,
           "character": 1
         },
         "end": {
-          "line": 273,
+          "line": 321,
           "character": 17
         }
       }

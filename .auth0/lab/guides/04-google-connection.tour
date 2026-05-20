@@ -24,7 +24,7 @@
     },
     {
       "title": "Enable My Accounts API",
-      "description": "## Enable My Account API\n\nThe [Connected Accounts](https://auth0.com/docs/secure/call-apis-on-users-behalf/token-vault/connected-accounts-for-token-vault) flow uses the [My Account API](https://auth0.com/docs/manage-users/my-account-api), which is currently early access, so we will have to manually enable it on the tenant.\n\n1. From the Auth0 Dashboard, got to **Applications > APIs**.\n2. From the My Account API banner, select **Activate**."
+      "description": "## Enable My Account API\n\nThe [Connected Accounts](https://auth0.com/docs/secure/call-apis-on-users-behalf/token-vault/connected-accounts-for-token-vault) flow uses the [My Account API](https://auth0.com/docs/manage-users/my-account-api), which is currently early access, so we will have to manually enable it on the tenant. These steps will create a client grant that allows Assistant0 to access the My Account API with the Connected Accounts scopes on the user’s behalf.\n\n1. From the Auth0 Dashboard, got to **Applications > APIs**.\n2. From the My Account API banner, select **Activate**.\n3. Now that it's activated, select **Auth0 My Account API** and then select the **Application Access** tab.\n4. Select the **Edit** link corresponding to Assistant0 to configure its application access policies.\n5. Grant access to the Assistant0 application.\n6. Select **All** permissions to grant the application all the scopes associated with the API.\n7. Select **Save**. \n8. Still on the Auth0 My Account API page, go to the **Settings** tab. \n9. Under Access Settings, toggle on **Allow Skipping User Consent**."
     },
     {
       "title": "Enable Multi-Resource Refresh Token and the Token Vault Grant",

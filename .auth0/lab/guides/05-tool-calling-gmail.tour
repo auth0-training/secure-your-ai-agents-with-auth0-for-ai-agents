@@ -72,7 +72,7 @@
     {
       "file": "auth0-assistant0/src/app.ts",
       "description": "## Update the list of tools\n\n1. Now we need to add our Gmail tools to the `streamText` call. Currently the tools object is empty so let's replace that code with the snippet below by selecting **Insert Code** below:\n\n```ts\n      tools: { gmailSearch: gmailSearchTool, gmailCompose: gmailComposeTool },\n```\n",
-      "line": 321,
+      "line": 274,
       "title": "Update the list of tools",
       "selection": {
         "start": {

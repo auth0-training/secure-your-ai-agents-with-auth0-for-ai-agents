@@ -5,7 +5,7 @@
   "steps": [
     {
       "title": "Introduction",
-      "description": "## Introduction \n\nIn this lab, you will set up an NextJS+Vercel AI assistant named Assistant0 that uses Gmail tools to help you with reading and writing emails. Tools add to your AI agent's capabilities by exptending its pretrained knowledge by connecting to first- or third-party APIs to perform actions on behalf of the authenticated user. \nFor example, a tool with Gmail and Google Calendar integration can help you speedily draft emails and schedule meetings.\n\nWe are going to add a tool to our AI assistant:\n\n- **Gmail Integration**: Assistant0 will be able to search and draft emails on your behalf."
+      "description": "## Introduction \n\nIn this lab, you will set up an AI assistant named Assistant0 that uses Gmail tools to help you with reading and writing emails. Tools add to your AI agent's capabilities by exptending its pretrained knowledge by connecting to first- or third-party APIs to perform actions on behalf of the authenticated user. \nFor example, a tool with Gmail and Google Calendar integration can help you speedily draft emails and schedule meetings.\n\nWe are going to add a tool to our AI assistant:\n\n- **Gmail Integration**: Assistant0 will be able to search and draft emails on your behalf."
     },
     {
       "title": "Prerequisites",

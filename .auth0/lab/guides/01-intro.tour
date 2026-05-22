@@ -1,15 +1,15 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
   "title": "1: Setup",
-  "nextTour": "2: Integrate Assistant0 with Auth0",
+  "nextTour": "2: Configure tenant settings",
   "steps": [
     {
       "title": "Introduction",
-      "description": "## Introduction \n\nIn this lab, you will set up an NextJS+Vercel AI assistant named Assistant0 that uses Gmail tools to help you with reading and writing emails. Tools add to your AI agent's capabilities by exptending its pretrained knowledge by connecting to first- or third-party APIs to perform actions on behalf of the authenticated user. \nFor example, a tool with Gmail and Google Calendar integration can help you speedily draft emails and schedule meetings.\n\nWe are going to add a tool to our AI assistant:\n\n- **Gmail Integration**: Assistant0 will be able to search and draft emails on your behalf."
+      "description": "## Introduction \n\nIn this lab, you will learn how to protect your MCP server by requiring access tokens from authorized clients. \n\nBy the end of this lab, you will have an MCP server that:\n\n- Requires access tokens for all incoming requests.\n\n- Validates OAuth 2.0 access tokens from authorized clients.\n\n- Enforces role-based access control to manage tool permissions."
     },
     {
       "title": "Prerequisites",
-      "description": "## Prerequisites\n\nIn addition to your Auth0 account, you will need to:\n\n1. Get an OpenAI API key.\n2. Sign up for a Google Cloud account.\n3. Create a Google project.\n\nWe'll go through each of these."
+      "description": "## Prerequisites\n\nIn addition to your Auth0 account, you will need to:\n\n1. Enable your tenant to use the Resource Parameter Compatibility Profile.\n2. Install the Auth0 CLI to configure an Auth0 tenant for secure tool access.\n3. Install `jq` to easily parse JSON responses from the CLI.\n\nThe Auth0 CLI and `jq` have already been installed on your Codespace, so in the following step, we'll walk through how to enable Resource Parameter Compatibility Profile."
     },
     {
       "title": "Get an OpenAI API key",
@@ -28,8 +28,8 @@
       }
     },
     {
-      "title": "Sign up for a Google Cloud account",
-      "description": "## Sign up for a Google Cloud account\n\n1. Sign up for a Google Cloud developer account here: https://console.developers.google.com/.\n\n> If you already have an account, you can use that one.",
+      "title": "Enable your tenant to use the Resource Parameter Compatibility Profile",
+      "description": "## Enable your tenant to use the Resource Parameter Compatibility Profile\n\nTo use the resource parameter in your access tokens, you need to enable the Resource Parameter Compatibility Profile.\n\nThe quickest way to enable it is through the Auth0 Dashboard:\n\n1. From the Auth0 Dashboard, go to Settings on the left sidebar.\n2. Select **Advanced** in the top right corner.\n3. Scroll down to the Settings section and enable the **Resource Parameter Compatibility Profile** toggle.",
       "selection": {
         "start": {
           "line": 1,
@@ -42,12 +42,8 @@
       }
     },
     {
-      "title": "Create a Google project",
-      "description": "## Create a Google project\n\n\nTo create a Google project:\n\n1. Log into the API Console here: https://console.developers.google.com/\n\n2. Select the projects list, then select the **New Project (+)** button.\n\n   > Note: You don't need to setup the billing account to complete this lab.\n\n3. For the project name, enter **Auth0 labs**.\n\n4. Optionally edit the Project ID.\n\n    > Note: the project ID cannot be changed after the project is created, so choose an ID that you'll be comfortable using for the lifetime of the project.\n    \n4. Select **Create**.\n\nFor more details see this [Google Support Topic](https://support.google.com/googleapi/answer/6251787?ref_topic=7014522)."
-    },
-    {
       "title": "Prerequisites complete!",
-      "description": "## Prerequisites complete!\n\nYou now have all the accounts needed to complete this lab!"
+      "description": "## Prerequisites complete!\n\nYou are now ready to complete this lab."
     }
   ]
 }

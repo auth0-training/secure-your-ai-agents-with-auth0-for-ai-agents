@@ -1,6 +1,6 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
-  "title": "2: Integrate Assistant0 with Auth0",
+  "title": "2: Configure tenant settings",
   "nextTour": "3: Set up a Google project",
   "steps": [
     {

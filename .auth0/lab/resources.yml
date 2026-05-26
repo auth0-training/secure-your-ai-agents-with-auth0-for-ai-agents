@@ -1,7 +1,23 @@
+clients:
+-
+  name: "MCP Inspector"
+  app_type: "regular_web"
+  is_first_party: false
+  callbacks: 
+    - "https://##CODESPACE_NAME##-6274.##GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN##/oauth/callback"
+  grant_types: 
+    - "authorization_code"
+  token_endpoint_auth_method: "client_secret_post"
+  oidc_conformant: true
+  jwt_configuration:
+    alg: "RS256"
+  logo_uri: "https://avatars.githubusercontent.com/u/182288589"
+
+
 resourceServers: # Add other resource server settings (https://auth0.com/docs/api/management/v2#!/Resource_Servers/post_resource_servers)
   -
     name: "MCP Tools API"
-    identifier: https://##CODESPACE_NAME##-3001.##GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN##
+    identifier: https://##CODESPACE_NAME##-3001.##GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN##/
     signing_alg: "RS256"
     token_dialect: "rfc9068_profile_authz"
     enforce_policies: true

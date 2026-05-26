@@ -9,4 +9,4 @@ resourceServers: # Add other resource server settings (https://auth0.com/docs/ap
       - value: "tool:whoami"
         description: "Access the WhoAmI tool"
       - value: "tool:greet"
-        descriiption: "Access the Greeting tool"
+        description: "Access the Greeting tool"

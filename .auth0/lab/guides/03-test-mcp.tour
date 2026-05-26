@@ -1,0 +1,32 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "3: Test your MCP Server with MCP Inspector",
+  "nextTour": "4: Configure your Google connection in Auth0",
+  "description": "# Setting up Google Project for Tool Calling\n\nTo allow your application to",
+  "steps": [
+    {
+      "title": "Start the MCP server",
+      "description": "## Start the MCP server\n\n1. Select [this link](command:workbench.action.debug.stop) to start the MCP server.\n\n> You will not be able to directly access the server's endpoint. For this, we will use an MCP client called [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)."
+    },
+    {
+      "title": "Install and start MCP Inspector",
+      "description": "## Install and start MCP Inspector\n\n MCP Inspector is a purpose-built graphical tool that gives you a clear, interactive interface to see your server’s available tools, handles complex authentication for you, and allows you to directly execute tools with specific inputs, no natural language prompting required. This direct approach makes it an invaluable asset for efficient debugging and development.\n\n1. Select [this link](command:codetour.sendTextToTerminal?[\"npx @modelcontextprotocol/inspector@latest\"]) to run `npx @modelcontextprotocol/inspector@latest` in a new terminal tab.\n2. If prompted, enter `y` to install the package.\n3. This will open the MCP Inspector interface in a new tab.\n4. In Codespaces, go to the **PORTS** tab and, for each item there, right click and select **Port Visibility** > **Public**."
+    },
+    {
+      "title": "Connect to your MCP server",
+      "description": "## Connect to your MCP server\n\nOnce the Inspector is open, you need to configure it to connect to your local MCP server. In order for the MCP Inspector to connect to your MCP server we will configure the Auth0 tenant to use Dynamic Client Registration (DCR). \n\n1. From MCP Inspector, set the Transport Type to **Streamable HTTP**.\n2. For URL, copy and paste the value printed to the terminal when you [select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3001.app.github.dev/mcp\"]).\n2. For this lab, we will set the Connection type to **Direct**.\n3. In your Auth0 Dashboard, go to **Settings**.\n4. Scroll down and toggle on **Dynamic Client Registration (DCR)**.\n5. Save these changes.\n6. From MCP Inspector, select **Connect**.\n1. Sign in with the test user account that has been granted the necessary permissions for the tools.\n\n\n>  When you connect to the server for the first time, you will be guided through the authentication process using the Auth0 Universal Login. You’ll see the consent screen where you can check the tools you have access to. After you click Accept to grant the requested permissions, you’ll be redirected back to MCP Inspector. The interface will now show your server is connected and display the list of tools available to you."
+    },
+    {
+      "title": " Run your tools",
+      "description": "## Run your tools\nAfter authenticating, you can run the tools the MCP server exposes for your user. These tools may be different per user depending on your server configuration and permissions.\n\n1. To run a tool, select on it from the list and then select **Run Tool**."
+    },
+    {
+      "title": "Troubleshooting common problems",
+      "description": "## Troubleshooting common problems\n\nIf you run into problems, here are a few things to check first:\n​\n1. Connection failed:\n    - Ensure your MCP server is running in a separate terminal.\n    - Double-check that the URL in the Inspector matches the port and endpoint your server is configured to use.\n​\n2. Authentication errors:\n\n    - Make sure you’re logging in with a user account that exists in your authentication provider (e.g., Auth0).\n\n3. No tools appear after login:\n\n    - This usually means the user you logged in with doesn’t have the required roles or permissions\n    - Check your authentication provider to ensure the user has been assigned the correct roles (e.g., “Tool User” or “Tool Administrator”).\n    - Confirm that the scopes defined in your server’s OAuth configuration match the permissions required by the tools.\n​\n"
+    },
+    {
+      "title": "Finished!",
+      "description": "## Finished!\n\nYou’ve now walked through the complete process of integrating an MCP server with Auth0 to launching the MCP Inspector to test out the tools exposed by your MCP server. By integrating the Inspector into your development workflow, you gain a direct and powerful way to test your implementation, verify security rules, and debug tool logic without the overhead of a full AI client. Keep this essential utility in your toolbox as you continue to build and scale your MCP-powered applications with confidence."
+    }
+  ]
+}

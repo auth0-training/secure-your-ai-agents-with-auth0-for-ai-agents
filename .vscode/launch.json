@@ -4,11 +4,11 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch auth0-assistant",
+      "name": "Launch MCP Server",
       "skipFiles": ["<node_internals>/**"],
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "cwd": "${workspaceFolder}/auth0-assistant0",
+      "runtimeArgs": ["run", "start"],
+      "cwd": "${workspaceFolder}/fastmcp-mcp-js-sample",
       "console": "integratedTerminal"
     }
   ]

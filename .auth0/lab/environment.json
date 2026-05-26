@@ -18,5 +18,16 @@
         "AUTH0_CLIENT_SECRET" : "$client_secret"
       }
     }
+  ],
+   "resourceServers": [
+    {
+      "name": "MCP Tools API",
+      "directory": "fastmcp-mcp-js-sample",
+      "env": {
+        "ISSUER_BASE_URL": "$tenant_base_url",
+        "AUDIENCE": "$identifier",
+        "PORT": 3001
+      }
+    }
   ]
 }

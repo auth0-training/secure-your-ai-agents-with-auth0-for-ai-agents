@@ -1,0 +1,47 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "2: Configure tenant settings",
+  "nextTour": "3: Test your MCP Server with MCP Inspector",
+  "steps": [
+    {
+      "title": "Promote the connection to a domain-level connection",
+      "description": "## Promote the connection to a domain-level connection\n\nTo allow third-party clients like MCP Inspector to use an Auth0 connection such as a username-and-password database or a social connection, you need to promote the connection to a domain-level connection. In this lab, we'll do this for the default Username-Password-Authentication connection.\n\n1. From the Auth0 Dashboard, go to **Authentication** > **Social**.\n2. Select **Username-Password-Authentication**.\n3. Scroll down to the Advanced section and toggle on **Promote Connection to Domain Level**.\n4. Save the changes."
+    },
+    {
+      "title": "Create an API to represent your MCP server",
+      "description": "## Create an API integration to represent the MCP server\nSince you have authorized the Auth0 Labs Extension to configure settings on your tenant, we'll use the extension to create an API integration for the sample MCP server.\n\n1. Select [this link](command:auth0.lab.tenantConfigure) to run the command that creates the API integration.\n> Wait until you see the message that `resources.xml` has been successfully deploy before continuing to the next step.\n2. Select [this link](command:auth0.lab.localConfigure) to set your local environment configurations (creates `local.env` file in `fastmcp-mcp-js-sample`).",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 1,
+          "character": 43
+        }
+      }
+    },
+    {
+      "title": "Create a test user",
+      "description": "## Create a test user\n\nIf you don't have any users in the User-Password-Authentication connection you can log into, you will need to create a test user. You can skip this step if you already have a user in this connection you can log into.\n\n1. Go to **User Management**.\n2. Select **Create User**.\n3. Ensure **User-Password-Authentication** is the selected connection.\n4. Enter an email and password that you can remember for authentication later in this lab."
+    },
+    {
+      "title": "Create roles",
+      "description": "## Create roles and assign permissions\n\nThe sample MCP server application in this lab is prepared to show different tools depending on the role of a given user. For example, a **Tool Administrator** will have access to different tools than a **Tool User**.\n\nLet’s create roles that allow you to control which users can access which tools.\n\n\n1. From the Auth0 Dashboard, go to **User Management** > **Roles**.\n2. Select **Create Role**.\n3. Create a new role named **Tool Administrator** with the description **Grants access to all MCP tools**.\n4. Select the **Permissions** tab and add a permission.\n5. Select **MCP Tools API** and select and add all the scopes.\n7. Add another role named **Tool User** with the description **Grants access to basic MCP tools**.\n8. Go to the **Permission tab** and add a permission.\n9. Select **MCP Tools API** and ONLY select and add **tool:whoami**.\n10. Select the **Users** tab, enter the username of the test user you created in the previous step.\n11. Select **Assign**."
+    },
+    {
+      "title": "Recap",
+      "description": "## Recap\nYou have successfully created an Auth0 integration for your MCP server with role-based access. You've also pulled down the local configurations needed to run the MCP server. In the next section, you will test your MCP server.",
+      "selection": {
+        "start": {
+          "line": 6,
+          "character": 119
+        },
+        "end": {
+          "line": 6,
+          "character": 136
+        }
+      }
+    }
+  ]
+}

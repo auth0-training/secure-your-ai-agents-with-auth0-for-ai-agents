@@ -1,12 +1,11 @@
-# Lab: Secure Your AI Agents to Act on the Behalf of Users
+# Lab: Secure AI Agent Interactions with Auth for MCP
 
 
-As part of Auth0 for AI Agents, you can securely manage users and control the actions your AI agent takes when calling external tools and APIs. Assistant0 an AI chat agent exposed by an Express backend integrated with an OpenAI LLM. First, we will integrate the AI app with Auth0 for user authentication. Then, we'll enable the app to use Auth0 Token Vault for secure token storage and exchange. This way, the agent never has to manage the user's OAuth tokens directly. Finally, we'll equip the agent with Gmail tooling through Google's APIs so that the agent can search and compose emails on behalf of the logged in user.
+As part of Auth0 for AI Agents, you can use Auth for MCP protect your MCP server by requiring access tokens from authorized clients. In this lab, you will secure a sample MCP server with Auth0 by requiring and validating client access tokens. We use MCP Inspector as a client to test the MCP server and determines which tools and resources the client can access based on the user’s permissions.
+
 
 ---
 # How to Get Started with this Lab
-
-### This lab requires an OpenAI API key: **⚠️ You will need to set up billing to make calls using this API key.** You will be walked through how to set this up in the lab.
 
 ## Create Required Free Accounts
 

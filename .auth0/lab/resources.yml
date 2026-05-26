@@ -1,0 +1,12 @@
+resourceServers: # Add other resource server settings (https://auth0.com/docs/api/management/v2#!/Resource_Servers/post_resource_servers)
+  -
+    name: "MCP Tools API"
+    identifier: https://##CODESPACE_NAME##-3001.##GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN##
+    signing_alg: "RS256"
+    token_dialect: "rfc9068_profile_authz"
+    enforce_policies: true
+    scopes:
+      - value: "tool:whoami"
+        description: "Access the WhoAmI tool"
+      - value: "tool:greet"
+        descriiption: "Access the Greeting tool"

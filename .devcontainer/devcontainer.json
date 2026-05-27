@@ -22,7 +22,7 @@
   },
 
   "shutdownAction": "stopCompose",
-  "postCreateCommand": "cd fastmcp-mcp-js-sample && npm install",
+  "postCreateCommand": "npm config set yes true && npx --yes @modelcontextprotocol/inspector@latest --help && cd fastmcp-mcp-js-sample && npm install",
   "waitFor": "postStartCommand",
   "remoteUser": "node"
 }

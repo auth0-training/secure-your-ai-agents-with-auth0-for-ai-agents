@@ -22,11 +22,21 @@
     },
     {
       "title": " Run your tools",
-      "description": "## Run your tools\nAfter authenticating, you can run the tools the MCP server exposes for your user. These tools may be different per user depending on your server configuration and permissions.\n\n1. To run a tool, select on it from the list and then select **Run Tool**."
+      "description": "## Run your tools\nAfter authenticating, you can run the tools the MCP server exposes for your user. These tools may be different per user depending on your server configuration and permissions. \n\n1. In MCP Inspector, select **List Tools** to see the tools you have access to.\n>   You should see the whoami tool but not the greet tool, since your test user only has the Tool User role.\n1. Select **whoami** from the list and then select **Run Tool**.\n\n    You should see details about the logged in user from the access token, which will look something like:\n    ```\n    {\n        \"user\": {\n            \"sub\": \"auth0|xxxxxxxxxxxxxxxxxx\",\n            \"client_id\": \"tpc_xxxxxxxxxxxxxxxx\n        },\n        \"scopes\": [\n            \"tool:whoami\"\n        ]\n    }\n    ```",
+      "selection": {
+        "start": {
+          "line": 11,
+          "character": 5
+        },
+        "end": {
+          "line": 17,
+          "character": 10
+        }
+      }
     },
     {
       "title": "Troubleshooting common problems",
-      "description": "## Troubleshooting common problems\n\nIf you run into problems, here are a few things to check first:\n​\n1. Connection failed:\n    - Ensure your MCP server is running in a separate terminal.\n    - Double-check that the URL in the Inspector matches the port and endpoint your server is configured to use.\n​\n2. Authentication errors:\n\n    - Make sure you’re logging in with a user account that exists in your authentication provider (e.g., Auth0).\n\n3. No tools appear after login:\n\n    - This usually means the user you logged in with doesn’t have the required roles or permissions\n    - Check your authentication provider to ensure the user has been assigned the correct roles (e.g., “Tool User” or “Tool Administrator”).\n    - Confirm that the scopes defined in your server’s OAuth configuration match the permissions required by the tools.\n​\n"
+      "description": "## Troubleshooting common problems\n\nIf you run into problems, here are a few things to check first:\n​\n1. Connection failed:\n    - Ensure your MCP server is running in a separate terminal.\n    - Double-check that the URL in the Inspector matches the port and endpoint your server is configured to use.\n    - Check for CORS issues in the Network tab of your browser.\n​\n2. Authentication errors:\n\n    - Make sure you’re logging in with a user account that exists in your authentication provider (e.g., Auth0).\n\n3. No tools appear after login:\n\n    - This usually means the user you logged in with doesn’t have the required roles or permissions\n    - Check your authentication provider to ensure the user has been assigned the correct roles (e.g., “Tool User” or “Tool Administrator”).\n    - Confirm that the scopes defined in your server’s OAuth configuration match the permissions required by the tools.\n​\n"
     },
     {
       "title": "Finished!",

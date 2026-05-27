@@ -8,8 +8,13 @@
       "description": "## Introduction \n\nIn this lab, you will learn how to protect your MCP server by requiring access tokens from authorized clients. \n\nBy the end of this lab, you will have an MCP server that:\n\n- Requires access tokens for all incoming requests.\n\n- Validates OAuth 2.0 access tokens from authorized clients.\n\n- Enforces role-based access control to manage tool permissions."
     },
     {
+      "file": "fastmcp-mcp-js-sample/src/tools.ts",
+      "description": "## Familiarize yourself with the MCP server\n\nFor this lab, we are using a sample MCP server built with FastMCP. It has two tools registered. They are named:\n\n1. whoami\n2. greet\n\n> Notice that the file fast-mcp-js-sample/src/tools.ts has been opened for you here, so you can check out the implementation.",
+      "line": 5
+    },
+    {
       "title": "Prerequisites",
-      "description": "## Prerequisites\n\nIn addition to your Auth0 account, you will need to:\n\n1. Authorize the Auth0 Labs Extension to configure your Auth0 tenant for secure tool access.\n2. Enable your tenant to use the Resource Parameter Compatibility Profile.\n\n> If you haven't completed the first prerequisite, go back to **0: Sign in** to authorize the Auth0 Labs Extension. We'll cover the second prerequisite in the next step."
+      "description": "## Prerequisites\n\nIn addition to your Auth0 account, you will need to:\n\n1. Authorize the Auth0 Labs Extension to configure your Auth0 tenant for secure tool access.\n2. Enable your tenant to use the Resource Parameter Compatibility Profile.\n3. Familiarize yourself with the [Auth0 Labs FAQs](https://auth0-training.github.io/). Since we use different extensions like CodeTour to embed instructions directly in the coding environment, you'll need to know how to get back to the CodeTour if you accidentally navigate away. Find answers to common problems like that in the Auth0 Labs FAQs.\n\n> If you haven't completed the first prerequisite, go back to **0: Sign in** in the CodeTour panel to authorize the Auth0 Labs Extension. We'll cover the second prerequisite in the next step."
     },
     {
       "title": "Enable your tenant to use the Resource Parameter Compatibility Profile",

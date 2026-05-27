@@ -8,15 +8,16 @@
       "description": "## Promote the connection to a domain-level connection\n\nTo allow third-party clients like MCP Inspector to use an Auth0 connection such as a username-and-password database or a social connection, you need to promote the connection to a domain-level connection. In this lab, we'll do this for the default Username-Password-Authentication connection.\n\n1. From the Auth0 Dashboard, go to **Authentication** > **Social**.\n2. Select **Username-Password-Authentication**.\n3. Scroll down and toggle on **Promote Connection to Domain Level**."
     },
     {
-      "title": "Create an API to represent your MCP server",
-      "description": "## Create an API integration to represent the MCP server\nSince you have authorized the Auth0 Labs Extension to configure settings on your tenant, we'll use the extension to create an API integration for the sample MCP server.\n\n1. Select [this link](command:auth0.lab.tenantConfigure) to run the command that creates the API integration.\n> Wait until you see the message that `resources.xml` has been successfully deploy before continuing to the next step.\n2. Select [this link](command:auth0.lab.localConfigure) to set your local environment configurations (creates `.env` file in the `fastmcp-mcp-js-sample` directory).\n\nThis has created an API integration that has RBAC enabled and the Permissions claim will be added to any access tokens minted for this API. The available permissions for this API are:\n\n- `tool:whoami` (Grants permission to the WhoAmI tool)\n- `tool:greet` (Grants permission to the Greeting tool)\n\n\nNext, we'll create roles to assign these permissions to and a test user to assign roles to.",
+      "file": "fastmcp-mcp-js-sample/src/auth0.ts",
+      "description": "## Create an API integration to represent the MCP server\nSince you have authorized the Auth0 Labs Extension to configure settings on your tenant, we'll use the extension to create an API integration for the sample MCP server.\n\n1. Select [this link](command:auth0.lab.tenantConfigure) to run the command that creates the API integration.\n> Wait until you see the message that `resources.xml` has been successfully deploy before continuing to the next step.\n2. Select [this link](command:auth0.lab.localConfigure) to set your local environment configurations (creates `.env` file in the `fastmcp-mcp-js-sample` directory).\n\n### What did I just do?\nWe used a bit of automation, so let's step back and review what was done:\n\n1. The Auth0 Labs Extension used details in [resources.yml](./.auth0/lab/resources.yml) with Auth0 CLI to create an API integration that has RBAC enabled and the Permissions claim will be added to any access tokens minted for this API by your Auth0 tenant's Authorization Server. The available permissions for this API are:\n\n    - `tool:whoami` (Grants permission to the WhoAmI tool)\n    - `tool:greet` (Grants permission to the Greeting tool)\n\n2. The Auth0 Labs Extension used the configs specified in [environment.json](./.auth0/lab/environment.json) to create the [.env](./fastmcp-mcp-js-sample/.env) for the MCP server. Notice that the file `fastmcp-mcp-js-sample/src/auth0.ts` has been opened for you here. It uses the environment variables from the .env to instantiate a new ApiClient using the Auth0 Authentication SDK for APIs on JavaScript runtimes, [@auth0/auth0-api-js](https://github.com/auth0/auth0-auth-js), node library.\n\nNext, we'll create roles to assign these permissions to and a test user to assign roles to.",
+      "line": 18,
       "selection": {
         "start": {
-          "line": 1,
-          "character": 4
+          "line": 15,
+          "character": 1
         },
         "end": {
-          "line": 1,
+          "line": 18,
           "character": 43
         }
       }

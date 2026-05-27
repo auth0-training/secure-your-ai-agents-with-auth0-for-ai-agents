@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { FastMCP } from "fastmcp";
 import { FastMCPAuthSession } from "./types.js";
+import { cors } from "hono/cors";
 import { MCP_TOOL_SCOPES, registerTools } from "./tools.js";
 import { authenticate } from "./auth0.js";
 
@@ -80,13 +81,37 @@ export const server = new FastMCP<FastMCPAuthSession>({
 
 const start = async () => {
   /**
-   * Registers all tools to the FastMCP server.
+   * 1. Get the underlying Hono app instance
+   */
+  const app = server.getApp();
+
+  /**
+   * 2. Configure CORS middleware
+   */
+  app.use(
+    "*",
+    cors({
+      origin: ["http://localhost:5173", "http://localhost:3000"], // Explicitly list Inspector domains or use "*" for dev
+      allowMethods: ["GET", "POST", "OPTIONS"],
+      allowHeaders: [
+        "Content-Type", 
+        "Authorization", 
+        "Mcp-Session-Id", 
+        "Mcp-Protocol-Version" // CRITICAL for newer MCP clients
+      ],
+      exposeHeaders: ["Mcp-Session-Id"],
+      credentials: true, // Required for Auth0 OAuth flows
+    })
+  );
+
+  /**
+   * 3. Registers all tools to the FastMCP server.
    */
   registerTools(server);
 
   try {
     /**
-     * Starts the server.
+     * 4. Starts the server.
      */
     await server.start({
       transportType: "httpStream",

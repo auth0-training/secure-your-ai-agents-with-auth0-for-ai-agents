@@ -1,7 +1,7 @@
 # Lab: Secure AI Agent Interactions with Auth for MCP
 
 
-As part of Auth0 for AI Agents, you can use Auth for MCP protect your MCP server by requiring access tokens from authorized clients. In this lab, you will secure a sample MCP server with Auth0 by requiring and validating client access tokens. We use MCP Inspector as a client to test the MCP server and determines which tools and resources the client can access based on the user’s permissions.
+As part of Auth0 for AI Agents, you can use Auth for MCP to protect your MCP server so they can only be accessed through authorized clients. In this lab, you will secure a sample MCP server with Auth0 by requiring and validating client access tokens. You will use MCP Inspector as a client to test the MCP server and to determine which tools and resources the client can access based on the user’s permissions.
 
 
 ---

@@ -24,7 +24,7 @@
     },
     {
       "title": "Create a test user",
-      "description": "## Create a test user\n\nIf you don't have any users in the Username-Password-Authentication connection you can log into, you will need to create a test user. You can skip this step if you already have a user in this connection you can log into.\n\n1. Go to **User Management**.\n2. Select **Create User**.\n3. Ensure **User-Password-Authentication** is the selected connection.\n4. Enter an email and password that you can remember for authentication later in this lab."
+      "description": "## Create a test user\n\nIf you don't have any users in the Username-Password-Authentication connection you can log into, you will need to create a test user. You can skip this step if you already have a user in this connection you can log into.\n\n1. Go to **User Management** > **Users**.\n2. Select **Create User**.\n3. Ensure **User-Password-Authentication** is the selected connection.\n4. Enter an email and password that you can remember for authentication later in this lab."
     },
     {
       "title": "Create roles",

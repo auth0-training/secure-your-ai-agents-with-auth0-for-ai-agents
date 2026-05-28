@@ -5,7 +5,7 @@
   "steps": [
     {
       "title": "Promote the connection to a domain-level connection",
-      "description": "## Promote the connection to a domain-level connection\n\nTo allow third-party clients like MCP Inspector to use an Auth0 connection such as a username-and-password database or a social connection, you need to promote the connection to a domain-level connection. In this lab, we'll do this for the default Username-Password-Authentication connection.\n\n1. From the Auth0 Dashboard, go to **Authentication** > **Database**.\n2. Select **Username-Password-Authentication**.\n(Note: the **Username-Password-Authentication** database connection is included on all Auth0 public cloud tenants by default. If you have deleted it, you will need to re-create it.)\n3. Scroll down and toggle on **Promote Connection to Domain Level**."
+      "description": "## Promote the connection to a domain-level connection\n\nTo allow third-party clients like MCP Inspector to use an Auth0 connection such as a username-and-password database or a social connection, you need to promote the connection to a domain-level connection. In this lab, we'll do this for the default Username-Password-Authentication connection.\n\n1. From the Auth0 Dashboard, go to **Authentication** > **Database**.\n2. Select **Username-Password-Authentication**.\n>(Note: the **Username-Password-Authentication** database connection is included on all Auth0 public cloud tenants by default. If you have deleted it, you will need to re-create it.)\n3. Scroll down and toggle on **Promote Connection to Domain Level**."
     },
     {
       "file": "fastmcp-mcp-js-sample/src/auth0.ts",

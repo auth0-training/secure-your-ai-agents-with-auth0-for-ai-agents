@@ -6,7 +6,7 @@
   "steps": [
     {
       "title": "Start the MCP server",
-      "description": "## Start the MCP server\n\n1. Select [this link](command:workbench.action.debug.start) to start the MCP server.\n\n> You will not be able to directly access the server's endpoint. For this, we will use an MCP client called [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)."
+      "description": "## Start the MCP server\n\n1. Select [this link](command:workbench.action.debug.start) to start the MCP server.\n\n> You will see a pop-up that says **Your application running on port 3001 is available.** Ignore this message for now. You will not be able to directly access the server's endpoint. For this, we will use an MCP client called [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)."
     },
     {
       "title": "Configure a MCP client",

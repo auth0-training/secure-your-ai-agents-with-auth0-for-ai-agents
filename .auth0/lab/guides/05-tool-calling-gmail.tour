@@ -10,7 +10,7 @@
     {
       "file": "auth0-assistant0/src/lib/auth0-ai.ts",
       "description": "## Import functions from Auth0 AI SDK and helper function\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\nFirst, we need to get an access token for the Gmail API. We can get this using the Auth0 Token Vault.\n\n1. Import the `Auth0AI` constructor and the `getAccessTokenFromTokenVault` functions from the Auth0 AI SDK and our `getRefreshToken` function from `./auth0.js` by selecting the **Insert code** button below:\n\n\n```ts\nimport { Auth0AI, getAccessTokenFromTokenVault } from '@auth0/ai-vercel';\nimport { getRefreshToken } from './auth0.js';\n```\n",
-      "line": 2,
+      "line": 3,
       "title": "Import functions from Auth0 AI SDK and helper function",
       "selection": {
         "start": {
@@ -41,7 +41,7 @@
     {
       "file": "auth0-assistant0/src/lib/auth0-ai.ts",
       "description": "## Initialize the Auth0 AI client and Google Connection for Token Vault\n\n**Notice that `auth0-ai.ts` has been opened for you above. We will add some code in this step.**\n\n1. Next, we'll initialize a new Auth0AI client and specify the connection with Google so the Auth0 AI SDK can request tokens from Token Vault. Notice that the scopes are the ones that will allow the agent to read and compose emails. Select the **Insert Code** below to add this code segment to the agent code:\n\n```ts\n// Initialize Auth0AI client\nconst auth0AI = new Auth0AI();\n\n// Connection for Google services\nexport const withGmailRead = auth0AI.withTokenVault({\n  connection: 'google-oauth2',\n  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.readonly'],\n  refreshToken: getRefreshToken,\n});\nexport const withGmailWrite = auth0AI.withTokenVault({\n  connection: 'google-oauth2',\n  scopes: ['openid', 'https://www.googleapis.com/auth/gmail.compose'],\n  refreshToken: getRefreshToken,\n});\n```\n",
-      "line": 14,
+      "line": 27,
       "selection": {
         "start": {
           "line": 14,
@@ -91,7 +91,7 @@
     },
     {
       "title": "Bonus: Draft an email",
-      "description": "## Bonus: Draft an email\n\nIf you'd like to try the email composition tool, try this bonus activity!\n\n1. If it isn't already running, [run the application](command:workbench.action.debug.start).\n\n2. Ask Assistant0 to draft an email\n\n >\"Hey Assistant0, can you draft an email to **(insert an email address here)** to tell them I just completed the the Auth0 for AI lab? Mention that now I know how tool calling works and I'm very excited to know how to secure my AI apps with Auth0.\"\n\n\nThe expected behavior:\n\n- Recognize the intent to draft an email. Identify the recipient and the email as well as the core message - to talk about the lab and what was learned.\n- Use the `gmailCompose` tool to send the email.\n- Retrieve the Google access token using the Auth0 SDKs to send the email.\n- Show the drafted email in chat and ask if there's anything else they could do.\n\n3. Finally, check the Sent folder in your e-mail account to see the e-mail sent by Assistant0."
+      "description": "## Bonus: Draft an email\n\nIf you'd like to try the email composition tool, try this bonus activity!\n\n1. If it isn't already running, [run the application](command:workbench.action.debug.start).\n\n2. Ask Assistant0 to draft an email\n\n >\"Hey Assistant0, can you draft an email to **(insert an email address here)** to tell them I just completed the the Auth0 for AI lab? Mention that now I know how tool calling works and I'm very excited to know how to secure my AI apps with Auth0.\"\n\n\nThe expected behavior:\n\n- Recognize the intent to draft an email. Identify the recipient and the email as well as the core message - to talk about the lab and what was learned.\n- Use the `gmailCompose` tool to send the email.\n- Retrieve the Google access token using the Auth0 SDKs to send the email.\n\n3. Finally, check the Sent folder in your e-mail account to see the e-mail sent by Assistant0."
     },
     {
       "title": "Congratulations!",

@@ -1,7 +1,8 @@
-# Oktane Lab: Auth0 for AI Agents: Securing a retail assistant
+# Oktane Lab: Secure Your AI Agents with Auth0 for AI Agents
 
+In this lab you will work with **Z-Assistant**, an AI-powered customer service agent for **RetailZero** — a fictitious e-commerce platform. You will progressively secure Z-Assistant using **Auth0 for AI Agents**, learning how to prevent an AI agent from autonomously executing sensitive operations like financial refunds or exposing private customer data.
 
-Description TBD
+By the end of the lab you will have implemented **Client-Initiated Backchannel Authentication (CIBA)** — a human-in-the-loop authorization pattern that requires the logged-in user to approve sensitive actions on their mobile device before the agent can proceed.
 
 ---
 # How to Get Started with this Lab
@@ -16,7 +17,7 @@ Description TBD
 
 2. An Auth0 account: You'll also need an Auth0 account. If you do not already have one, you can create a free one [here](https://auth0.com/signup).
 
-3. A Google Cloud Developer account: You can use a free account. We will walk through how to set this up in the lab.
+3. The **Auth0 Guardian** app on your smartphone ([iOS](https://apps.apple.com/us/app/auth0-guardian/id1093100804) / [Android](https://play.google.com/store/apps/details?id=com.auth0.guardian)) — required for the CIBA push notification flow in Tour 5.
 
 ## Accessing and Working with Auth0 Labs
 

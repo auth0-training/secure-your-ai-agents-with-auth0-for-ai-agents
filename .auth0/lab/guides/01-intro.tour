@@ -1,53 +1,37 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
-  "title": "1: Setup",
-  "nextTour": "2: Integrate Assistant0 with Auth0",
+  "title": "1: Introduction",
+  "nextTour": "2: Set Up Auth0 and Run Z-Assistant",
   "steps": [
     {
-      "title": "Introduction",
-      "description": "## Introduction \n\nIn this lab, you will set up an AI assistant named Assistant0 that uses Gmail tools to help you with reading and writing emails. Tools add to your AI agent's capabilities by exptending its pretrained knowledge by connecting to first- or third-party APIs to perform actions on behalf of the authenticated user. \nFor example, a tool with Gmail and Google Calendar integration can help you speedily draft emails and schedule meetings.\n\nWe are going to add a tool to our AI assistant:\n\n- **Gmail Integration**: Assistant0 will be able to search and draft emails on your behalf."
+      "title": "Welcome to the Lab",
+      "description": "## Welcome to the Lab\n\nIn this lab you will work with **Z-Assistant**, an AI-powered customer service agent for **RetailZero** — a fictitious e-commerce platform.\n\nZ-Assistant helps customer service representatives:\n- Look up orders and customer information\n- Browse the product catalog\n- Process refunds on behalf of customers\n- Access full customer profiles (including contact and payment details)\n\nThe catch? Without proper authorization controls, Z-Assistant can autonomously execute sensitive operations like refunds and expose private customer data — all without any human oversight."
+    },
+    {
+      "title": "What You Will Build",
+      "description": "## What You Will Build\n\nYou will progressively add security controls to Z-Assistant using **Auth0 for AI Agents**:\n\n1. **Standard Tool Calling** — Connect Z-Assistant to RetailZero's internal API for safe operations (order lookup, product browsing).\n\n2. **Human-in-the-Loop Authorization (CIBA)** — Protect sensitive operations (refunds, customer PII) with **Client-Initiated Backchannel Authentication**. Before Z-Assistant can process a refund or access private data, it will send an out-of-band approval request to the user's device. The agent can only proceed once the human approves.\n\nThis pattern ensures your AI agent can never autonomously execute high-risk operations, even if it receives a malicious instruction."
+    },
+    {
+      "title": "The Security Problem",
+      "description": "## The Security Problem\n\nWithout authorization controls, a customer service rep could accidentally (or an attacker could intentionally) prompt Z-Assistant to:\n\n> *\"Process a full refund for all of Sarah's orders.\"*\n\n> *\"Show me the payment details for every Gold-tier customer.\"*\n\nA naive AI agent would execute these requests immediately. With **CIBA**, every sensitive action requires explicit human approval — the agent initiates an authorization request, the user reviews and approves on their registered device, and only then does the agent proceed.\n\nThis is the **human-in-the-loop** security pattern for AI agents."
     },
     {
       "title": "Prerequisites",
-      "description": "## Prerequisites\n\nIn addition to your Auth0 account, you will need to:\n\n1. Get an OpenAI API key.\n2. Sign up for a Google Cloud account.\n3. Create a Google project.\n\nWe'll go through each of these."
+      "description": "## Prerequisites\n\nYou will need:\n\n1. An **Auth0 account** (free tier is fine) — [sign up here](https://auth0.com/signup) if you don't have one.\n2. An **OpenAI API key** — [get one here](https://platform.openai.com/signup).\n3. For CIBA (Tour 5): the **Auth0 Guardian** mobile app installed on your phone.\n\nThat's it — no third-party API credentials required. RetailZero's API is included in this repository."
     },
     {
-      "title": "Get an OpenAI API key",
-      "file": "auth0-assistant0/.env.local",
-      "description": "## Get an OpenAI API key\n\n1. Sign up for the OpenAI Platform here: https://platform.openai.com/signup\n2. Once signed in, go to the **API keys** section of your dashboard.\n3. Select **Create new secret key** and name your key **Auth0 labs**.\n4. Select **Create new secret key** to generate a new API key.\n5. Select the **Copy** button to copy the API key.\n6. Paste this value on the line highlighted above to set the **OPENAI_API_KEY** variable.\n\n**Note**: You must set up billing information and add a minimum credit amount to your OpenAI account or else your API calls will be rejected. You can set up billing by selecting the **gear icon** at the top right of the OpenAI Platform and going to **Billing**.\n",
+      "title": "Get an OpenAI API Key",
+      "file": "z-assistant/.env.local",
+      "description": "## Get an OpenAI API Key\n\n1. Sign up or log in at [platform.openai.com](https://platform.openai.com/signup).\n2. Go to the **API keys** section of your dashboard.\n3. Select **Create new secret key** and name it **Z-Assistant lab**.\n4. Copy the key and paste it as the value for `OPENAI_API_KEY` on the highlighted line above.\n\n> **Note:** You will need billing credits on your OpenAI account. Set up billing under the gear icon → Billing.",
       "line": 1,
       "selection": {
-        "start": {
-          "line": 1,
-          "character": 17
-        },
-        "end": {
-          "line": 1,
-          "character": 29
-        }
+        "start": { "line": 1, "character": 17 },
+        "end": { "line": 1, "character": 29 }
       }
     },
     {
-      "title": "Sign up for a Google Cloud account",
-      "description": "## Sign up for a Google Cloud account\n\n1. Sign up for a Google Cloud developer account here: https://console.developers.google.com/.\n\n> If you already have an account, you can use that one.",
-      "selection": {
-        "start": {
-          "line": 1,
-          "character": 4
-        },
-        "end": {
-          "line": 1,
-          "character": 38
-        }
-      }
-    },
-    {
-      "title": "Create a Google project",
-      "description": "## Create a Google project\n\n\nTo create a Google project:\n\n1. Log into the API Console here: https://console.developers.google.com/\n\n2. Select the projects list, then select the **New Project (+)** button.\n\n   > Note: You don't need to setup the billing account to complete this lab.\n\n3. For the project name, enter **Auth0 labs**.\n\n4. Optionally edit the Project ID.\n\n    > Note: the project ID cannot be changed after the project is created, so choose an ID that you'll be comfortable using for the lifetime of the project.\n    \n4. Select **Create**.\n\nFor more details see this [Google Support Topic](https://support.google.com/googleapi/answer/6251787?ref_topic=7014522)."
-    },
-    {
-      "title": "Prerequisites complete!",
-      "description": "## Prerequisites complete!\n\nYou now have all the accounts needed to complete this lab!"
+      "title": "Prerequisites Complete!",
+      "description": "## Prerequisites Complete!\n\nYou now have everything you need. Let's move on to running Z-Assistant and connecting it to Auth0."
     }
   ]
 }

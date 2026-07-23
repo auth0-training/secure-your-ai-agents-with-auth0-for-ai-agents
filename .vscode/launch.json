@@ -4,11 +4,21 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch auth0-assistant",
+      "name": "Launch Z-Assistant",
       "skipFiles": ["<node_internals>/**"],
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "cwd": "${workspaceFolder}/auth0-assistant0",
+      "cwd": "${workspaceFolder}/z-assistant",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch RetailZero API",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}/retailzero-api",
       "console": "integratedTerminal"
     }
   ]

@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.191.1/containers/javascript-node
 {
-  "name": "labs-secure-agents-to-call-apis",
+  "name": "labs-secure-z-assistant-with-auth0",
   "dockerComposeFile": "docker-compose.yml",
   "service":"lab",
   "workspaceFolder": "/workspace",
@@ -22,7 +22,7 @@
   },
 
   "shutdownAction": "stopCompose",
-  "postCreateCommand": "cp auth0-assistant0/.env.example auth0-assistant0/.env.local && cd auth0-assistant0 && npm install",
+  "postCreateCommand": "cp z-assistant/.env.example z-assistant/.env.local && cd z-assistant && npm install && cd ../retailzero-api && npm install",
   "waitFor": "postStartCommand",
   "remoteUser": "node"
 }

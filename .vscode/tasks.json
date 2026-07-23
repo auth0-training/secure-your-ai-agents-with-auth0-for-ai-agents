@@ -1,12 +1,24 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Run app",
-        "type": "shell",
-        "command": "cd auth0-assistant0 && npm run dev",
-        "group": "build",
-        "presentation": { "echo": true, "reveal": "always", "panel": "shared" }
-      }
-    ]
-  }
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run RetailZero API",
+      "type": "shell",
+      "command": "cd retailzero-api && npm run dev",
+      "group": "build",
+      "presentation": { "echo": true, "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Run Z-Assistant",
+      "type": "shell",
+      "command": "cd z-assistant && npm run dev",
+      "group": "build",
+      "presentation": { "echo": true, "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Run All",
+      "dependsOn": ["Run RetailZero API", "Run Z-Assistant"],
+      "group": { "kind": "build", "isDefault": true }
+    }
+  ]
+}

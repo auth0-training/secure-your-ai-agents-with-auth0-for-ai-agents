@@ -1,10 +1,10 @@
-// Stable session ID for Token Vault credential caching within a conversation.
-// Must survive the auth popup flow — never regenerated on the same page load.
+// Stable session ID — doubles as the CIBA threadID for credential caching.
+// Must persist within a page load so retries after CIBA approval reuse the same thread.
 const sessionId = crypto.randomUUID();
 
 let messages = [];
 let busy = false;
-let pendingRetry = null; // user message to replay after popup auth completes
+let pendingRetry = null; // user message to replay after CIBA approval
 
 const inputEl   = document.getElementById('msg-input');
 const sendBtn   = document.getElementById('send-btn');
@@ -12,9 +12,10 @@ const msgsEl    = document.getElementById('messages');
 const statusEl  = document.getElementById('status');
 const inputRow  = document.getElementById('input-row');
 const banner    = document.getElementById('auth-banner');
-const connectBtn= document.getElementById('connect-btn');
+const retryBtn  = document.getElementById('retry-btn');
 const authBtn   = document.getElementById('auth-btn');
 const userNameEl= document.getElementById('user-name');
+const cibaMsg   = document.getElementById('ciba-message');
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
@@ -55,29 +56,17 @@ function addMessage(role, text) {
   return div;
 }
 
-// ── Token Vault popup auth ────────────────────────────────────────────────────
+// ── CIBA approval banner ──────────────────────────────────────────────────────
 
-// Opens a popup instead of redirecting the whole page.
-// The popup hits /close which postMessages 'auth_complete' back here, then closes.
-function showAuthBanner(connection, scopes, authorizationParams) {
-  const params = new URLSearchParams({ connection, returnTo: '/close' });
-  (scopes || []).forEach(s => params.append('scopes', s));
-  Object.entries(authorizationParams || {}).forEach(([k, v]) => params.set(k, v));
-
-  connectBtn.onclick = () => {
-    window.open(
-      `/auth/connect?${params}`,
-      'auth_popup',
-      'width=600,height=700,popup=yes',
-    );
-  };
-
+// Shows a banner telling the user to check their device for a CIBA approval request.
+// The Retry button re-sends the same message once the user has approved.
+function showCIBABanner(message) {
+  cibaMsg.textContent = message ??
+    'Check your Auth0 Guardian app for an approval request. Once approved, click Retry.';
   banner.classList.add('visible');
 }
 
-// When the popup completes auth it sends this message, then closes itself.
-window.addEventListener('message', (e) => {
-  if (e.origin !== window.location.origin || e.data !== 'auth_complete') return;
+retryBtn.addEventListener('click', () => {
   banner.classList.remove('visible');
   if (pendingRetry) {
     const msg = pendingRetry;
@@ -88,8 +77,8 @@ window.addEventListener('message', (e) => {
 
 // ── Core send logic ───────────────────────────────────────────────────────────
 
-// Sends `text` as a user turn. Called directly for retries; called via send() for
-// new user input so the textarea can be cleared first.
+// Sends `text` as a user turn. Called directly for CIBA retries; called via send()
+// for new user input after clearing the textarea.
 async function sendMessage(text) {
   if (!text || busy) return;
 
@@ -151,12 +140,16 @@ async function sendMessage(text) {
               setStatus('Thinking…');
               break;
 
-            case 'auth_required':
-              // Remove the failed user turn from history so the retry sends it cleanly.
+            case 'ciba_pending':
+              // Stash the current message for retry after the user approves on their device.
               pendingRetry = messages[messages.length - 1]?.content ?? null;
               messages.pop();
               assistantDiv.remove();
-              showAuthBanner(data.connection, data.scopes, data.authorizationParams);
+              showCIBABanner(data.message);
+              break;
+
+            case 'ciba_denied':
+              assistantDiv.textContent = data.message ?? 'Authorization denied.';
               break;
 
             case 'done':
@@ -190,7 +183,7 @@ async function send() {
   const text = inputEl.value.trim();
   if (!text || busy) return;
   inputEl.value = '';
-  pendingRetry = null; // discard stale retry if user sends a fresh message
+  pendingRetry = null; // discard stale retry when user sends a fresh message
   await sendMessage(text);
 }
 

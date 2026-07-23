@@ -1,0 +1,42 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "3: Add Standard Tools",
+  "nextTour": "4: Configure CIBA in Auth0",
+  "steps": [
+    {
+      "title": "Tool Calling in Z-Assistant",
+      "description": "## Tool Calling in Z-Assistant\n\nZ-Assistant uses the **Vercel AI SDK's tool calling** feature to connect to the RetailZero API. When the language model decides a tool is needed, it invokes the tool's `execute` function, which makes an HTTP request to the RetailZero API and returns the result.\n\nThe tools are defined in `z-assistant/src/tools/retailzero.ts` and split into two categories:\n\n**Standard tools** (safe for autonomous execution):\n- `listProductsTool` — Browse the product catalog\n- `searchOrdersTool` — Search orders by customer or ID\n- `getOrderDetailsTool` — Full order details including line items\n\n**Sensitive tools** (require human approval — we'll add this in Tour 5):\n- `processRefundTool` — Process financial refunds\n- `getCustomerProfileTool` — Access private customer PII",
+      "type": "markdown"
+    },
+    {
+      "file": "z-assistant/src/tools/retailzero.ts",
+      "description": "## The Standard Tool Definitions\n\nHere you can see the `listProductsTool`. Notice that:\n\n- It uses `tool()` from the Vercel AI SDK with a `description`, `parameters` (Zod schema), and `execute` function.\n- The `execute` function calls the RetailZero API at `RETAILZERO_API_URL`.\n- No special authorization is required — these are read-only operations.\n\nScroll down to see the other tools: `searchOrdersTool`, `getOrderDetailsTool`, `processRefundTool`, and `getCustomerProfileTool`.",
+      "line": 11,
+      "title": "The Standard Tool Definitions"
+    },
+    {
+      "file": "z-assistant/src/app.ts",
+      "description": "## Import the RetailZero Tools\n\nNow let's wire the tools into Z-Assistant. First, import all tools from the tools module.\n\n1. Select **Insert Code** to add the import statement:\n\n```ts\nimport { listProductsTool, searchOrdersTool, getOrderDetailsTool, processRefundTool, getCustomerProfileTool } from './tools/retailzero.js';\n```",
+      "line": 17,
+      "title": "Import the RetailZero Tools",
+      "selection": {
+        "start": { "line": 17, "character": 1 },
+        "end": { "line": 17, "character": 55 }
+      }
+    },
+    {
+      "file": "z-assistant/src/app.ts",
+      "description": "## Add Tools to the Chat Endpoint\n\nNow add the tools to the `streamText` call so the model can use them.\n\n1. Replace the empty `tools: {}` with the snippet below by selecting **Insert Code**:\n\n```ts\n      tools: {\n        listProducts: listProductsTool,\n        searchOrders: searchOrdersTool,\n        getOrderDetails: getOrderDetailsTool,\n        processRefund: processRefundTool,\n        getCustomerProfile: getCustomerProfileTool,\n      },\n```",
+      "line": 109,
+      "title": "Add Tools to the Chat Endpoint",
+      "selection": {
+        "start": { "line": 109, "character": 1 },
+        "end": { "line": 109, "character": 18 }
+      }
+    },
+    {
+      "title": "Test the Tools",
+      "description": "## Test the Tools\n\n1. Make sure the **RetailZero API** is still running on port 3001. If not, open a terminal and run:\n   ```\n   cd retailzero-api && npm run dev\n   ```\n\n2. [Start Z-Assistant](command:workbench.action.debug.start) and open it in the browser.\n\n3. Try these prompts to test the standard tools:\n\n   - _\"Show me all Electronics products that are in stock.\"_\n   - _\"Find orders for Sarah Mitchell.\"_\n   - _\"What are the details of order ORD-1001?\"_\n\nWhile waiting for a response, watch the terminal — you'll see logs like:\n```\n[chat] tool-call: searchOrders\n[chat] tool-result: searchOrders\n[chat] finished — finishReason: stop\n```\n\nNow try a **sensitive operation**:\n\n   - _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\nNotice that Z-Assistant processes this refund **immediately** without asking for any approval! This is the security gap we will fix in Tour 5 with CIBA.\n\n4. [Stop Z-Assistant](command:workbench.action.debug.stop) when done."
+    }
+  ]
+}

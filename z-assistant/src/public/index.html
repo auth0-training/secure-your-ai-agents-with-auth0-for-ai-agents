@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Assistant0</title>
+  <title>Z-Assistant | RetailZero</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,17 +17,35 @@
 
     /* ── Header ─────────────────────────────────────────────────────── */
     header {
-      background: #1a1a2e;
+      background: #0f1923;
       color: #fff;
       padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
+      border-bottom: 2px solid #00b8a9;
     }
-    header h1 { font-size: 17px; font-weight: 600; }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-brand .logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: #00b8a9;
+      letter-spacing: -0.5px;
+    }
+    .header-brand .sub {
+      font-size: 11px;
+      color: #6b8090;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding-top: 2px;
+    }
     #auth-area { display: flex; align-items: center; gap: 12px; }
-    #user-name { font-size: 13px; color: #ccc; }
+    #user-name { font-size: 13px; color: #9ab; }
     .btn {
       padding: 6px 14px;
       border: none;
@@ -36,9 +54,9 @@
       font-size: 13px;
       font-weight: 500;
     }
-    .btn-login  { background: #4f8ef7; color: #fff; }
+    .btn-login  { background: #00b8a9; color: #fff; }
     .btn-logout { background: #c0392b; color: #fff; }
-    .btn-connect { background: #27ae60; color: #fff; padding: 7px 16px; font-size: 13px; }
+    .btn-retry  { background: #00b8a9; color: #fff; padding: 7px 16px; font-size: 13px; flex-shrink: 0; }
 
     /* ── Main layout ─────────────────────────────────────────────────── */
     main {
@@ -46,26 +64,28 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      max-width: 760px;
+      max-width: 800px;
       width: 100%;
       margin: 0 auto;
       padding: 16px 16px 0;
       gap: 10px;
     }
 
-    /* ── Auth banner ─────────────────────────────────────────────────── */
+    /* ── CIBA approval banner ────────────────────────────────────────── */
     #auth-banner {
       display: none;
-      align-items: center;
-      justify-content: space-between;
+      align-items: flex-start;
       gap: 12px;
-      background: #fff8e1;
-      border: 1px solid #f9a825;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 12px 16px;
     }
     #auth-banner.visible { display: flex; }
-    #auth-banner p { font-size: 13px; color: #5d4037; flex: 1; }
+    .banner-icon { font-size: 22px; flex-shrink: 0; }
+    .banner-body { flex: 1; }
+    .banner-body strong { display: block; font-size: 13px; color: #333; margin-bottom: 4px; }
+    #ciba-message { font-size: 13px; color: #664d03; line-height: 1.5; }
 
     /* ── Messages ────────────────────────────────────────────────────── */
     #messages {
@@ -87,7 +107,7 @@
       word-break: break-word;
     }
     .msg.user {
-      background: #4f8ef7;
+      background: #00b8a9;
       color: #fff;
       align-self: flex-end;
       border-bottom-right-radius: 4px;
@@ -132,11 +152,11 @@
       line-height: 1.4;
       background: #fff;
     }
-    #msg-input:focus { outline: none; border-color: #4f8ef7; }
+    #msg-input:focus { outline: none; border-color: #00b8a9; }
     #msg-input:disabled { background: #f5f5f5; }
     #send-btn {
       padding: 0 18px;
-      background: #4f8ef7;
+      background: #00b8a9;
       color: #fff;
       border: none;
       border-radius: 10px;
@@ -150,7 +170,10 @@
 </head>
 <body>
   <header>
-    <h1>Assistant0</h1>
+    <div class="header-brand">
+      <span class="logo">Z-Assistant</span>
+      <span class="sub">RetailZero Customer Service</span>
+    </div>
     <div id="auth-area">
       <span id="user-name"></span>
       <button id="auth-btn" class="btn btn-login">Log In</button>
@@ -159,8 +182,12 @@
 
   <main>
     <div id="auth-banner">
-      <p>This assistant needs access to your Google account to read and compose emails.</p>
-      <button id="connect-btn" class="btn btn-connect">Connect Google</button>
+      <span class="banner-icon">🔐</span>
+      <div class="banner-body">
+        <strong>Approval Required</strong>
+        <p id="ciba-message">Check your Auth0 Guardian app for an approval request.</p>
+      </div>
+      <button id="retry-btn" class="btn btn-retry">Retry</button>
     </div>
 
     <div id="messages"></div>
@@ -169,7 +196,7 @@
     <div id="input-row">
       <textarea
         id="msg-input"
-        placeholder="Ask me what I can do for you."
+        placeholder="Ask Z-Assistant about orders, products, refunds…"
         rows="2"
         disabled
       ></textarea>

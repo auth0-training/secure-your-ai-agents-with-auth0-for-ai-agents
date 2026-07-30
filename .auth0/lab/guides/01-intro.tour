@@ -17,16 +17,22 @@
     },
     {
       "title": "Prerequisites",
-      "description": "## Prerequisites\n\nYou will need:\n\n1. An **Auth0 account** (free tier is fine) — [sign up here](https://auth0.com/signup) if you don't have one.\n2. An **OpenAI API key** — [get one here](https://platform.openai.com/signup).\n3. For CIBA (Tour 5): the **Auth0 Guardian** mobile app installed on your phone.\n\nThat's it — no third-party API credentials required. RetailZero's API is included in this repository."
+      "description": "## Prerequisites\n\nYou will need:\n\n1. An **Auth0 account** (free tier is fine) — [sign up here](https://auth0.com/signup) if you don't have one.\n2. An **OpenAI API key** — this is provided to you.\n3. For CIBA (Tour 5): the **Auth0 Guardian** mobile app installed on your phone.\n\nThat's it — no third-party API credentials required. RetailZero's API is included in this repository."
     },
     {
       "title": "Get an OpenAI API Key",
       "file": "z-assistant/.env.local",
-      "description": "## Get an OpenAI API Key\n\n1. Sign up or log in at [platform.openai.com](https://platform.openai.com/signup).\n2. Go to the **API keys** section of your dashboard.\n3. Select **Create new secret key** and name it **Z-Assistant lab**.\n4. Copy the key and paste it as the value for `OPENAI_API_KEY` on the highlighted line above.\n\n> **Note:** You will need billing credits on your OpenAI account. Set up billing under the gear icon → Billing.",
+      "description": "## Get your OpenAI API Key\n\n1. Go to your lab portal page. If you closed the tab, you can open it again from the Windows desktop by opening the **Auth0 for AI Agents (9XXX)** Chrome shortcut.\n2. Select the **Show Credentials** toggle to reveal your OpenAI API key.\n3. Select the OpenAI API key to copy it.\n4. Paste it as the value for `OPENAI_API_KEY` on the highlighted line above.\n\n> **Note:** You will need billing credits on your OpenAI account. Set up billing under the gear icon → Billing.",
       "line": 1,
       "selection": {
-        "start": { "line": 1, "character": 17 },
-        "end": { "line": 1, "character": 29 }
+        "start": {
+          "line": 1,
+          "character": 17
+        },
+        "end": {
+          "line": 1,
+          "character": 29
+        }
       }
     },
     {

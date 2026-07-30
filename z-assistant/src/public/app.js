@@ -62,7 +62,7 @@ function addMessage(role, text) {
 // The Retry button re-sends the same message once the user has approved.
 function showCIBABanner(message) {
   cibaMsg.textContent = message ??
-    'Check your Auth0 Guardian app for an approval request. Once approved, click Retry.';
+    'Check your Auth0 Guardian app for an approval request. Once approved, select Retry.';
   banner.classList.add('visible');
 }
 

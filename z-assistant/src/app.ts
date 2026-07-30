@@ -142,7 +142,7 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
           // CIBA pending — the user must approve on their registered device
           if (err instanceof AuthorizationPendingInterrupt || err instanceof AuthorizationPollingInterrupt) {
             send('ciba_pending', {
-              message: 'An approval request has been sent to your device. Once you approve it, click Retry to continue.',
+              message: 'An approval request has been sent to your device. Once you approve it, select Retry to continue.',
             });
             return;
           }
@@ -176,7 +176,7 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
     console.error('[chat] caught error:', e);
     if (e instanceof AuthorizationPendingInterrupt || e instanceof AuthorizationPollingInterrupt) {
       send('ciba_pending', {
-        message: 'An approval request has been sent to your device. Once you approve it, click Retry to continue.',
+        message: 'An approval request has been sent to your device. Once you approve it, select Retry to continue.',
       });
     } else if (e instanceof AccessDeniedInterrupt) {
       send('ciba_denied', { message: 'Authorization was denied.' });

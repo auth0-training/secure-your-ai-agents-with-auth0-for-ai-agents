@@ -3,8 +3,8 @@
   "title": "5: Add Human-in-the-Loop Authorization",
   "steps": [
     {
-      "title": "What We're Building",
-      "description": "## What We're Building\n\nIn Tour 3 you saw that Z-Assistant processes refunds immediately — no human oversight.\n\nIn this tour you will fix that by wiring up **CIBA authorization wrappers** around the two sensitive tools:\n\n- `processRefundTool` — financial refunds\n- `getCustomerProfileTool` — private customer PII\n\nWhen a CIBA-wrapped tool is called, the `@auth0/ai-vercel` SDK:\n\n1. Pauses tool execution.\n2. Calls Auth0's backchannel authentication endpoint.\n3. Auth0 pushes a notification to the logged-in user's Guardian app.\n4. If the user **approves**, the tool executes normally.\n5. If the user **denies**, an `AccessDeniedInterrupt` is thrown and the agent stops.\n\nYou will make **7 small code changes** across two files."
+      "title": "What you will build",
+      "description": "## What you will build\n\nIn **Add the Standard Tools (Tour 3)** you saw that Z-Assistant processes refunds immediately —- no human oversight.\n\nIn this tour you will fix that by wiring up CIBA authorization wrappers around the two sensitive tools:\n\n- `processRefundTool` — financial refunds\n- `getCustomerProfileTool` — private customer PII\n\nWhen a CIBA-wrapped tool is called, the `@auth0/ai-vercel` SDK:\n\n1. Pauses tool execution.\n2. Calls Auth0's backchannel authentication endpoint.\n3. Auth0 pushes a notification to the logged-in user's Guardian app.\n4. If the user **approves**, the tool executes normally.\n5. If the user **denies**, an `AccessDeniedInterrupt` is thrown and the agent stops.\n\nYou will make seven small code changes across two files."
     },
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
@@ -12,18 +12,30 @@
       "line": 9,
       "title": "Step 1 — Import Auth0AI and getUserID",
       "selection": {
-        "start": { "line": 9, "character": 1 },
-        "end": { "line": 12, "character": 34 }
+        "start": {
+          "line": 9,
+          "character": 1
+        },
+        "end": {
+          "line": 12,
+          "character": 34
+        }
       }
     },
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
-      "description": "## Step 2 — Initialize the Auth0AI Client\n\nUncomment the Auth0AI constructor by replacing the TODO block with:\n\n```ts\nconst auth0AI = new Auth0AI();\n```\n\n`Auth0AI` reads your Auth0 credentials (`AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`) from environment variables automatically. This single instance is shared across all wrappers in this file.",
+      "description": "## Step 2 — Initialize the Auth0AI client\n\nUncomment the Auth0AI constructor by replacing the TODO block with:\n\n```ts\nconst auth0AI = new Auth0AI();\n```\n\n`Auth0AI` reads your Auth0 credentials (`AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`) from environment variables automatically. This single instance is shared across all wrappers in this file.",
       "line": 14,
-      "title": "Step 2 — Initialize the Auth0AI Client",
+      "title": "Step 2 — Initialize the Auth0AI client",
       "selection": {
-        "start": { "line": 14, "character": 1 },
-        "end": { "line": 16, "character": 27 }
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 16,
+          "character": 27
+        }
       }
     },
     {
@@ -32,8 +44,14 @@
       "line": 18,
       "title": "Step 3 — Create withRefundApproval",
       "selection": {
-        "start": { "line": 18, "character": 1 },
-        "end": { "line": 29, "character": 4 }
+        "start": {
+          "line": 18,
+          "character": 1
+        },
+        "end": {
+          "line": 29,
+          "character": 4
+        }
       }
     },
     {
@@ -42,18 +60,30 @@
       "line": 31,
       "title": "Step 4 — Create withCustomerDataApproval",
       "selection": {
-        "start": { "line": 31, "character": 1 },
-        "end": { "line": 42, "character": 4 }
+        "start": {
+          "line": 31,
+          "character": 1
+        },
+        "end": {
+          "line": 42,
+          "character": 4
+        }
       }
     },
     {
       "file": "z-assistant/src/tools/retailzero.ts",
-      "description": "## Step 5 — Import the CIBA Wrappers\n\nNow open `retailzero.ts` and uncomment the import for the two wrappers. Replace the TODO comment on line 3 with:\n\n```ts\nimport { withRefundApproval, withCustomerDataApproval } from '../lib/auth0-ai.js';\n```\n\nThis makes the CIBA wrappers available to wrap the sensitive tool definitions below.",
+      "description": "## Step 5 — Import the CIBA wrappers\n\nNow open `retailzero.ts` and uncomment the import for the two wrappers. Replace the TODO comment on line 3 with:\n\n```ts\nimport { withRefundApproval, withCustomerDataApproval } from '../lib/auth0-ai.js';\n```\n\nThis makes the CIBA wrappers available to wrap the sensitive tool definitions below.",
       "line": 3,
-      "title": "Step 5 — Import the CIBA Wrappers",
+      "title": "Step 5 — Import the CIBA wrappers",
       "selection": {
-        "start": { "line": 3, "character": 1 },
-        "end": { "line": 4, "character": 72 }
+        "start": {
+          "line": 3,
+          "character": 1
+        },
+        "end": {
+          "line": 4,
+          "character": 72
+        }
       }
     },
     {
@@ -62,8 +92,14 @@
       "line": 75,
       "title": "Step 6 — Wrap processRefundTool",
       "selection": {
-        "start": { "line": 75, "character": 1 },
-        "end": { "line": 75, "character": 43 }
+        "start": {
+          "line": 75,
+          "character": 1
+        },
+        "end": {
+          "line": 75,
+          "character": 43
+        }
       }
     },
     {
@@ -72,13 +108,19 @@
       "line": 99,
       "title": "Step 7 — Wrap getCustomerProfileTool",
       "selection": {
-        "start": { "line": 99, "character": 1 },
-        "end": { "line": 99, "character": 47 }
+        "start": {
+          "line": 99,
+          "character": 1
+        },
+        "end": {
+          "line": 99,
+          "character": 47
+        }
       }
     },
     {
-      "title": "Test the CIBA Flow",
-      "description": "## Test the CIBA Flow\n\n1. Make sure the **RetailZero API** is running on port 3001. If not:\n   ```\n   cd retailzero-api && npm run dev\n   ```\n\n2. [Start Z-Assistant](command:workbench.action.debug.start) and open it in the browser.\n\n3. Send this prompt:\n   > _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\n4. Z-Assistant will pause and the **approval banner** will appear at the top of the chat UI.\n\n5. Check your phone — you should see a **Guardian push notification**:\n   > _\"Approve refund of $216.99 for order ORD-1001?\"_\n\n6. **Tap Approve** on your phone.\n\n7. Back in the browser, click **Retry** in the approval banner.\n\n8. Z-Assistant resumes and completes the refund.\n\n---\n\n**Also test denial:**\n\n9. Ask for another refund and tap **Deny** on Guardian instead.\n10. Z-Assistant should respond that the authorization was denied and the refund was not processed.\n\n---\n\n**Congratulations!** Z-Assistant now enforces human-in-the-loop authorization for all sensitive operations. Financial refunds and customer PII access can no longer be executed autonomously — every request requires explicit approval from the authenticated user on their registered device."
+      "title": "Test the CIBA flow",
+      "description": "## Test the CIBA flow\n\n1. Make sure the **RetailZero API** is running on port 3001. If not:\n   ```\n   cd retailzero-api && npm run dev\n   ```\n\n2. [Start Z-Assistant](command:workbench.action.debug.start) and open it in the browser.\n\n3. Send this prompt:\n   > _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\n4. Z-Assistant will pause and the **approval banner** will appear at the top of the chat UI.\n\n5. Check your phone — you should see a **Guardian push notification**:\n   > _\"Approve refund of $216.99 for order ORD-1001?\"_\n\n6. **Tap Approve** on your phone.\n\n7. Back in the browser, select **Retry** in the approval banner.\n\n8. Z-Assistant resumes and completes the refund.\n\n---\n\n**Also test denial:**\n\n9. Ask for another refund and tap **Deny** on Guardian instead.\n10. Z-Assistant should respond that the authorization was denied and the refund was not processed.\n\n---\n\n**Congratulations!** Z-Assistant now enforces human-in-the-loop authorization for all sensitive operations. Financial refunds and customer PII access can no longer be executed autonomously — every request requires explicit approval from the authenticated user on their registered device."
     }
   ]
 }

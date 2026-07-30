@@ -26,7 +26,7 @@ echo -e "\033[1mAdd the Codespaces URLs\033[0m in the Web App Auth0 Settings: \n
 echo -e "  • In the Application Settings tab, in \033[1mApplication URIs\033[0m section, add the URIs below to the pre-set URIs:\n"
 echo -e "    \033[1mAllowed Callback URLs\033[0m:  \033[4m$DOMAIN/auth/callback\033[0m"
 echo -e "    \033[1mAllowed Logout URLs\033[0m:    \033[4m$DOMAIN\033[0m\n"
-echo -e "  • Click \033[1mSave Changes\033[0m at the bottom of the page\n"
+echo -e "  • Select \033[1mSave Changes\033[0m at the bottom of the page\n"
 echo -e "✅ Press ENTER once you are done..."
 read
 

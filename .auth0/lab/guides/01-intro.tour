@@ -1,37 +1,35 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
   "title": "1: Introduction",
-  "nextTour": "2: Set Up Auth0 and Run Z-Assistant",
+  "nextTour": "2: Set up Auth0 and run Z-Assistant",
   "steps": [
     {
-      "title": "Welcome to the Lab",
-      "description": "## Welcome to the Lab\n\nIn this lab you will work with **Z-Assistant**, an AI-powered customer service agent for **RetailZero** — a fictitious e-commerce platform.\n\nZ-Assistant helps customer service representatives:\n- Look up orders and customer information\n- Browse the product catalog\n- Process refunds on behalf of customers\n- Access full customer profiles (including contact and payment details)\n\nThe catch? Without proper authorization controls, Z-Assistant can autonomously execute sensitive operations like refunds and expose private customer data — all without any human oversight."
-    },
-    {
-      "title": "What You Will Build",
-      "description": "## What You Will Build\n\nYou will progressively add security controls to Z-Assistant using **Auth0 for AI Agents**:\n\n1. **Standard Tool Calling** — Connect Z-Assistant to RetailZero's internal API for safe operations (order lookup, product browsing).\n\n2. **Human-in-the-Loop Authorization (CIBA)** — Protect sensitive operations (refunds, customer PII) with **Client-Initiated Backchannel Authentication**. Before Z-Assistant can process a refund or access private data, it will send an out-of-band approval request to the user's device. The agent can only proceed once the human approves.\n\nThis pattern ensures your AI agent can never autonomously execute high-risk operations, even if it receives a malicious instruction."
-    },
-    {
-      "title": "The Security Problem",
-      "description": "## The Security Problem\n\nWithout authorization controls, a customer service rep could accidentally (or an attacker could intentionally) prompt Z-Assistant to:\n\n> *\"Process a full refund for all of Sarah's orders.\"*\n\n> *\"Show me the payment details for every Gold-tier customer.\"*\n\nA naive AI agent would execute these requests immediately. With **CIBA**, every sensitive action requires explicit human approval — the agent initiates an authorization request, the user reviews and approves on their registered device, and only then does the agent proceed.\n\nThis is the **human-in-the-loop** security pattern for AI agents."
+      "title": "Lab scenario",
+      "description": "## Lab scenario\n\nIn this lab, you will help RetailZero (a fictitious e-commerce platform) secure Z-Assistant, their AI-powered customer service agent.\n\nZ-Assistant helps customer service representatives:\n- Look up orders and customer information\n- Browse the product catalog\n- Process refunds on behalf of customers\n- Access full customer profiles (including contact and payment details)\n\n### The security problem\n\nWithout authorization controls, a customer service rep could accidentally (or a malicious user could intentionally) prompt Z-Assistant to:\n\n> *\"Process a full refund for all of Sarah's orders.\"*\n\n> *\"Show me the payment details for every Gold-tier customer.\"*\n\nA naive AI agent would execute these requests immediately. With human-in-the-loop authorization, every sensitive action requires explicit human approval. The agent client initiates an authorization request, the human approver reviews and approves on their registered device, and only then does the agent proceed.\n\n\n### What you will build\n\nYou will progressively add security controls to Z-Assistant using Auth0 for AI Agents (A4AA) features:\n\n1. **Standard Tool Calling** — Connect Z-Assistant to RetailZero's internal API for safe operations (order lookup, product browsing).\n\n2. **Human-in-the-Loop Authorization with Client-Initiated Backchannel Authorization (CIBA)** — Protect sensitive operations (refunds, customer PII) with CIBA. Before Z-Assistant can process a refund or access private data, it will send an out-of-band approval request to the approver's device. The agent can only proceed once the human approves.\n\nThis pattern prevents your AI agent from autonomously executing high-risk operations."
     },
     {
       "title": "Prerequisites",
-      "description": "## Prerequisites\n\nYou will need:\n\n1. An **Auth0 account** (free tier is fine) — [sign up here](https://auth0.com/signup) if you don't have one.\n2. An **OpenAI API key** — [get one here](https://platform.openai.com/signup).\n3. For CIBA (Tour 5): the **Auth0 Guardian** mobile app installed on your phone.\n\nThat's it — no third-party API credentials required. RetailZero's API is included in this repository."
+      "description": "## Prerequisites\n\nYou will need:\n\n1. An **Auth0 account** (free tier is fine) — [sign up here](https://auth0.com/signup) if you don't have one.\n2. An **OpenAI API key** — this is provided to you.\n3. For CIBA (Tour 5): the **Auth0 Guardian** mobile app installed on your phone.\n\nThat's it! No third-party API credentials required. RetailZero's API is included in this repository."
     },
     {
-      "title": "Get an OpenAI API Key",
+      "title": "Get your OpenAI API key",
       "file": "z-assistant/.env.local",
-      "description": "## Get an OpenAI API Key\n\n1. Sign up or log in at [platform.openai.com](https://platform.openai.com/signup).\n2. Go to the **API keys** section of your dashboard.\n3. Select **Create new secret key** and name it **Z-Assistant lab**.\n4. Copy the key and paste it as the value for `OPENAI_API_KEY` on the highlighted line above.\n\n> **Note:** You will need billing credits on your OpenAI account. Set up billing under the gear icon → Billing.",
+      "description": "## Get your OpenAI API key\n\n1. Go to your lab portal page. If you closed the tab, you can open it again from the Windows desktop by opening the **Auth0 for AI Agents (9XXX)** Chrome shortcut.\n2. Select the **Show Credentials** toggle to reveal your OpenAI API key.\n3. Select the OpenAI API key to copy it.\n4. Paste it as the value for `OPENAI_API_KEY` on the highlighted line above.\n",
       "line": 1,
       "selection": {
-        "start": { "line": 1, "character": 17 },
-        "end": { "line": 1, "character": 29 }
+        "start": {
+          "line": 1,
+          "character": 17
+        },
+        "end": {
+          "line": 1,
+          "character": 29
+        }
       }
     },
     {
-      "title": "Prerequisites Complete!",
-      "description": "## Prerequisites Complete!\n\nYou now have everything you need. Let's move on to running Z-Assistant and connecting it to Auth0."
+      "title": "Prerequisites complete!",
+      "description": "## Prerequisites complete!\n\nYou now have everything you need. Let's move on to running Z-Assistant and connecting it to Auth0."
     }
   ]
 }

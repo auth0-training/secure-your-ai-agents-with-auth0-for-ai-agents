@@ -13,34 +13,52 @@
     },
     {
       "file": "z-assistant/.env.local",
-      "description": "## Generate an Application Secret\n\nZ-Assistant uses a secret to sign encrypted session cookies. Let's generate one.\n\n1. [Click here](command:codetour.sendTextToTerminal?[\"openssl rand -hex 32\"]) to run `openssl rand -hex 32` in the terminal.\n2. Copy the output and paste it as the value for `AUTH0_SECRET` on the highlighted line above.",
+      "description": "## Generate an Application Secret\n\nZ-Assistant uses a secret to sign encrypted session cookies. Let's generate one.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"openssl rand -hex 32\"]) to run `openssl rand -hex 32` in the terminal.\n2. Copy the output and paste it as the value for `AUTH0_SECRET` on the highlighted line above.",
       "line": 2,
       "selection": {
-        "start": { "line": 2, "character": 15 },
-        "end": { "line": 2, "character": 70 }
+        "start": {
+          "line": 2,
+          "character": 15
+        },
+        "end": {
+          "line": 2,
+          "character": 70
+        }
       }
     },
     {
       "title": "Set the App Base URL",
       "file": "z-assistant/.env.local",
-      "description": "## Set the App Base URL\n\nZ-Assistant needs to know its public URL for Auth0 redirects.\n\n1. [Click here](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev\"]) to print your Codespace URL.\n2. Copy the output and set it as the value for `APP_BASE_URL`.\n\nIt should look like:\n```\nAPP_BASE_URL=\"https://humble-winner-74xv5jxw462r9pv-3000.app.github.dev\"\n```",
+      "description": "## Set the App Base URL\n\nZ-Assistant needs to know its public URL for Auth0 redirects.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev\"]) to print your Codespace URL to the terminal.\n2. Copy the output and set it as the value for `APP_BASE_URL`.\n\nIt should look like:\n```\nAPP_BASE_URL=\"https://humble-winner-74xv5jxw462r9pv-3000.app.github.dev\"\n```",
       "line": 3,
       "selection": {
-        "start": { "line": 3, "character": 15 },
-        "end": { "line": 3, "character": 32 }
+        "start": {
+          "line": 3,
+          "character": 15
+        },
+        "end": {
+          "line": 3,
+          "character": 32
+        }
       }
     },
     {
       "title": "Create an Auth0 Application",
-      "description": "## Create an Auth0 Application\n\n1. Go to the [Auth0 Dashboard](https://manage.auth0.com/#/applications) and create a new application:\n   - **Name**: Z-Assistant\n   - **Type**: Regular Web Application\n\n2. On the application's **Settings** tab, scroll to **Application URIs** and configure:\n   - **Allowed Callback URLs**: [click here](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/auth/callback\\\"\"]) and copy the output\n   - **Allowed Logout URLs**: [click here](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/\\\"\"]) and copy the output\n\n3. Select **Save Changes**."
+      "description": "## Create an Auth0 Application\n\n1. Go to the [Auth0 Dashboard](https://manage.auth0.com/#/applications) and create a new application:\n   - **Name**: Z-Assistant\n   - **Type**: Regular Web Application\n\n2. On the application's **Settings** tab, scroll to **Application URIs** and configure:\n   - **Allowed Callback URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/auth/callback\\\"\"]) and copy the output\n   - **Allowed Logout URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/\\\"\"]) and copy the output\n\n3. Select **Save Changes**."
     },
     {
       "file": "z-assistant/.env.local",
       "description": "## Set AUTH0_DOMAIN\n\n1. On your Auth0 application's **Settings** tab, find the **Domain** field in Basic Information.\n2. Copy the domain value (e.g. `dev-abc123.us.auth0.com`) and paste it on the highlighted line above.\n\n> Do **not** include `https://` — just the domain name.",
       "line": 4,
       "selection": {
-        "start": { "line": 4, "character": 15 },
-        "end": { "line": 4, "character": 27 }
+        "start": {
+          "line": 4,
+          "character": 15
+        },
+        "end": {
+          "line": 4,
+          "character": 27
+        }
       }
     },
     {
@@ -48,8 +66,14 @@
       "description": "## Set AUTH0_CLIENT_ID\n\n1. From the same **Settings** tab, copy the **Client ID**.\n2. Paste it as the value for `AUTH0_CLIENT_ID` on the highlighted line above.",
       "line": 5,
       "selection": {
-        "start": { "line": 5, "character": 18 },
-        "end": { "line": 5, "character": 32 }
+        "start": {
+          "line": 5,
+          "character": 18
+        },
+        "end": {
+          "line": 5,
+          "character": 32
+        }
       }
     },
     {
@@ -57,17 +81,23 @@
       "description": "## Set AUTH0_CLIENT_SECRET\n\n1. From the **Settings** tab, copy the **Client Secret**.\n2. Paste it as the value for `AUTH0_CLIENT_SECRET` on the highlighted line above.",
       "line": 6,
       "selection": {
-        "start": { "line": 6, "character": 22 },
-        "end": { "line": 6, "character": 40 }
+        "start": {
+          "line": 6,
+          "character": 22
+        },
+        "end": {
+          "line": 6,
+          "character": 40
+        }
       }
     },
     {
       "title": "Start the RetailZero API",
-      "description": "## Start the RetailZero API\n\nZ-Assistant's tools call the **RetailZero API** which runs separately on port 3001.\n\n1. Open a new terminal tab.\n2. [Click here](command:codetour.sendTextToTerminal?[\"cd retailzero-api && npm run dev\"]) to start the RetailZero API.\n\nYou should see:\n```\nRetailZero API running at http://localhost:3001\n```\n\n> Keep this terminal open — the API must stay running throughout the lab."
+      "description": "## Start the RetailZero API\n\nZ-Assistant's tools call the **RetailZero API** which runs separately on port 3001.\n\n1. Open a new terminal tab.\n2. [Select this link](command:codetour.sendTextToTerminal?[\"cd retailzero-api && npm run dev\"]) to start the RetailZero API.\n\nYou should see:\n```\nRetailZero API running at http://localhost:3001\n```\n\n> Keep this terminal open — the API must stay running throughout the lab."
     },
     {
       "title": "Test the App",
-      "description": "## Test Z-Assistant\n\nNow let's run Z-Assistant and verify the Auth0 integration works.\n\n1. [Start Z-Assistant](command:workbench.action.debug.start).\n2. When the dialog appears, select **Open in Browser** to open the app.\n   > Alternatively, go to the **PORTS** tab and click the globe icon next to port 3000.\n3. Log in to the application.\n4. Ask Z-Assistant something simple: _\"What can you help me with?\"_\n\nYou should get a response describing Z-Assistant's capabilities. Since we haven't added tools yet, it can only reply from its training knowledge — not from live RetailZero data.\n\n5. [Stop the application](command:workbench.action.debug.stop) when done.\n\nIn the next tour we will add the RetailZero tools."
+      "description": "## Test Z-Assistant\n\nNow let's run Z-Assistant and verify the Auth0 integration works.\n\n1. [Start Z-Assistant](command:workbench.action.debug.start).\n2. When the dialog appears, select **Open in Browser** to open the app.\n   > Alternatively, go to the **PORTS** tab and select the globe icon next to port 3000.\n3. Log in to the application.\n4. Ask Z-Assistant something simple: _\"What can you help me with?\"_\n\nYou should get a response describing Z-Assistant's capabilities. Since we haven't added tools yet, it can only reply from its training knowledge — not from live RetailZero data.\n\n5. [Stop the application](command:workbench.action.debug.stop) when done.\n\nIn the next tour we will add the RetailZero tools."
     }
   ]
 }

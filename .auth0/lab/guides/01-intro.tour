@@ -22,7 +22,7 @@
     {
       "title": "Get an OpenAI API Key",
       "file": "z-assistant/.env.local",
-      "description": "## Get your OpenAI API Key\n\n1. Go to your lab portal page. If you closed the tab, you can open it again from the Windows desktop by opening the **Auth0 for AI Agents (9XXX)** Chrome shortcut.\n2. Select the **Show Credentials** toggle to reveal your OpenAI API key.\n3. Select the OpenAI API key to copy it.\n4. Paste it as the value for `OPENAI_API_KEY` on the highlighted line above.\n\n> **Note:** You will need billing credits on your OpenAI account. Set up billing under the gear icon → Billing.",
+      "description": "## Get your OpenAI API Key\n\n1. Go to your lab portal page. If you closed the tab, you can open it again from the Windows desktop by opening the **Auth0 for AI Agents (9XXX)** Chrome shortcut.\n2. Select the **Show Credentials** toggle to reveal your OpenAI API key.\n3. Select the OpenAI API key to copy it.\n4. Paste it as the value for `OPENAI_API_KEY` on the highlighted line above.\n",
       "line": 1,
       "selection": {
         "start": {

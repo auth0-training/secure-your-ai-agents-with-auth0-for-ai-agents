@@ -14,17 +14,17 @@ export const listProductsTool = tool({
   parameters: z.object({
     category: z
       .string()
-      .optional()
-      .describe('Filter by product category'),
+      .nullable()
+      .describe('Filter by product category, or null for all categories'),
     inStockOnly: z
       .boolean()
-      .optional()
-      .describe('When true, only return products with available stock'),
+      .nullable()
+      .describe('Pass true to return only in-stock products, or null for all'),
   }),
   execute: async ({ category, inStockOnly }) => {
     const params = new URLSearchParams();
     if (category) params.set('category', category);
-    if (inStockOnly ?? false) params.set('inStock', 'true');
+    if (inStockOnly) params.set('inStock', 'true');
     const res = await fetch(`${RETAILZERO_API}/api/products?${params}`);
     if (!res.ok) return { error: 'Failed to fetch products.' };
     return await res.json();
@@ -37,12 +37,12 @@ export const searchOrdersTool = tool({
   parameters: z.object({
     query: z
       .string()
-      .optional()
-      .describe('Search term: customer name, email address, or order ID (e.g. ORD-1001)'),
+      .nullable()
+      .describe('Search term: customer name, email address, or order ID (e.g. ORD-1001), or null to list all'),
     status: z
       .enum(['pending', 'processing', 'shipped', 'delivered', 'cancelled'])
-      .optional()
-      .describe('Filter orders by status'),
+      .nullable()
+      .describe('Filter orders by status, or null for all statuses'),
   }),
   execute: async ({ query, status }) => {
     const params = new URLSearchParams();

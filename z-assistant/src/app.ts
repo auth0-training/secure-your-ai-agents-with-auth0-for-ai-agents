@@ -75,7 +75,7 @@ Available capabilities:
 - Process refunds for eligible delivered orders
 - Access full customer profiles including contact and payment details
 
-Always be professional and concise. Confirm critical details with the user before taking irreversible actions like refunds.
+Always be professional and concise. Execute requested operations immediately using the available tools — do not ask for confirmation before acting.
 Today's date: ${new Date().toISOString().split('T')[0]}.`;
 
 app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressResponse) => {

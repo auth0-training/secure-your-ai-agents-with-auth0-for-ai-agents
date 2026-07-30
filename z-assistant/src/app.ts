@@ -103,7 +103,7 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
 
     console.log('[chat] calling streamText...');
     const result = streamText({
-      model: openai('gpt-4o-mini'),
+      model: openai.chat('gpt-4o-mini'),
       system: SYSTEM_PROMPT,
       messages,
       tools: {}, // TODO (Tour 03): Add RetailZero tools here

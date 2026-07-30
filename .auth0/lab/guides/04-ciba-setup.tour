@@ -12,20 +12,30 @@
       "description": "## Install Auth0 Guardian\n\nAuth0 Guardian is the mobile app that receives CIBA push notifications.\n\n1. Install **Auth0 Guardian** on your phone:\n   - [iOS App Store](https://apps.apple.com/us/app/auth0-guardian/id1093100804)\n   - [Google Play Store](https://play.google.com/store/apps/details?id=com.auth0.guardian)\n\n2. We will enroll your account with Guardian after enabling CIBA on your tenant.\n\n> If you don't have a smartphone, Auth0 also supports email and SMS as CIBA notification channels. Check the Auth0 documentation for setup instructions."
     },
     {
-      "title": "Enable CIBA on Your Auth0 Tenant",
-      "description": "## Enable CIBA on Your Auth0 Tenant\n\nCIBA is a tenant-level feature that must be explicitly enabled.\n\n1. In the [Auth0 Dashboard](https://manage.auth0.com), go to **Security → Attack Protection**.\n2. Select the **Bot Detection** section — CIBA is found in **Advanced Settings**.\n\nActually, CIBA is configured under a different path. Follow these steps:\n\n1. Go to **Auth0 Dashboard → Applications → APIs**.\n2. Select **Auth0 Management API** → **Settings** tab.\n3. Scroll to **OIDC Backchannel Logout** — this is where CIBA is configured.\n\n**Correct path:**\n1. Go to **Auth0 Dashboard → Tenant Settings** → **Advanced** tab.\n2. Scroll to find the **Backchannel Authentication** section.\n3. Toggle **Enable CIBA** to on.\n4. Save changes.\n\n> If you don't see CIBA settings, ensure your Auth0 tenant is on a plan that supports it (Developer Pro or above)."
+      "title": "Enable CIBA on your Auth0 Tenant",
+      "description": "## Enable CIBA on your Auth0 Tenant\n\nCIBA is a tenant-level feature that must be explicitly enabled.\n\n1. In the [Auth0 Dashboard](https://manage.auth0.com), go to **Security → Attack Protection**.\n2. Select the **Bot Detection** section — CIBA is found in **Advanced Settings**.\n\nActually, CIBA is configured under a different path. Follow these steps:\n\n1. Go to **Auth0 Dashboard → Applications → APIs**.\n2. Select **Auth0 Management API** → **Settings** tab.\n3. Scroll to **OIDC Backchannel Logout** — this is where CIBA is configured.\n\n**Correct path:**\n1. Go to **Auth0 Dashboard → Tenant Settings** → **Advanced** tab.\n2. Scroll to find the **Backchannel Authentication** section.\n3. Toggle **Enable CIBA** to on.\n4. Save changes.\n\n> If you don't see CIBA settings, ensure your Auth0 tenant is on a plan that supports it (Developer Pro or above).",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 1,
+          "character": 36
+        }
+      }
     },
     {
-      "title": "Enable Push Notifications on Your Application",
-      "description": "## Enable Push Notifications on Your Application\n\nYour Z-Assistant Auth0 application needs to support CIBA grant types.\n\n1. In the Auth0 Dashboard, go to **Applications → Applications** and select **Z-Assistant**.\n2. Select the **Settings** tab.\n3. Scroll to **Advanced Settings → Grant Types**.\n4. Enable **CIBA** (it may appear as `urn:openid:params:grant-type:ciba`).\n5. Save changes.\n\nAlso confirm that **Client Credentials** is enabled — Auth0 AI uses it internally when making CIBA requests."
+      "title": "Enable Push Notifications on your application",
+      "description": "## Enable Push Notifications on your application\n\nYour Z-Assistant Auth0 application needs to support CIBA grant types.\n\n1. In the Auth0 Dashboard, go to **Applications → Applications** and select **Z-Assistant**.\n2. Select the **Settings** tab.\n3. Scroll to **Advanced Settings → Grant Types**.\n4. Enable **CIBA** (it may appear as `urn:openid:params:grant-type:ciba`).\n5. Save changes.\n\nAlso confirm that **Client Credentials** is enabled — Auth0 AI uses it internally when making CIBA requests."
     },
     {
-      "title": "Configure a Push Notification Factor",
-      "description": "## Configure a Push Notification Factor\n\nFor CIBA to deliver approval notifications, you need to configure a notification channel.\n\n**Recommended: Auth0 Guardian push notifications**\n\n1. In the Auth0 Dashboard, go to **Security → Multi-Factor Auth**.\n2. Ensure **Push Notifications** (Guardian) is enabled.\n3. Save.\n\nYour account also needs to be enrolled in Guardian:\n\n1. Start Z-Assistant and log in.\n2. Go to your Auth0 Universal Login profile or your tenant's user management.\n3. Enroll your account in **Guardian Push Notifications**.\n\nAlternatively, you can set up the Guardian app during first login by enabling the required MFA policy on your Auth0 tenant."
+      "title": "Configure a Push Notification factor",
+      "description": "## Configure a Push Notification factor\n\nFor CIBA to deliver approval notifications, you need to configure a notification channel.\n\n**Recommended: Auth0 Guardian push notifications**\n\n1. In the Auth0 Dashboard, go to **Security → Multi-Factor Auth**.\n2. Ensure **Push Notifications** (Guardian) is enabled.\n3. Save.\n\nYour account also needs to be enrolled in Guardian:\n\n1. Start Z-Assistant and log in.\n2. Go to your Auth0 Universal Login profile or your tenant's user management.\n3. Enroll your account in **Guardian Push Notifications**.\n\nAlternatively, you can set up the Guardian app during first login by enabling the required MFA policy on your Auth0 tenant."
     },
     {
-      "title": "Verify Your Setup",
-      "description": "## Verify Your Setup\n\nBefore writing code, confirm everything is configured:\n\n- [ ] CIBA is enabled on your Auth0 tenant\n- [ ] The Z-Assistant application has the CIBA grant type enabled\n- [ ] Auth0 Guardian push notifications are enabled\n- [ ] Your user account is enrolled in Guardian\n\nWith these settings in place, Auth0's CIBA endpoint is ready to receive authorization requests from Z-Assistant and route approval notifications to your device.\n\nIn the next tour, we'll add the CIBA authorization wrappers to the sensitive tools in code."
+      "title": "Verify your setup",
+      "description": "## Verify your setup\n\nBefore writing code, confirm everything is configured:\n\n- [ ] CIBA is enabled on your Auth0 tenant\n- [ ] The Z-Assistant application has the CIBA grant type enabled\n- [ ] Auth0 Guardian push notifications are enabled\n- [ ] Your user account is enrolled in Guardian\n\nWith these settings in place, Auth0's CIBA endpoint is ready to receive authorization requests from Z-Assistant and route approval notifications to your device.\n\nIn the next tour, we'll add the CIBA authorization wrappers to the sensitive tools in code."
     }
   ]
 }

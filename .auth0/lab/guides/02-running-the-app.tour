@@ -1,6 +1,6 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
-  "title": "2: Set Up Auth0 and Run Z-Assistant",
+  "title": "2: Set up Auth0 and run Z-Assistant",
   "nextTour": "3: Add Standard Tools",
   "steps": [
     {
@@ -8,12 +8,12 @@
       "description": "## About Z-Assistant\n\nZ-Assistant is a Node.js Express application. This Codespace has already installed all required dependencies, including:\n\n- [express-openid-connect](https://github.com/auth0/express-openid-connect) — Auth0 OIDC middleware for user authentication\n- [Vercel AI SDK](https://sdk.vercel.ai) — Tool calling and streaming for the AI agent\n- [@auth0/ai-vercel](https://auth0.com/ai/docs/sdks/vercel-ai-sdk) — Auth0 AI integrations including CIBA\n\nThe lab also includes **RetailZero API** — a local mock e-commerce API running on port 3001 that Z-Assistant will call using its tools."
     },
     {
-      "title": "Understanding the Code",
-      "description": "## Understanding the Code\n\nHere is the project structure:\n\n```\nz-assistant/src/\n├── app.ts               # Express server — OIDC, SSE chat endpoint\n├── lib/\n│   ├── auth0.ts         # AsyncLocalStorage + getUserID() helper\n│   └── auth0-ai.ts      # You will add CIBA wrappers here (Tour 5)\n├── tools/\n│   └── retailzero.ts    # Vercel AI SDK tool definitions for the RetailZero API\n└── public/\n    ├── index.html       # Z-Assistant chat UI\n    └── app.js           # SSE stream reader, CIBA retry logic\n\nretailzero-api/src/\n├── app.ts               # RetailZero mock API server (port 3001)\n└── data/\n    ├── products.ts      # Product catalog\n    ├── orders.ts        # Order data\n    └── customers.ts     # Customer profiles (public + private PII)\n```"
+      "title": "Understanding the code",
+      "description": "## Understanding the code\n\nHere is the project structure:\n\n```\nz-assistant/src/\n├── app.ts               # Express server — OIDC, SSE chat endpoint\n├── lib/\n│   ├── auth0.ts         # AsyncLocalStorage + getUserID() helper\n│   └── auth0-ai.ts      # You will add CIBA wrappers here (Tour 5)\n├── tools/\n│   └── retailzero.ts    # Vercel AI SDK tool definitions for the RetailZero API\n└── public/\n    ├── index.html       # Z-Assistant chat UI\n    └── app.js           # SSE stream reader, CIBA retry logic\n\nretailzero-api/src/\n├── app.ts               # RetailZero mock API server (port 3001)\n└── data/\n    ├── products.ts      # Product catalog\n    ├── orders.ts        # Order data\n    └── customers.ts     # Customer profiles (public + private PII)\n```"
     },
     {
       "file": "z-assistant/.env.local",
-      "description": "## Generate an Application Secret\n\nZ-Assistant uses a secret to sign encrypted session cookies. Let's generate one.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"openssl rand -hex 32\"]) to run `openssl rand -hex 32` in the terminal.\n2. Copy the output and paste it as the value for `AUTH0_SECRET` on the highlighted line above.",
+      "description": "## Generate an application secret\n\nZ-Assistant uses a secret to sign encrypted session cookies. Let's generate one.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"openssl rand -hex 32\"]) to run `openssl rand -hex 32` in the terminal.\n2. Copy the output and paste it as the value for `AUTH0_SECRET` on the highlighted line above.",
       "line": 2,
       "selection": {
         "start": {
@@ -27,24 +27,24 @@
       }
     },
     {
-      "title": "Set the App Base URL",
+      "title": "Set the APP_BASE_URL",
       "file": "z-assistant/.env.local",
-      "description": "## Set the App Base URL\n\nZ-Assistant needs to know its public URL for Auth0 redirects.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev\"]) to print your Codespace URL to the terminal.\n2. Copy the output and set it as the value for `APP_BASE_URL`.\n\nIt should look like:\n```\nAPP_BASE_URL=\"https://humble-winner-74xv5jxw462r9pv-3000.app.github.dev\"\n```",
+      "description": "## Set the APP_BASE_URL\n\nZ-Assistant needs to know its public URL for Auth0 redirects.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev\"]) to print your Codespace URL to the terminal.\n2. Copy the output and set it as the value for `APP_BASE_URL`.\n\nIt should look like:\n```\nAPP_BASE_URL=\"https://humble-winner-74xv5jxw462r9pv-3000.app.github.dev\"\n```",
       "line": 3,
       "selection": {
         "start": {
-          "line": 3,
-          "character": 15
+          "line": 1,
+          "character": 12
         },
         "end": {
-          "line": 3,
-          "character": 32
+          "line": 1,
+          "character": 24
         }
       }
     },
     {
-      "title": "Create an Auth0 Application",
-      "description": "## Create an Auth0 Application\n\n1. Go to the [Auth0 Dashboard](https://manage.auth0.com/#/applications) and create a new application:\n   - **Name**: Z-Assistant\n   - **Type**: Regular Web Application\n\n2. On the application's **Settings** tab, scroll to **Application URIs** and configure:\n   - **Allowed Callback URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/auth/callback\\\"\"]) and copy the output\n   - **Allowed Logout URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/\\\"\"]) and copy the output\n\n3. Select **Save Changes**."
+      "title": "Create an Auth0 application",
+      "description": "## Create an Auth0 application\n\n1. Go to the [Auth0 Dashboard](https://manage.auth0.com/#/applications) and create a new application:\n   - **Name**: Z-Assistant\n   - **Type**: Regular Web Application\n\n2. On the application's **Settings** tab, scroll to **Application URIs** and configure:\n   - **Allowed Callback URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/auth/callback\\\"\"]) and copy the output\n   - **Allowed Logout URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/\\\"\"]) and copy the output\n\n3. Select **Save Changes**."
     },
     {
       "file": "z-assistant/.env.local",
@@ -96,7 +96,7 @@
       "description": "## Start the RetailZero API\n\nZ-Assistant's tools call the **RetailZero API** which runs separately on port 3001.\n\n1. Open a new terminal tab.\n2. [Select this link](command:codetour.sendTextToTerminal?[\"cd retailzero-api && npm run dev\"]) to start the RetailZero API.\n\nYou should see:\n```\nRetailZero API running at http://localhost:3001\n```\n\n> Keep this terminal open — the API must stay running throughout the lab."
     },
     {
-      "title": "Test the App",
+      "title": "Test Z-Assistant",
       "description": "## Test Z-Assistant\n\nNow let's run Z-Assistant and verify the Auth0 integration works.\n\n1. [Start Z-Assistant](command:workbench.action.debug.start).\n2. When the dialog appears, select **Open in Browser** to open the app.\n   > Alternatively, go to the **PORTS** tab and select the globe icon next to port 3000.\n3. Log in to the application.\n4. Ask Z-Assistant something simple: _\"What can you help me with?\"_\n\nYou should get a response describing Z-Assistant's capabilities. Since we haven't added tools yet, it can only reply from its training knowledge — not from live RetailZero data.\n\n5. [Stop the application](command:workbench.action.debug.stop) when done.\n\nIn the next tour we will add the RetailZero tools."
     }
   ]

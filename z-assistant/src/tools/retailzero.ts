@@ -19,13 +19,12 @@ export const listProductsTool = tool({
     inStockOnly: z
       .boolean()
       .optional()
-      .default(false)
       .describe('When true, only return products with available stock'),
   }),
   execute: async ({ category, inStockOnly }) => {
     const params = new URLSearchParams();
     if (category) params.set('category', category);
-    if (inStockOnly) params.set('inStock', 'true');
+    if (inStockOnly ?? false) params.set('inStock', 'true');
     const res = await fetch(`${RETAILZERO_API}/api/products?${params}`);
     if (!res.ok) return { error: 'Failed to fetch products.' };
     return await res.json();

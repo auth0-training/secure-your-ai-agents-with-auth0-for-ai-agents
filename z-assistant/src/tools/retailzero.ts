@@ -1,4 +1,4 @@
-import { tool } from 'ai';
+import { tool, jsonSchema } from 'ai';
 import { z } from 'zod';
 // TODO (Tour 05 - Step 5): After completing auth0-ai.ts, uncomment this import:
 // import { withRefundApproval, withCustomerDataApproval } from '../lib/auth0-ai.js';
@@ -11,15 +11,19 @@ const RETAILZERO_API = process.env.RETAILZERO_API_URL ?? 'http://localhost:3001'
 export const listProductsTool = tool({
   description:
     'List RetailZero products. Optionally filter by category (Electronics, Footwear, Sports, Kitchen, Office, Apparel) or show only in-stock items.',
-  parameters: z.object({
-    category: z
-      .string()
-      .nullable()
-      .describe('Filter by product category, or null for all categories'),
-    inStockOnly: z
-      .boolean()
-      .nullable()
-      .describe('Pass true to return only in-stock products, or null for all'),
+  parameters: jsonSchema<{ category?: string; inStockOnly?: boolean }>({
+    type: 'object',
+    properties: {
+      category: {
+        type: 'string',
+        description: 'Filter by product category (Electronics, Footwear, Sports, Kitchen, Office, Apparel)',
+      },
+      inStockOnly: {
+        type: 'boolean',
+        description: 'When true, only return products with available stock',
+      },
+    },
+    additionalProperties: false,
   }),
   execute: async ({ category, inStockOnly }) => {
     const params = new URLSearchParams();
@@ -34,15 +38,20 @@ export const listProductsTool = tool({
 export const searchOrdersTool = tool({
   description:
     'Search RetailZero orders by customer name, email, or order ID. Optionally filter by status (pending, processing, shipped, delivered, cancelled).',
-  parameters: z.object({
-    query: z
-      .string()
-      .nullable()
-      .describe('Search term: customer name, email address, or order ID (e.g. ORD-1001), or null to list all'),
-    status: z
-      .enum(['pending', 'processing', 'shipped', 'delivered', 'cancelled'])
-      .nullable()
-      .describe('Filter orders by status, or null for all statuses'),
+  parameters: jsonSchema<{ query?: string; status?: string }>({
+    type: 'object',
+    properties: {
+      query: {
+        type: 'string',
+        description: 'Search term: customer name, email address, or order ID (e.g. ORD-1001)',
+      },
+      status: {
+        type: 'string',
+        enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
+        description: 'Filter orders by status',
+      },
+    },
+    additionalProperties: false,
   }),
   execute: async ({ query, status }) => {
     const params = new URLSearchParams();

@@ -44,7 +44,7 @@
     },
     {
       "title": "Create an Auth0 application",
-      "description": "## Create an Auth0 application\n\n1. Go to the [Auth0 Dashboard](https://manage.auth0.com/#/applications) and create a new application:\n   - **Name**: Z-Assistant\n   - **Type**: Regular Web Application\n\n2. On the application's **Settings** tab, scroll to **Application URIs** and configure:\n   - **Allowed Callback URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/auth/callback\\\"\"]) and copy the output\n   - **Allowed Logout URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/\\\"\"]) and copy the output\n\n3. Select **Save Changes**."
+      "description": "## Create an Auth0 application\n\n1. Go to the [Auth0 Dashboard](https://manage.auth0.com/#/applications) and create a new application:\n   - **Name**: Z-Assistant\n   - **Type**: Regular Web Application\n\n2. On the application's **Settings** tab, scroll to **Application URIs** and configure:\n   - **Allowed Callback URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/auth/callback\\\"\"]) and copy the output\n   - **Allowed Logout URLs**: [select this link](command:codetour.sendTextToTerminal?[\"echo \\\"https://$CODESPACE_NAME-3000.app.github.dev/\\\"\"]) and copy the output\n\n3. **Save** these changes."
     },
     {
       "file": "z-assistant/.env.local",

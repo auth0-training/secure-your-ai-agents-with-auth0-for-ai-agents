@@ -26,6 +26,7 @@ config({ path: '.env', override: false });
 //   bindingMessage: (toolArgs: { orderId: string; amount: number; reason: string }) =>
 //     `Approve refund of $${toolArgs.amount.toFixed(2)} for order ${toolArgs.orderId}?`,
 //   scopes: ['openid', 'profile'],
+//   onUnauthorized: (err: unknown) => { throw err; },
 // });
 
 // TODO (Tour 05 - Step 4): Export withCustomerDataApproval
@@ -39,4 +40,5 @@ config({ path: '.env', override: false });
 //   bindingMessage: (toolArgs: { customerId: string }) =>
 //     `Allow Z-Assistant to access private profile data for customer ${toolArgs.customerId}?`,
 //   scopes: ['openid', 'profile'],
+//   onUnauthorized: (err: unknown) => { throw err; },
 // });

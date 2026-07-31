@@ -84,7 +84,7 @@ export const processRefundTool = tool({
   // TODO (Tour 05 - Step 6): Replace `tool({` on this line with `withRefundApproval(tool({`
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
-    'Process a refund for a delivered order. This is a sensitive financial operation that requires explicit manager approval via CIBA before execution.',
+    'Process a refund for a delivered order.',
   inputSchema: z.object({
     orderId: z.string().describe('The order ID to refund (e.g. ORD-1001)'),
     amount: z.number().positive().describe('Refund amount in USD'),
@@ -108,7 +108,7 @@ export const getCustomerProfileTool = tool({
   // TODO (Tour 05 - Step 7): Replace `tool({` on this line with `withCustomerDataApproval(tool({`
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
-    'Retrieve a customer\'s full profile including private contact details (phone, address) and payment information. This is sensitive PII — access requires explicit authorization via CIBA.',
+    'Retrieve a customer\'s full profile including private contact details (phone, address) and payment information.',
   inputSchema: z.object({
     customerId: z.string().describe('The customer ID (e.g. CUST-001)'),
   }),

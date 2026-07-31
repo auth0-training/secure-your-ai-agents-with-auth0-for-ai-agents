@@ -11,7 +11,7 @@ const RETAILZERO_API = process.env.RETAILZERO_API_URL ?? 'http://localhost:3001'
 export const listProductsTool = tool({
   description:
     'List RetailZero products. Optionally filter by category (Electronics, Footwear, Sports, Kitchen, Office, Apparel) or show only in-stock items.',
-  parameters: jsonSchema<{ category?: string; inStockOnly?: boolean }>({
+  inputSchema: jsonSchema<{ category?: string; inStockOnly?: boolean }>({
     type: 'object',
     properties: {
       category: {
@@ -38,7 +38,7 @@ export const listProductsTool = tool({
 export const searchOrdersTool = tool({
   description:
     'Search RetailZero orders by customer name, email, or order ID. Optionally filter by status (pending, processing, shipped, delivered, cancelled).',
-  parameters: jsonSchema<{ query?: string; status?: string }>({
+  inputSchema: jsonSchema<{ query?: string; status?: string }>({
     type: 'object',
     properties: {
       query: {
@@ -65,7 +65,7 @@ export const searchOrdersTool = tool({
 
 export const getOrderDetailsTool = tool({
   description: 'Get full details for a specific order including line items, totals, and tracking information.',
-  parameters: z.object({
+  inputSchema: z.object({
     orderId: z.string().describe('The order ID (e.g. ORD-1001)'),
   }),
   execute: async ({ orderId }) => {
@@ -85,7 +85,7 @@ export const processRefundTool = tool({
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
     'Process a refund for a delivered order. This is a sensitive financial operation that requires explicit manager approval via CIBA before execution.',
-  parameters: z.object({
+  inputSchema: z.object({
     orderId: z.string().describe('The order ID to refund (e.g. ORD-1001)'),
     amount: z.number().positive().describe('Refund amount in USD'),
     reason: z.string().describe('Reason for the refund'),
@@ -109,7 +109,7 @@ export const getCustomerProfileTool = tool({
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
     'Retrieve a customer\'s full profile including private contact details (phone, address) and payment information. This is sensitive PII — access requires explicit authorization via CIBA.',
-  parameters: z.object({
+  inputSchema: z.object({
     customerId: z.string().describe('The customer ID (e.g. CUST-001)'),
   }),
   execute: async ({ customerId }) => {

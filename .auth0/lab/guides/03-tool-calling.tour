@@ -10,7 +10,7 @@
     },
     {
       "file": "z-assistant/src/tools/retailzero.ts",
-      "description": "## The standard tool definitions\n\nHere you can see the `listProductsTool`. Notice that:\n\n- It uses `tool()` from the Vercel AI SDK with a `description`, `parameters` (Zod schema), and `execute` function.\n- The `execute` function calls the RetailZero API at `RETAILZERO_API_URL`.\n- No special authorization is required — these are read-only operations.\n\nScroll down to see the other tools: `searchOrdersTool`, `getOrderDetailsTool`, `processRefundTool`, and `getCustomerProfileTool`.",
+      "description": "## The standard tool definitions\n\nHere you can see the `listProductsTool`. Notice that:\n\n- It uses `tool()` from the Vercel AI SDK with a `description`, `inputSchema` (Zod or raw JSON Schema), and `execute` function.\n- The `execute` function calls the RetailZero API at `RETAILZERO_API_URL`.\n- No special authorization is required — these are read-only operations.\n\nScroll down to see the other tools: `searchOrdersTool`, `getOrderDetailsTool`, `processRefundTool`, and `getCustomerProfileTool`.",
       "line": 11,
       "title": "The standard tool definitions"
     },

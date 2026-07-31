@@ -24,7 +24,7 @@ config({ path: '.env', override: false });
 // export const withRefundApproval = auth0AI.withAsyncAuthorization({
 //   userID: () => getUserID(),
 //   bindingMessage: (toolArgs: { orderId: string; amount: number; reason: string }) =>
-//     `Approve refund of $${toolArgs.amount.toFixed(2)} for order ${toolArgs.orderId}?`,
+//     `Approve refund of ${toolArgs.amount.toFixed(2)} USD for order ${toolArgs.orderId}`,
 //   scopes: ['openid', 'profile'],
 //   onUnauthorized: (err: unknown) => { throw err; },
 // });
@@ -38,7 +38,7 @@ config({ path: '.env', override: false });
 // export const withCustomerDataApproval = auth0AI.withAsyncAuthorization({
 //   userID: () => getUserID(),
 //   bindingMessage: (toolArgs: { customerId: string }) =>
-//     `Allow Z-Assistant to access private profile data for customer ${toolArgs.customerId}?`,
+//     `Allow Z-Assistant to access private profile data for customer ${toolArgs.customerId}`,
 //   scopes: ['openid', 'profile'],
 //   onUnauthorized: (err: unknown) => { throw err; },
 // });

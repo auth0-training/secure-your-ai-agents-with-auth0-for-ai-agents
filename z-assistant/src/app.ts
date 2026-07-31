@@ -11,7 +11,7 @@ const { auth, requiresAuth } = createRequire(import.meta.url)(
 import { streamText, stepCountIs } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { setAIContext } from '@auth0/ai-vercel';
-import { AuthorizationPendingInterrupt, AuthorizationPollingInterrupt, AccessDeniedInterrupt } from '@auth0/ai/interrupts';
+import { AuthorizationPendingInterrupt, AuthorizationPollingInterrupt, AccessDeniedInterrupt, AsyncAuthorizationInterrupt } from '@auth0/ai/interrupts';
 import { nanoid } from 'nanoid';
 import { requestStore } from './lib/auth0.js';
 // TODO (Tour 03): Import RetailZero tools here
@@ -140,14 +140,14 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
           console.error(`[chat] tool-error: ${p.toolName}`, p.error);
           const err = p.error;
           // CIBA pending — the user must approve on their registered device
-          if (err instanceof AuthorizationPendingInterrupt || err instanceof AuthorizationPollingInterrupt) {
+          if (AuthorizationPendingInterrupt.isInterrupt(err) || AuthorizationPollingInterrupt.isInterrupt(err)) {
             send('ciba_pending', {
               message: 'An approval request has been sent to your device. Once you approve it, select Retry to continue.',
             });
             return;
           }
           // CIBA denied or expired
-          if (err instanceof AccessDeniedInterrupt) {
+          if (AccessDeniedInterrupt.isInterrupt(err)) {
             send('ciba_denied', { message: 'Authorization was denied. The operation was not approved.' });
             return;
           }
@@ -174,11 +174,11 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
   } catch (err: unknown) {
     const e = err as any;
     console.error('[chat] caught error:', e);
-    if (e instanceof AuthorizationPendingInterrupt || e instanceof AuthorizationPollingInterrupt) {
+    if (AuthorizationPendingInterrupt.isInterrupt(e) || AuthorizationPollingInterrupt.isInterrupt(e)) {
       send('ciba_pending', {
         message: 'An approval request has been sent to your device. Once you approve it, select Retry to continue.',
       });
-    } else if (e instanceof AccessDeniedInterrupt) {
+    } else if (AccessDeniedInterrupt.isInterrupt(e)) {
       send('ciba_denied', { message: 'Authorization was denied.' });
     } else {
       send('error', { message: e?.message ?? 'An unexpected error occurred.' });

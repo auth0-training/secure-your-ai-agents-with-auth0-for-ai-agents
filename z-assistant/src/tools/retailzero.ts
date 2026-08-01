@@ -1,6 +1,6 @@
 import { tool, jsonSchema } from 'ai';
 import { z } from 'zod';
-// TODO (Tour 05 - Step 5): After completing auth0-ai.ts, uncomment this import:
+// TODO (Tour 05 - #6): After completing auth0-ai.ts, uncomment this import:
 // import { withRefundApproval, withCustomerDataApproval } from '../lib/auth0-ai.js';
 
 const RETAILZERO_API = process.env.RETAILZERO_API_URL ?? 'http://localhost:3001';

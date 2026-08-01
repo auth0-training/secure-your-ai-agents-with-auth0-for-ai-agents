@@ -8,9 +8,9 @@
     },
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
-      "description": "## Step 1 — Import Auth0AI and getUserID\n\nThe `auth0-ai.ts` module is where we configure the CIBA wrappers. Right now it only contains commented-out TODOs.\n\nUncomment the import statement by replacing the TODO block with:\n\n```ts\nimport { Auth0AI } from '@auth0/ai-vercel';\nimport { getUserID } from './auth0.js';\n```\n\n`Auth0AI` is the main entry point from the `@auth0/ai-vercel` SDK. `getUserID` reads the Auth0 `sub` (user ID) from the OIDC session — CIBA uses this to identify who should receive the push notification.",
+      "description": "## Import Auth0AI and getUserID\n\nThe `auth0-ai.ts` module is where we configure the CIBA wrappers. Right now it only contains commented-out TODOs.\n\nUncomment the import statement by replacing the TODO block with:\n\n```ts\nimport { Auth0AI } from '@auth0/ai-vercel';\nimport { getUserID } from './auth0.js';\n```\n\n`Auth0AI` is the main entry point from the `@auth0/ai-vercel` SDK. `getUserID` reads the Auth0 `sub` (user ID) from the OIDC session — CIBA uses this to identify who should receive the push notification.",
       "line": 18,
-      "title": "Step 1 — Import Auth0AI and getUserID",
+      "title": "Import Auth0AI and getUserID",
       "selection": {
         "start": {
           "line": 18,
@@ -24,9 +24,9 @@
     },
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
-      "description": "## Step 2 — Initialize the Auth0AI client\n\nUncomment the constructor by replacing the TODO block with:\n\n```ts\nconst auth0AI = new Auth0AI();\n```\n\n`Auth0AI` reads your Auth0 credentials (`AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`) from environment variables automatically. This single instance is shared across all wrappers in this file.",
+      "description": "## Initialize the Auth0AI client\n\nUncomment the constructor by replacing the TODO block with:\n\n```ts\nconst auth0AI = new Auth0AI();\n```\n\n`Auth0AI` reads your Auth0 credentials (`AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`) from environment variables automatically. This single instance is shared across all wrappers in this file.",
       "line": 23,
-      "title": "Step 2 — Initialize the Auth0AI client",
+      "title": "Initialize the Auth0AI client",
       "selection": {
         "start": {
           "line": 23,
@@ -40,9 +40,9 @@
     },
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
-      "description": "## Step 3 — Create withRefundApproval\n\nUncomment the `withRefundApproval` export by replacing the TODO block with:\n\n```ts\nexport const withRefundApproval = auth0AI.withAsyncAuthorization({\n  userID: () => getUserID(),\n  bindingMessage: (toolArgs: { orderId: string; amount: number; reason: string }) =>\n    `Approve refund of ${toolArgs.amount.toFixed(2)} USD for order ${toolArgs.orderId}`,\n  scopes: ['openid', 'profile'],\n  onAuthorizationRequest: async (_authReq: any, creds: Promise<any>) => {\n    sseStore.getStore()?.('ciba_pending', { message: 'An approval request has been sent to your device. Approve it to process the refund.' });\n    await creds;\n  },\n  onUnauthorized: (err: unknown) => { throw err; },\n});\n```\n\n**Key parameters:**\n\n- `userID` — called at runtime to get the logged-in user's Auth0 `sub`. Auth0 uses this to route the Guardian push to the right device.\n- `bindingMessage` — the text shown on the Guardian notification, including the exact amount and order number.\n- `scopes` — the OAuth scopes requested for the CIBA authorization grant.\n- `onAuthorizationRequest` — switches the wrapper to **polling mode**. Instead of throwing an interrupt and closing the connection, the library loops in the background until Guardian approval arrives. The callback fires immediately so we can notify the browser via `sseStore`, then `await creds` blocks until the user approves. The SSE connection stays open the whole time.\n- `onUnauthorized` — called for non-CIBA errors; rethrowing surfaces them as `tool-error` stream events.",
+      "description": "## Create withRefundApproval\n\nUncomment the `withRefundApproval` export by replacing the TODO block with:\n\n```ts\nexport const withRefundApproval = auth0AI.withAsyncAuthorization({\n  userID: () => getUserID(),\n  bindingMessage: (toolArgs: { orderId: string; amount: number; reason: string }) =>\n    `Approve refund of ${toolArgs.amount.toFixed(2)} USD for order ${toolArgs.orderId}`,\n  scopes: ['openid', 'profile'],\n  onAuthorizationRequest: async (_authReq: any, creds: Promise<any>) => {\n    sseStore.getStore()?.('ciba_pending', { message: 'An approval request has been sent to your device. Approve it to process the refund.' });\n    await creds;\n  },\n  onUnauthorized: (err: unknown) => { throw err; },\n});\n```\n\n**Key parameters:**\n\n- `userID` — called at runtime to get the logged-in user's Auth0 `sub`. Auth0 uses this to route the Guardian push to the right device.\n- `bindingMessage` — the text shown on the Guardian notification, including the exact amount and order number.\n- `scopes` — the OAuth scopes requested for the CIBA authorization grant.\n- `onAuthorizationRequest` — switches the wrapper to **polling mode**. Instead of throwing an interrupt and closing the connection, the library loops in the background until Guardian approval arrives. The callback fires immediately so we can notify the browser via `sseStore`, then `await creds` blocks until the user approves. The SSE connection stays open the whole time.\n- `onUnauthorized` — called for non-CIBA errors; rethrowing surfaces them as `tool-error` stream events.",
       "line": 27,
-      "title": "Step 3 — Create withRefundApproval",
+      "title": "Create withRefundApproval",
       "selection": {
         "start": {
           "line": 27,
@@ -56,9 +56,9 @@
     },
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
-      "description": "## Step 4 — Create withCustomerDataApproval\n\nUncomment the `withCustomerDataApproval` export by replacing the TODO block with:\n\n```ts\nexport const withCustomerDataApproval = auth0AI.withAsyncAuthorization({\n  userID: () => getUserID(),\n  bindingMessage: (toolArgs: { customerId: string }) =>\n    `Allow Z-Assistant to access private profile data for customer ${toolArgs.customerId}`,\n  scopes: ['openid', 'profile'],\n  onAuthorizationRequest: async (_authReq: any, creds: Promise<any>) => {\n    sseStore.getStore()?.('ciba_pending', { message: 'An approval request has been sent to your device. Approve it to access the customer profile.' });\n    await creds;\n  },\n  onUnauthorized: (err: unknown) => { throw err; },\n});\n```\n\nThis wrapper protects the customer PII endpoint. The binding message tells the approver exactly which customer's private data is being requested, so they can make an informed decision.\n\nYour `auth0-ai.ts` is now complete. Next we'll attach these wrappers to the tool definitions.",
+      "description": "## Create withCustomerDataApproval\n\nUncomment the `withCustomerDataApproval` export by replacing the TODO block with:\n\n```ts\nexport const withCustomerDataApproval = auth0AI.withAsyncAuthorization({\n  userID: () => getUserID(),\n  bindingMessage: (toolArgs: { customerId: string }) =>\n    `Allow Z-Assistant to access private profile data for customer ${toolArgs.customerId}`,\n  scopes: ['openid', 'profile'],\n  onAuthorizationRequest: async (_authReq: any, creds: Promise<any>) => {\n    sseStore.getStore()?.('ciba_pending', { message: 'An approval request has been sent to your device. Approve it to access the customer profile.' });\n    await creds;\n  },\n  onUnauthorized: (err: unknown) => { throw err; },\n});\n```\n\nThis wrapper protects the customer PII endpoint. The binding message tells the approver exactly which customer's private data is being requested, so they can make an informed decision.\n\nYour `auth0-ai.ts` is now complete. Next we'll attach these wrappers to the tool definitions.",
       "line": 47,
-      "title": "Step 4 — Create withCustomerDataApproval",
+      "title": "Create withCustomerDataApproval",
       "selection": {
         "start": {
           "line": 47,
@@ -72,9 +72,9 @@
     },
     {
       "file": "z-assistant/src/tools/retailzero.ts",
-      "description": "## Step 5 — Import the CIBA wrappers\n\nNow open `retailzero.ts` and uncomment the import for the two wrappers. Replace the TODO comment on line 3 with:\n\n```ts\nimport { withRefundApproval, withCustomerDataApproval } from '../lib/auth0-ai.js';\n```\n\nThis makes the CIBA wrappers available to wrap the sensitive tool definitions below.",
+      "description": "## Import the CIBA wrappers\n\nNow open `retailzero.ts` and uncomment the import for the two wrappers. Replace the TODO comment on line 3 with:\n\n```ts\nimport { withRefundApproval, withCustomerDataApproval } from '../lib/auth0-ai.js';\n```\n\nThis makes the CIBA wrappers available to wrap the sensitive tool definitions below.",
       "line": 3,
-      "title": "Step 5 — Import the CIBA wrappers",
+      "title": "Import the CIBA wrappers",
       "selection": {
         "start": {
           "line": 3,
@@ -88,9 +88,9 @@
     },
     {
       "file": "z-assistant/src/tools/retailzero.ts",
-      "description": "## Step 6 — Wrap processRefundTool\n\nChange line 75 from:\n\n```ts\nexport const processRefundTool = tool({\n```\n\nto:\n\n```ts\nexport const processRefundTool = withRefundApproval(tool({\n```\n\nThen scroll to the closing `});` of this tool definition (currently line 97) and add an extra `)` so it becomes:\n\n```ts\n}));\n```\n\n`withRefundApproval` wraps the entire `tool({...})` object. When the LLM decides to call `processRefund`, the CIBA flow fires first. The tool's `execute` function only runs after the human approves on their device.",
+      "description": "## Wrap processRefundTool\n\nChange line 75 from:\n\n```ts\nexport const processRefundTool = tool({\n```\n\nto:\n\n```ts\nexport const processRefundTool = withRefundApproval(tool({\n```\n\nThen scroll to the closing `});` of this tool definition (currently line 97) and add an extra `)` so it becomes:\n\n```ts\n}));\n```\n\n`withRefundApproval` wraps the entire `tool({...})` object. When the LLM decides to call `processRefund`, the CIBA flow fires first. The tool's `execute` function only runs after the human approves on their device.",
       "line": 75,
-      "title": "Step 6 — Wrap processRefundTool",
+      "title": "Wrap processRefundTool",
       "selection": {
         "start": {
           "line": 75,
@@ -104,9 +104,9 @@
     },
     {
       "file": "z-assistant/src/tools/retailzero.ts",
-      "description": "## Step 7 — Wrap getCustomerProfileTool\n\nChange line 99 from:\n\n```ts\nexport const getCustomerProfileTool = tool({\n```\n\nto:\n\n```ts\nexport const getCustomerProfileTool = withCustomerDataApproval(tool({\n```\n\nThen add a closing `)` to the tool's `});` (currently line 112) so it becomes:\n\n```ts\n}));\n```\n\nAll seven changes are now complete. Let's test the full CIBA flow.",
+      "description": "## Wrap getCustomerProfileTool\n\nChange line 99 from:\n\n```ts\nexport const getCustomerProfileTool = tool({\n```\n\nto:\n\n```ts\nexport const getCustomerProfileTool = withCustomerDataApproval(tool({\n```\n\nThen add a closing `)` to the tool's `});` (currently line 112) so it becomes:\n\n```ts\n}));\n```\n\nAll seven changes are now complete. Let's test the full CIBA flow.",
       "line": 99,
-      "title": "Step 7 — Wrap getCustomerProfileTool",
+      "title": "Wrap getCustomerProfileTool",
       "selection": {
         "start": {
           "line": 99,
@@ -120,7 +120,7 @@
     },
     {
       "title": "Test the CIBA flow",
-      "description": "## Test the CIBA flow\n\n1. Make sure the **RetailZero API** is running on port 3001. If not:\n   ```\n   cd retailzero-api && npm run dev\n   ```\n\n2. [Start Z-Assistant](command:workbench.action.debug.start) and open it in the browser.\n\n3. Send this prompt:\n   > _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\n4. The status bar will show **\"Using processRefund…\"** then switch to **\"An approval request has been sent to your device.\"**\n\n5. Check your phone — you should see a **Guardian push notification**:\n   > _\"Approve refund of 216.99 USD for order ORD-1001\"_\n\n6. **Tap Approve** on your phone.\n\n7. Z-Assistant automatically resumes and completes the refund — no Retry button needed.\n\n---\n\n**Also test denial:**\n\n8. Ask for another refund and tap **Deny** on Guardian instead.\n9. Z-Assistant should respond that the authorization was denied and the refund was not processed.\n\n---\n\n**Congratulations!** Z-Assistant now enforces human-in-the-loop authorization for all sensitive operations. Financial refunds and customer PII access can no longer be executed autonomously — every request requires explicit approval from the authenticated user on their registered device."
+      "description": "## Test the CIBA flow\n\n1. Make sure the **RetailZero API** is still running on port 3001. \n> If it isn't you can [select this link](command:codetour.sendTextToTerminal?[\"cd retailzero-api && npm run dev\"]) to run it again.\n> Ensure the port 3001 for the API is public under the PORTS tab.\n\n2. [Start Z-Assistant](command:workbench.action.debug.start) and open it in the browser by using the globe icon under the PORTS tab for port 3000.\n\n3. Send this prompt:\n   > _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\n4. The status bar will show **\"Using processRefund…\"** then switch to **\"An approval request has been sent to your device.\"**\n\n5. Check your phone; you should see a **Guardian push notification**:\n   > _\"Approve refund of 216.99 USD for order ORD-1001\"_\n\n6. Select **Approve** in Auth0 Guardian.\n7. Since Z-Assistant periodically polls the CIBA flow, it will automatically resumes and completes the refund once your approval is in the CIBA response.\n\n---\n\n**Optionally, you can test denial:**\n\n1. Ask for another refund and tap **Deny** on Guardian instead.\n2. Z-Assistant should respond that the authorization was denied and the refund was not processed.\n\n---\n\n**Congratulations!** Z-Assistant now enforces human-in-the-loop authorization for all sensitive operations. Financial refunds and customer PII access can no longer be executed autonomously — every request requires explicit approval from the authenticated user on their registered device."
     }
   ]
 }

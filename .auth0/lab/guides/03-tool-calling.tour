@@ -10,9 +10,19 @@
     },
     {
       "file": "z-assistant/src/tools/retailzero.ts",
-      "description": "## The standard tool definitions\n\nHere you can see the `listProductsTool`. Notice that:\n\n- It uses `tool()` from the Vercel AI SDK with a `description`, `inputSchema` (Zod or raw JSON Schema), and `execute` function.\n- The `execute` function calls the RetailZero API at `RETAILZERO_API_URL`.\n- No special authorization is required — these are read-only operations.\n\nScroll down to see the other tools: `searchOrdersTool`, `getOrderDetailsTool`, `processRefundTool`, and `getCustomerProfileTool`.",
-      "line": 11,
-      "title": "The standard tool definitions"
+      "description": "## The standard tool definitions\n\nHere you can see the `listProductsTool`. Notice that:\n\n- It uses `tool()` from the Vercel AI SDK with a `description`, `inputSchema` (Zod or raw JSON Schema), and `execute` function.\n- The `execute` function calls the RetailZero API at `RETAILZERO_API_URL`.\n- No special authorization is required — these are read-only operations.\n\nScroll down to see the other tools: `searchOrdersTool`, `getOrderDetailsTool`, `processRefundTool`, and `getCustomerProfileTool`. In the next step, we'll import these tools to the Z-Assistant app and wire them up so the agent can use them as appropriate.",
+      "line": 36,
+      "title": "The standard tool definitions",
+      "selection": {
+        "start": {
+          "line": 11,
+          "character": 1
+        },
+        "end": {
+          "line": 36,
+          "character": 55
+        }
+      }
     },
     {
       "file": "z-assistant/src/app.ts",
@@ -48,7 +58,7 @@
     },
     {
       "title": "Test the tools",
-      "description": "## Test the tools\n\n1. Make sure the **RetailZero API** is still running on port 3001. If not, open a terminal and run:\n   ```\n   cd retailzero-api && npm run dev\n   ```\n\n2. [Start Z-Assistant](command:workbench.action.debug.start) and open it in the browser.\n\n3. Try these prompts to test the standard tools:\n\n   - _\"Show me all Electronics products that are in stock.\"_\n   - _\"Find orders for Sarah Mitchell.\"_\n   - _\"What are the details of order ORD-1001?\"_\n\nWhile waiting for a response, watch the terminal — you'll see logs like:\n```\n[chat] tool-call: searchOrders\n[chat] tool-result: searchOrders\n[chat] finished — finishReason: stop\n```\n\nNow try a **sensitive operation**:\n\n   - _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\nNotice that Z-Assistant processes this refund **immediately** without asking for any approval! This is the security gap we will fix in Tour 5 with CIBA.\n\n4. [Stop Z-Assistant](command:workbench.action.debug.stop) when done."
+      "description": "## Test the tools\n\n1. Make sure the **RetailZero API** is still running on port 3001. \n> If it isn't you can [select this link](command:codetour.sendTextToTerminal?[\"cd retailzero-api && npm run dev\"]) to run it again.\n> Ensure the port 3001 for the API is public under the PORTS tab.\n\n2. [Start Z-Assistant](command:workbench.action.debug.start) and open it in the browser by using the globe icon under the PORTS tab for port 3000.\n\n3. Try these prompts to test the standard tools:\n\n   - _\"Show me all Electronics products that are in stock.\"_\n   - _\"Find orders for Sarah Mitchell.\"_\n   - _\"What are the details of order ORD-1001?\"_\n\nWhile waiting for a response, watch the terminal — you'll see logs like:\n```\n[chat] tool-call: searchOrders\n[chat] tool-result: searchOrders\n[chat] finished — finishReason: stop\n```\n\nNow try a **sensitive operation**:\n\n   - _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\nNotice that Z-Assistant processes this refund **immediately** without asking for any approval! This is the security gap we will fix in Tour 5 with CIBA.\n\n4. [Stop Z-Assistant](command:workbench.action.debug.stop) when done."
     }
   ]
 }

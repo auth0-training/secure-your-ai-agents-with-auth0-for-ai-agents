@@ -93,7 +93,7 @@
     },
     {
       "title": "Start the RetailZero API",
-      "description": "## Start the RetailZero API\n\nZ-Assistant's tools call the **RetailZero API** which runs separately on port 3001.\n\n1. Open a new terminal tab.\n2. [Select this link](command:codetour.sendTextToTerminal?[\"cd retailzero-api && npm run dev\"]) to start the RetailZero API.\n>When the dialog appears, select Open in Browser to open the app.\n>Alternatively, go to the PORTS tab and select the globe icon next to port 3001.\n\nIn the terminal, you should see:\n```\nRetailZero API running at http://localhost:3001\n```\n\n> Keep this terminal open — the API must stay running throughout the lab."
+      "description": "## Start the RetailZero API\n\nZ-Assistant's tools call the **RetailZero API** which runs separately on port 3001.\n\n1. [Select this link](command:workbench.action.terminal.new) to open a new terminal tab.\n2. [Select this link](command:codetour.sendTextToTerminal?[\"cd retailzero-api && npm run dev\"]) to start the RetailZero API.\n>When the dialog appears, select Open in Browser to open the app.\n>Alternatively, go to the PORTS tab and select the globe icon next to port 3001.\n\nIn the terminal, you should see:\n```\nRetailZero API running at http://localhost:3001\n```\n\n> Keep this terminal open — the API must stay running throughout the lab."
     },
     {
       "title": "Test Z-Assistant",

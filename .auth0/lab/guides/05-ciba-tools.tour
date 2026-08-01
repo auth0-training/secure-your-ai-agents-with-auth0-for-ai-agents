@@ -41,7 +41,7 @@
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
       "description": "## Create withRefundApproval\n\nUncomment the `withRefundApproval` export by replacing the TODO block with:\n\n```ts\nexport const withRefundApproval = auth0AI.withAsyncAuthorization({\n  userID: () => getUserID(),\n  bindingMessage: (toolArgs: { orderId: string; amount: number; reason: string }) =>\n    `Approve refund of ${toolArgs.amount.toFixed(2)} USD for order ${toolArgs.orderId}`,\n  scopes: ['openid', 'profile'],\n  onAuthorizationRequest: async (_authReq: any, creds: Promise<any>) => {\n    sseStore.getStore()?.('ciba_pending', { message: 'An approval request has been sent to your device. Approve it to process the refund.' });\n    await creds;\n  },\n  onUnauthorized: (err: unknown) => { throw err; },\n});\n```\n\n**Key parameters:**\n\n- `userID` — called at runtime to get the logged-in user's Auth0 `sub`. Auth0 uses this to route the Guardian push to the right device.\n- `bindingMessage` — the text shown on the Guardian notification, including the exact amount and order number.\n- `scopes` — the OAuth scopes requested for the CIBA authorization grant.\n- `onAuthorizationRequest` — switches the wrapper to **polling mode**. Instead of throwing an interrupt and closing the connection, the library loops in the background until Guardian approval arrives. The callback fires immediately so we can notify the browser via `sseStore`, then `await creds` blocks until the user approves. The SSE connection stays open the whole time.\n- `onUnauthorized` — called for non-CIBA errors; rethrowing surfaces them as `tool-error` stream events.",
-      "line": 27,
+      "line": 31,
       "title": "Create withRefundApproval",
       "selection": {
         "start": {
@@ -57,15 +57,15 @@
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
       "description": "## Create withCustomerDataApproval\n\nUncomment the `withCustomerDataApproval` export by replacing the TODO block with:\n\n```ts\nexport const withCustomerDataApproval = auth0AI.withAsyncAuthorization({\n  userID: () => getUserID(),\n  bindingMessage: (toolArgs: { customerId: string }) =>\n    `Allow Z-Assistant to access private profile data for customer ${toolArgs.customerId}`,\n  scopes: ['openid', 'profile'],\n  onAuthorizationRequest: async (_authReq: any, creds: Promise<any>) => {\n    sseStore.getStore()?.('ciba_pending', { message: 'An approval request has been sent to your device. Approve it to access the customer profile.' });\n    await creds;\n  },\n  onUnauthorized: (err: unknown) => { throw err; },\n});\n```\n\nThis wrapper protects the customer PII endpoint. The binding message tells the approver exactly which customer's private data is being requested, so they can make an informed decision.\n\nYour `auth0-ai.ts` is now complete. Next we'll attach these wrappers to the tool definitions.",
-      "line": 47,
+      "line": 58,
       "title": "Create withCustomerDataApproval",
       "selection": {
         "start": {
-          "line": 47,
+          "line": 58,
           "character": 1
         },
         "end": {
-          "line": 63,
+          "line": 67,
           "character": 8
         }
       }

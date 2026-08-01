@@ -17,32 +17,32 @@
     {
       "file": "z-assistant/src/app.ts",
       "description": "## Import the RetailZero tools\n\nNow let's wire the tools into Z-Assistant. First, import all tools from the tools module.\n\n1. Select **Insert Code** to add the import statement:\n\n```ts\nimport { listProductsTool, searchOrdersTool, getOrderDetailsTool, processRefundTool, getCustomerProfileTool } from './tools/retailzero.js';\n```",
-      "line": 17,
+      "line": 18,
       "title": "Import the RetailZero tools",
       "selection": {
         "start": {
-          "line": 17,
+          "line": 18,
           "character": 1
         },
         "end": {
-          "line": 17,
+          "line": 18,
           "character": 55
         }
       }
     },
     {
       "file": "z-assistant/src/app.ts",
-      "description": "## Add tools to the chat endpoint\n\nNow add the tools to the `streamText` call so the model can use them.\n\n1. Replace the empty `tools: {}` with the snippet below by selecting **Insert Code**:\n\n```ts\n      tools: {\n        listProducts: listProductsTool,\n        searchOrders: searchOrdersTool,\n        getOrderDetails: getOrderDetailsTool,\n        processRefund: processRefundTool,\n        getCustomerProfile: getCustomerProfileTool,\n      },\n```",
-      "line": 109,
+      "description": "## Add tools to the chat endpoint\n\nNow add the tools to the `streamText` call so the model can use them.\n\n1. Replace the empty `tools: {}` with the snippet below by selecting **Insert Code**:\n\n```ts\n\ttools: {\n        listProducts: listProductsTool,\n        searchOrders: searchOrdersTool,\n        getOrderDetails: getOrderDetailsTool,\n        processRefund: processRefundTool,\n        getCustomerProfile: getCustomerProfileTool,\n      },\n```",
+      "line": 113,
       "title": "Add tools to the chat endpoint",
       "selection": {
         "start": {
-          "line": 1,
-          "character": 4
+          "line": 113,
+          "character": 1
         },
         "end": {
-          "line": 1,
-          "character": 34
+          "line": 113,
+          "character": 100
         }
       }
     },

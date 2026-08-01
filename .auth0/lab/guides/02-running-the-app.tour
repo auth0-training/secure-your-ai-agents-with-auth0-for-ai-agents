@@ -48,7 +48,7 @@
     },
     {
       "file": "z-assistant/.env.local",
-      "description": "## Set AUTH0_DOMAIN\n\n1. On your Auth0 application's **Settings** tab, find the **Domain** field in Basic Information.\n2. Copy the domain value (e.g. `dev-abc123.us.auth0.com`) and paste it on the highlighted line above.\n\n> Do **not** include `https://` — just the domain name.",
+      "description": "## Set AUTH0_DOMAIN\n\n1. On your Auth0 application's **Settings** tab, find the **Domain** field in Basic Information.\n2. Copy the domain value (e.g. `dev-abc123.us.auth0.com`) and paste it on the highlighted line above.\n\n    > Note: Do **not** add `https://` to this. Just copy and paste the domain as-is.",
       "line": 4,
       "selection": {
         "start": {

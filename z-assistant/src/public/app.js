@@ -4,7 +4,7 @@ const sessionId = crypto.randomUUID();
 
 let messages = [];
 let busy = false;
-let pendingRetry = null; // user message to replay after CIBA approval
+// pendingRetry is unused in polling mode but kept here in case interrupt mode is re-enabled.
 
 const inputEl   = document.getElementById('msg-input');
 const sendBtn   = document.getElementById('send-btn');
@@ -66,14 +66,8 @@ function showCIBABanner(message) {
   banner.classList.add('visible');
 }
 
-retryBtn.addEventListener('click', () => {
-  banner.classList.remove('visible');
-  if (pendingRetry) {
-    const msg = pendingRetry;
-    pendingRetry = null;
-    sendMessage(msg);
-  }
-});
+// retryBtn is unused in polling mode (approval completes the tool call automatically).
+retryBtn.addEventListener('click', () => banner.classList.remove('visible'));
 
 // ── Core send logic ───────────────────────────────────────────────────────────
 
@@ -141,11 +135,9 @@ async function sendMessage(text) {
               break;
 
             case 'ciba_pending':
-              // Stash the current message for retry after the user approves on their device.
-              pendingRetry = messages[messages.length - 1]?.content ?? null;
-              messages.pop();
-              assistantDiv.remove();
-              showCIBABanner(data.message);
+              // Approval request sent — keep the connection open and show status.
+              // The tool will complete automatically once the user approves on their device.
+              setStatus(data.message ?? 'Waiting for approval on your device…');
               break;
 
             case 'ciba_denied':

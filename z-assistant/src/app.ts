@@ -14,6 +14,7 @@ import { setAIContext } from '@auth0/ai-vercel';
 import { AuthorizationPendingInterrupt, AuthorizationPollingInterrupt, AccessDeniedInterrupt, AsyncAuthorizationInterrupt } from '@auth0/ai/interrupts';
 import { nanoid } from 'nanoid';
 import { requestStore } from './lib/auth0.js';
+import { sseStore } from './lib/auth0-ai.js';
 // TODO (Tour 03): Import RetailZero tools here
 
 // auth0-ai.ts runs config() during module-body execution; these are kept for
@@ -98,87 +99,79 @@ app.post('/api/chat', requiresAuth(), async (req: ExpressRequest, res: ExpressRe
   };
 
   try {
-    // Thread ID scopes CIBA credential caching across tool calls in the same conversation.
-    setAIContext({ threadID });
+    // sseStore makes the send() function available to CIBA onAuthorizationRequest
+    // callbacks that run inside the Vercel AI SDK tool execution pipeline.
+    await sseStore.run(send, async () => {
+      // Thread ID scopes CIBA credential caching across tool calls in the same conversation.
+      setAIContext({ threadID });
 
-    console.log('[chat] calling streamText...');
-    const result = streamText({
-      model: openai.chat('gpt-4o-mini'),
-      system: SYSTEM_PROMPT,
-      messages,
-      tools: {}, // TODO (Tour 03): Add RetailZero tools here
-      stopWhen: stepCountIs(5),
-      onError: ({ error }) => {
-        console.error('[chat] streamText onError:', error);
-        send('error', { message: (error as any)?.message ?? 'Model error.' });
-      },
-      onFinish: ({ finishReason, usage }) => {
-        console.log(`[chat] finished — finishReason: ${finishReason}, tokens: ${JSON.stringify(usage)}`);
-      },
-    });
+      console.log('[chat] calling streamText...');
+      const result = streamText({
+        model: openai.chat('gpt-4o-mini'),
+        system: SYSTEM_PROMPT,
+        messages,
+        tools: {}, // TODO (Tour 03): Add RetailZero tools here
+        stopWhen: stepCountIs(5),
+        onError: ({ error }) => {
+          console.error('[chat] streamText onError:', error);
+          send('error', { message: (error as any)?.message ?? 'Model error.' });
+        },
+        onFinish: ({ finishReason, usage }) => {
+          console.log(`[chat] finished — finishReason: ${finishReason}, tokens: ${JSON.stringify(usage)}`);
+        },
+      });
 
-    for await (const part of result.fullStream) {
-      const p = part as any;
-      switch (p.type) {
-        case 'text-delta':
-          send('text', { delta: p.text ?? p.textDelta ?? '' });
-          break;
-        case 'text':
-          send('text', { delta: p.text ?? '' });
-          break;
+      for await (const part of result.fullStream) {
+        const p = part as any;
+        switch (p.type) {
+          case 'text-delta':
+            send('text', { delta: p.text ?? p.textDelta ?? '' });
+            break;
+          case 'text':
+            send('text', { delta: p.text ?? '' });
+            break;
 
-        case 'tool-call':
-          console.log(`[chat] tool-call: ${p.toolName}`);
-          send('tool_call', { toolName: p.toolName });
-          break;
-        case 'tool-result':
-          console.log(`[chat] tool-result: ${p.toolName}`);
-          send('tool_result', { toolName: p.toolName });
-          break;
+          case 'tool-call':
+            console.log(`[chat] tool-call: ${p.toolName}`);
+            send('tool_call', { toolName: p.toolName });
+            break;
+          case 'tool-result':
+            console.log(`[chat] tool-result: ${p.toolName}`);
+            send('tool_result', { toolName: p.toolName });
+            break;
 
-        case 'tool-error': {
-          console.error(`[chat] tool-error: ${p.toolName}`, p.error);
-          const err = p.error;
-          // CIBA pending — the user must approve on their registered device
-          if (AuthorizationPendingInterrupt.isInterrupt(err) || AuthorizationPollingInterrupt.isInterrupt(err)) {
-            send('ciba_pending', {
-              message: 'An approval request has been sent to your device. Once you approve it, select Retry to continue.',
-            });
-            return;
+          case 'tool-error': {
+            console.error(`[chat] tool-error: ${p.toolName}`, p.error);
+            const err = p.error;
+            if (AccessDeniedInterrupt.isInterrupt(err)) {
+              send('ciba_denied', { message: 'Authorization was denied. The operation was not approved.' });
+              return;
+            }
+            send('error', { message: (err as any)?.message ?? 'Tool execution failed.' });
+            break;
           }
-          // CIBA denied or expired
-          if (AccessDeniedInterrupt.isInterrupt(err)) {
-            send('ciba_denied', { message: 'Authorization was denied. The operation was not approved.' });
-            return;
-          }
-          send('error', { message: (err as any)?.message ?? 'Tool execution failed.' });
-          break;
+
+          case 'error':
+            console.error('[chat] stream error part:', p.error);
+            send('error', { message: (p.error as any)?.message ?? 'Stream error.' });
+            break;
+
+          case 'finish':
+            console.log(`[chat] finish event — reason: ${p.finishReason}`);
+            send('done', { finishReason: p.finishReason });
+            break;
+
+          default:
+            break;
         }
-
-        case 'error':
-          console.error('[chat] stream error part:', p.error);
-          send('error', { message: (p.error as any)?.message ?? 'Stream error.' });
-          break;
-
-        case 'finish':
-          console.log(`[chat] finish event — reason: ${p.finishReason}`);
-          send('done', { finishReason: p.finishReason });
-          break;
-
-        default:
-          break;
       }
-    }
 
-    console.log('[chat] fullStream iteration complete');
+      console.log('[chat] fullStream iteration complete');
+    });
   } catch (err: unknown) {
     const e = err as any;
     console.error('[chat] caught error:', e);
-    if (AuthorizationPendingInterrupt.isInterrupt(e) || AuthorizationPollingInterrupt.isInterrupt(e)) {
-      send('ciba_pending', {
-        message: 'An approval request has been sent to your device. Once you approve it, select Retry to continue.',
-      });
-    } else if (AccessDeniedInterrupt.isInterrupt(e)) {
+    if (AccessDeniedInterrupt.isInterrupt(e)) {
       send('ciba_denied', { message: 'Authorization was denied.' });
     } else {
       send('error', { message: e?.message ?? 'An unexpected error occurred.' });

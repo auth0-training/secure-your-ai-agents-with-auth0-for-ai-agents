@@ -29,7 +29,7 @@
     {
       "title": "Set the APP_BASE_URL",
       "file": "z-assistant/.env.local",
-      "description": "## Set the APP_BASE_URL\n\nZ-Assistant needs to know its public URL for Auth0 redirects.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev\"]) to print your Codespace URL to the terminal.\n2. Copy the output and set it as the value for `APP_BASE_URL`.\n\nIt should look like:\n```\nAPP_BASE_URL=\"https://humble-winner-74xv5jxw462r9pv-3000.app.github.dev\"\n```",
+      "description": "## Set the APP_BASE_URL\n\nZ-Assistant needs to know its public URL for Auth0 redirects.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"echo https://$CODESPACE_NAME-3000.app.github.dev\"]) to print your Codespace app URL to the terminal. It should look something like: `https://xxxxx-xxxxx-xxxxx-3000.app.github.dev`\n2. Copy the output and set it as the value for `APP_BASE_URL`.\n\nIt should look something like like: `https://xxxxx-xxxxx-xxxxx-3000.app.github.dev`\n",
       "line": 3,
       "selection": {
         "start": {

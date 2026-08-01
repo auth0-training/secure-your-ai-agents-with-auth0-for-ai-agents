@@ -81,7 +81,7 @@ export const getOrderDetailsTool = tool({
 // registered device before the operation can execute.
 
 export const processRefundTool = tool({
-  // TODO (Tour 05 - Step 6): Replace `tool({` on this line with `withRefundApproval(tool({`
+  // TODO (Tour 05 - #7): Replace `tool({` on this line with `withRefundApproval(tool({`
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
     'Process a refund for a delivered order.',
@@ -105,7 +105,7 @@ export const processRefundTool = tool({
 });
 
 export const getCustomerProfileTool = tool({
-  // TODO (Tour 05 - Step 7): Replace `tool({` on this line with `withCustomerDataApproval(tool({`
+  // TODO (Tour 05 - #8): Replace `tool({` on this line with `withCustomerDataApproval(tool({`
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
     'Retrieve a customer\'s full profile including private contact details (phone, address) and payment information.',

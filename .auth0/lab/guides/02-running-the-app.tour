@@ -107,7 +107,7 @@
     },
     {
       "title": "Test Z-Assistant",
-      "description": "## Test Z-Assistant\n\nNow let's run Z-Assistant and verify the Auth0 integration works.\n\n1. [Start Z-Assistant](command:workbench.action.debug.start).\n2. When the dialog appears, select **Open in Browser** to open the app.\n   > Alternatively, go to the **PORTS** tab and select the globe icon next to port 3000.\n3. Log in to the application.\n4. Ask Z-Assistant something simple: _\"What can you help me with?\"_\n\nYou should get a response describing Z-Assistant's capabilities. Since we haven't added tools yet, it can only reply from its training knowledge — not from live RetailZero data.\n\n5. [Stop the application](command:workbench.action.debug.stop) when done.\n\nIn the next tour we will add the RetailZero tools."
+      "description": "## Test Z-Assistant\n\nNow let's run Z-Assistant and verify the Auth0 integration works.\n\n1. [Start Z-Assistant](command:workbench.action.debug.start).\n2. When the dialog appears, select **Open in Browser** to open the app.\n   > Alternatively, go to the **PORTS** tab and select the globe icon next to port 3000.\n3. Log in to the application.\n4. Ask Z-Assistant something simple: _\"What can you help me with?\"_\n    > You should get a response describing Z-Assistant's capabilities. Since we haven't added tools yet, it can only reply from its training knowledge, not from live RetailZero data.\n\n5. [Stop the application](command:workbench.action.debug.stop) when done.\n\nIn the next tour we will add the RetailZero tools."
     }
   ]
 }

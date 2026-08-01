@@ -25,15 +25,15 @@
     {
       "file": "z-assistant/src/lib/auth0-ai.ts",
       "description": "## Initialize the Auth0AI client\n\nUncomment the constructor by replacing the TODO block with:\n\n```ts\nconst auth0AI = new Auth0AI();\n```\n\n`Auth0AI` reads your Auth0 credentials (`AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`) from environment variables automatically. This single instance is shared across all wrappers in this file.",
-      "line": 23,
+      "line": 21,
       "title": "Initialize the Auth0AI client",
       "selection": {
         "start": {
-          "line": 23,
+          "line": 21,
           "character": 1
         },
         "end": {
-          "line": 25,
+          "line": 23,
           "character": 100
         }
       }
@@ -82,7 +82,7 @@
         },
         "end": {
           "line": 4,
-          "character": 72
+          "character": 100
         }
       }
     },
@@ -93,11 +93,11 @@
       "title": "Wrap processRefundTool",
       "selection": {
         "start": {
-          "line": 1,
+          "line": 89,
           "character": 1
         },
         "end": {
-          "line": 29,
+          "line": 110,
           "character": 4
         }
       }

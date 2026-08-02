@@ -5,11 +5,25 @@
   "steps": [
     {
       "title": "What you will build",
-      "description": "## What you will build\n\nZ-Assistant currently calls the RetailZero API with no authentication — any process that can reach port 3001 can read orders, trigger refunds, or access customer PII.\n\nIn this tour you will fix that using Auth0 access tokens:\n\n1. The RetailZero API will be registered as an Auth0 **Resource Server** with its own audience.\n2. When a user logs in to Z-Assistant, Auth0 will also issue an **access token** scoped to the RetailZero API and store it in the session.\n3. Every tool call will attach that token as an `Authorization: Bearer` header.\n4. The RetailZero API will validate every incoming request against Auth0's JWKS endpoint, rejecting calls with no valid token.\n\nBecause Auth0 is the authorization server for both Z-Assistant and RetailZero, no token exchange or extra network call is needed — the access token is already in the session after login.\n\nYou will make five code changes across two projects."
+      "description": "## What you will build\n\nZ-Assistant currently calls the RetailZero API with no auth. Any process that can reach to the API can read orders, trigger refunds, or access customer PII.\n\nIn this tour you will fix that using Auth0 access tokens:\n\n1. The RetailZero API will be registered through your tenant as an API (resource server) with its own audience.\n2. When a user logs in to Z-Assistant, Auth0 will also issue an access token scoped to the RetailZero API and store it in the session.\n3. Every tool call will attach that token as an `Authorization: Bearer` header.\n4. The RetailZero API will validate every incoming request against Auth0's JWKS endpoint, rejecting calls with no valid token.\n\nBecause Auth0 is the authorization server for both Z-Assistant and RetailZero, no token exchange or extra network call is needed — the access token is already in the session after login.\n\nIn the following steps, you will make five code changes across the Z-Assistant application's tools and the RetailZero API."
     },
     {
-      "title": "The RetailZero API resource",
-      "description": "## The RetailZero API resource\n\nThe lab extension has auto-provisioned a **RetailZero API** Resource Server in your Auth0 tenant.\n\n1. Open the [Auth0 Dashboard](https://manage.auth0.com) and go to **Applications** > **APIs**.\n2. Select **RetailZero API**.\n3. Note the **API Audience**: `https://retailzero-api/`. This is the value already set as `RETAILZERO_API_AUDIENCE` in your Z-Assistant environment.\n4. Select the **Permissions** tab and review the four scopes:\n   - `read:catalog`\n   - `read:orders`\n   - `read:customer-profile`\n   - `write:refunds`\n\nThese scopes represent what the agent is allowed to do on behalf of the user. The access token issued at login will include any scopes that the user is permitted to grant."
+      "title": "Register the RetailZero API in your tenant",
+      "description": "## Register the RetailZero API in your tenant\n\n\n1. From the Auth0 Dashboard, go to **Applications** > **APIs**.\n2. Create a new API integration with the following details:\n    - **Name**: RetailZero API\n    - **API Audience**: `https://retailzero-api/`\n    >Note: This value is already set already set as an environment variable `RETAILZERO_API_AUDIENCE` in the Z-Assistant `.env` file.\n    - Leave all other settings as their defaults.\n ",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 2,
+          "character": 1
+        }
+      }
+    },
+    {
+      "title": "Set permissions for RetailZero API",
+      "description": "## Set permissions for RetailZero API\n\n   \n1. Once you create the RetailZero API in your tenant, select the **Permissions** tab.\n2. Add the following permissions with the corresponding descriptions:\n\n   - **Permission**: `read:catalog`  \n   > **Description**: read-only access to the catalog\n   - **Permission**: `read:orders`  \n   > **Description**: read-only access to customer orders\n   - **Permission**: `read:customer-profile`   \n   > **Description**: read-only access to customer profiledata\n   - **Permission**: `write:refunds`   \n   > **Description**: write access to refunds to allow refund processing\n\nThese scopes represent what the agent is allowed to do on behalf of the user. The access token issued at login will include any scopes that the user is permitted to grant."
     },
     {
       "file": "z-assistant/src/app.ts",

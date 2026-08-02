@@ -44,6 +44,9 @@ app.use(
     authorizationParams: {
       response_type: 'code',
       scope: 'openid profile email',
+      // TODO (Tour 04 - Step 3): Add the RetailZero API audience so Auth0 issues
+      // an access token for it during login and stores it in the session.
+      // audience: process.env.RETAILZERO_API_AUDIENCE,
     },
     routes: {
       login: '/auth/login',

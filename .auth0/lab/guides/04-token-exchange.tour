@@ -1,0 +1,81 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "4: Secure the RetailZero API with Token Exchange",
+  "nextTour": "5: Configure CIBA in Auth0",
+  "steps": [
+    {
+      "title": "What you will build",
+      "description": "## What you will build\n\nZ-Assistant currently calls the RetailZero API with no authentication — any process that can reach port 3001 can read orders, trigger refunds, or access customer PII.\n\nIn this tour you will close that gap using **Custom Token Exchange**:\n\n1. The RetailZero API will be registered as an Auth0 **Resource Server** with its own audience and scopes.\n2. The Z-Assistant Auth0 application will be granted the **Custom Token Exchange** grant type.\n3. A **Custom Token Exchange Action** will run server-side on Auth0 every time a token is exchanged, letting you enforce custom policy and enrich the outgoing token.\n4. When a user is logged in to Z-Assistant, the agent will exchange the user's OIDC session for a short-lived **access token** scoped to the RetailZero API — acting on behalf of that user.\n5. The RetailZero API will validate every incoming request using Auth0's JWKS endpoint, rejecting calls that have no valid token.\n\nYou will make five code changes and three Auth0 Dashboard configuration steps."
+    },
+    {
+      "title": "The RetailZero API resource",
+      "description": "## The RetailZero API resource\n\nThe lab extension has auto-provisioned a **RetailZero API** Resource Server in your Auth0 tenant.\n\n1. Open the [Auth0 Dashboard](https://manage.auth0.com) and go to **Applications** > **APIs**.\n2. You should see **RetailZero API** in the list. Select it.\n3. Note the **API Audience** — this is the value `https://retailzero-api/`. Your Z-Assistant environment already has `RETAILZERO_API_AUDIENCE=https://retailzero-api/` set.\n4. Select the **Permissions** tab and review the four scopes:\n   - `read:catalog` — product catalog\n   - `read:orders` — customer orders\n   - `read:customer-profile` — private PII\n   - `write:refunds` — process refunds\n\nThese scopes represent what the AI agent is allowed to do. The access token issued via token exchange will carry only the scopes that are requested and permitted."
+    },
+    {
+      "title": "Enable the Custom Token Exchange grant",
+      "description": "## Enable the Custom Token Exchange grant\n\nBy default, the Z-Assistant application cannot perform token exchanges. You need to explicitly enable this grant type.\n\n1. In the Auth0 Dashboard, go to **Applications** > **Applications** and select **Z-Assistant**.\n2. Select the **Settings** tab.\n3. Scroll to **Advanced Settings** and open the **Grant Types** tab.\n4. Enable **Custom Token Exchange**.\n5. **Save** your changes.\n\nThis grant type allows Z-Assistant's backend to present a user's OIDC identity to Auth0 and receive back an access token for the RetailZero API — without redirecting the user through another login flow."
+    },
+    {
+      "title": "Create the Custom Token Exchange Action",
+      "description": "## Create the Custom Token Exchange Action\n\nThe \"Custom\" in Custom Token Exchange comes from this Action: Auth0 runs it every time a token exchange request arrives, giving you a hook to inspect the incoming token, apply policies, and enrich the outgoing access token.\n\n1. In the Auth0 Dashboard, go to **Actions** > **Library**.\n2. Select **Build Custom**.\n3. Give the Action a name: `RetailZero Token Exchange`.\n4. For **Trigger**, select **Custom Token Exchange**.\n5. Select **Create**.\n6. In the editor, replace the default code with:\n\n```js\nexports.onExecuteCustomTokenExchange = async (event, api) => {\n  // Add a custom claim to identify the AI agent that performed the exchange.\n  // The RetailZero API (or audit logs) can inspect this claim to know\n  // the request came from Z-Assistant acting on behalf of a user.\n  api.accessToken.setCustomClaim(\n    'https://retailzero-api/agent',\n    event.client.name\n  );\n};\n```\n\n7. Select **Deploy**.\n\nIn production you might use this hook to: verify the subject token's audience, restrict which clients can exchange tokens, or gate access based on the user's roles."
+    },
+    {
+      "file": "retailzero-api/src/app.ts",
+      "description": "## Protect the RetailZero API\n\nThe JWT validation middleware is already written for you in `retailzero-api/src/middleware/auth.ts`. Open that file and review it — it uses `express-oauth2-jwt-bearer` (Auth0's official Express middleware) to validate the audience and signature of every incoming Bearer token against your tenant's JWKS endpoint.\n\nNow wire it up. Uncomment both lines below:\n\n```ts\nimport { validateToken } from './middleware/auth.js';\n```\n\nand:\n\n```ts\napp.use('/api/', validateToken);\n```\n\nOnce uncommented, every request to any `/api/*` route must include a valid `Authorization: Bearer <token>` header signed by your Auth0 tenant. Requests without a token will receive a `401 Unauthorized` response.",
+      "line": 10,
+      "title": "Protect the RetailZero API",
+      "selection": {
+        "start": {
+          "line": 10,
+          "character": 1
+        },
+        "end": {
+          "line": 18,
+          "character": 100
+        }
+      }
+    },
+    {
+      "file": "retailzero-api/.env.example",
+      "description": "## Configure the RetailZero API environment\n\nThe JWT middleware reads `AUTH0_DOMAIN` and `RETAILZERO_API_AUDIENCE` from the environment. You need to create a `.env` file for the RetailZero API.\n\n1. In a terminal, run:\n   ```\n   cd retailzero-api && cp .env.example .env\n   ```\n2. Open `retailzero-api/.env` and fill in your Auth0 domain:\n   ```\n   PORT=3001\n   AUTH0_DOMAIN=\"{yourTenantDomain}.auth0.com\"\n   RETAILZERO_API_AUDIENCE=\"https://retailzero-api/\"\n   ```\n3. Restart the RetailZero API:\n   ```\n   cd retailzero-api && npm run dev\n   ```\n\nThe audience value must match exactly what is configured in your Auth0 API resource. `RETAILZERO_API_AUDIENCE` is already set to `https://retailzero-api/` in your Z-Assistant environment by the lab extension.",
+      "line": 1,
+      "title": "Configure the RetailZero API environment"
+    },
+    {
+      "file": "z-assistant/src/lib/token-exchange.ts",
+      "description": "## Implement the token exchange helper\n\nUncomment the `getRetailZeroToken()` function by replacing the TODO block with:\n\n```ts\nexport async function getRetailZeroToken(): Promise<string> {\n  const req = requestStore.getStore();\n  const idToken = (req as any)?.oidc?.idToken as string | undefined;\n  if (!idToken) throw new Error('No authenticated session — cannot exchange token');\n\n  const res = await fetch(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },\n    body: new URLSearchParams({\n      grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',\n      client_id: process.env.AUTH0_CLIENT_ID!,\n      client_secret: process.env.AUTH0_CLIENT_SECRET!,\n      subject_token: idToken,\n      subject_token_type: 'urn:ietf:params:oauth:token-type:id_token',\n      audience: process.env.RETAILZERO_API_AUDIENCE!,\n    }).toString(),\n  });\n\n  if (!res.ok) {\n    const err = await res.json().catch(() => ({}));\n    throw new Error(`Token exchange failed: ${(err as any).error_description ?? res.statusText}`);\n  }\n\n  const { access_token } = await res.json();\n  return access_token as string;\n}\n```\n\n**What this does:**\n\n- `requestStore.getStore()` retrieves the current HTTP request from `AsyncLocalStorage`. This works because every request is stored there by the middleware in `app.ts`, and it threads through the entire async call chain — including inside tool `execute()` functions.\n- `req.oidc.idToken` is the user's raw OIDC ID token, provided by `express-openid-connect` after login.\n- The POST to `/oauth/token` performs the Custom Token Exchange. Auth0 validates the ID token, runs the `RetailZero Token Exchange` Action, and returns an access token for the `https://retailzero-api/` audience.\n- The returned `access_token` is a short-lived JWT that the RetailZero API will accept.",
+      "line": 3,
+      "title": "Implement the token exchange helper",
+      "selection": {
+        "start": {
+          "line": 3,
+          "character": 1
+        },
+        "end": {
+          "line": 37,
+          "character": 100
+        }
+      }
+    },
+    {
+      "file": "z-assistant/src/tools/retailzero.ts",
+      "description": "## Wire token exchange into the tools\n\nWith `getRetailZeroToken()` implemented, you can now attach the delegated token to every RetailZero API call.\n\n**Step 1 — Uncomment the import and `apiFetch` helper** (lines 3–15):\n\n```ts\nimport { getRetailZeroToken } from '../lib/token-exchange.js';\n```\n\nand:\n\n```ts\nasync function apiFetch(url: string, init?: RequestInit): Promise<Response> {\n  const token = await getRetailZeroToken();\n  return fetch(url, { ...init, headers: { ...init?.headers, Authorization: `Bearer ${token}` } });\n}\n```\n\n**Step 2 — Replace `fetch(` with `apiFetch(` in all five tool `execute` functions.**\n\nSearch for `// TODO (Tour 04 - Step 8): Change fetch → apiFetch` — there are five occurrences, one per tool. For each:\n\n- Change `const res = await fetch(` → `const res = await apiFetch(`\n\nThe `apiFetch` helper transparently adds the `Authorization` header on every call. The tool logic itself stays unchanged.",
+      "line": 3,
+      "title": "Wire token exchange into the tools",
+      "selection": {
+        "start": {
+          "line": 3,
+          "character": 1
+        },
+        "end": {
+          "line": 15,
+          "character": 100
+        }
+      }
+    },
+    {
+      "title": "Test the secured API",
+      "description": "## Test the secured API\n\n1. Make sure the **RetailZero API** has been restarted with the new `.env` file (see Step 6).\n2. [Start Z-Assistant](command:workbench.action.debug.start) and open it in the browser.\n3. Log in if prompted.\n4. Send this prompt:\n   > _\"Search for all electronics products.\"_\n5. Z-Assistant should respond with a product list. The token exchange happened silently — the agent obtained a delegated access token and included it in the API call.\n\n---\n\n**Verify the API rejects unauthenticated requests:**\n\n6. In a terminal, run:\n   ```\n   curl http://localhost:3001/api/products\n   ```\n7. You should receive a `401 Unauthorized` response — the API now requires a valid Auth0 access token.\n\n---\n\n**Congratulations!** Z-Assistant now acts on behalf of the logged-in user when calling the RetailZero API. Every tool call carries a delegated access token issued by Auth0 via Custom Token Exchange, and the API enforces that token on every route.\n\nNext up: Tour 5 — Configure CIBA in Auth0, which will add human-in-the-loop approval on top of this foundation."
+    }
+  ]
+}

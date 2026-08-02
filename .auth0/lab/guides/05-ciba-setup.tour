@@ -1,0 +1,45 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "5: Configure CIBA in Auth0",
+  "nextTour": "6: Add Human-in-the-Loop Authorization",
+  "steps": [
+    {
+      "title": "What is CIBA?",
+      "description": "## What is CIBA?\n\n**Client-Initiated Backchannel Authentication (CIBA)** is an OAuth 2.0 extension that allows a client (the AI agent) to request authorization from a user through an **out-of-band channel** — for example, a push notification to their phone.\n\nUnlike regular OAuth flows where the user is redirected to a browser, CIBA works like this:\n\n1. Z-Assistant detects that a sensitive operation is requested (e.g., a refund).\n2. The `withRefundApproval` wrapper intercepts the tool call and initiates a CIBA request to Auth0.\n3. Auth0 sends a push notification to the user's registered device via the Auth0 Guardian app.\n4. The notification shows: _\"Approve refund of $216.99 for order ORD-1001?\"_\n5. The user taps **Approve** or **Deny** on their phone.\n6. If approved, Z-Assistant executes the refund. If denied, it returns an authorization error.\n\nThis is **human-in-the-loop** authorization for AI agents."
+    },
+    {
+      "title": "Install Auth0 Guardian",
+      "description": "## Install Auth0 Guardian\n\nAuth0 Guardian is the mobile app that receives CIBA push notifications.\n\n1. Install **Auth0 Guardian** on your phone:\n   - [iOS App Store](https://apps.apple.com/us/app/auth0-guardian/id1093100804)\n   - [Google Play Store](https://play.google.com/store/apps/details?id=com.auth0.guardian)\n\n2. We will enroll your account with Guardian after enabling CIBA on your tenant.\n\n> If you don't have a smartphone, Auth0 also supports email and SMS as CIBA notification channels. Check the Auth0 documentation for setup instructions."
+    },
+    {
+      "title": "Configure the CIBA grant type for your application",
+      "description": "## Configure the CIBA grant type for your application\n\nYour Z-Assistant Auth0 application needs to support the CIBA grant type. To do this from the Auth0 Dashboard:\n\n1. Go to **Applications** > **Applications** and select **Z-Assistant**.\n2. Select the **Settings** tab.\n3. Scroll down to **Advanced Settings** and select the **Grant Types** tab.\n4. Enable **Client Initiated Backchannel Authentication (CIBA)**.\n5. **Save** your changes.\n"
+    },
+    {
+      "title": "Enable mobile push notifications for your application",
+      "description": "## Enable mobile push notifications for your application\n\nFor CIBA to deliver approval notifications, you need to enable a CIBA notification channel. In this lab, we will use mobile push notifications using Auth0 Guardian.\n\n1. Still on your application's setting page, scroll to the **Client Initiated Backchannel Authentication (CIBA)** section.\n2. Toggle on **Guardian Push**.\n\nNext, we will enable Auth0 Guardian push notifications for your tenant and enroll your user account in this factor.",
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 4
+        },
+        "end": {
+          "line": 1,
+          "character": 57
+        }
+      }
+    },
+    {
+      "title": "Enable Auth0 Guardian push notifications",
+      "description": "## Enable Auth0 Guardian push notifications and enable MFA\n\n1. From the Auth0 Dashboard, go to **Security** > **Multi-Factor Auth**.\n2. Select **Push Notification using Auth0 Guardian**.\n3. **Enable** the toggle switch on the next page and this will automatically be saved.\n4. Return to the previous page by selecting the **Back to Multi-factor Authentication** link.\n5. Scroll down to the **Define policies** section of the page.\n6. Next to **Require Multi-factor Auth**, select **Always**.\n\nNext, we'll enroll your user in the mobile push with Auth0 Guardian factor.\n"
+    },
+    {
+      "title": "Enroll push notifications with Auth0 Guardian",
+      "description": "## Enroll in push notifications with Auth0 Guardian\n\nBefore you can approve requests sent through the CIBA flow, your account needs to enroll in the notification channel we enabled: push notifications with Auth0 Guardian. Since we required MFA **Always**, the next time you log in to an application configured on your tenant, you will be prompted to enroll. We can also trigger enrollment using the **Try** feature in the Authentication Profile section of your Auth0 Dashboard.\n\n1. From the Auth0 Dashboard, go to **Authentication** > **Authentication Profile**.\n2. Select **Try** and a log in screen will appear in a new tab.\n3. Log in with the same credentials you used for the Z-Assistant application.\n4. You'll be prompted to set up Auth0 Guardian. If you haven't already, install the app on to your mobile device.\n5. Select **Continue**.\n6. Open Auth0 Guardian on your mobile device and scan the QR code to add your account.\n\nYou're now successfully enrolled in push notifications with Auth0 Guardian. You can close the browser tab with the successfull transaction message. \n\nNext, we will disable MFA from the Auth0 Dashboard."
+    },
+    {
+      "title": "Disable MFA",
+      "description": "## Disable MFA\n\nSince you've successfully enrolled in Auth0 Guardian, we no longer need MFA always triggered on log in.\n\n## Enable Auth0 Guardian push notifications\n\n1. From the Auth0 Dashboard, go to **Security** > **Multi-Factor Auth**.\n5. Scroll down to the **Define policies** section of the page.\n6. Next to **Require Multi-factor Auth**, select **Never**.\n\nNext, we'll implement the code changes needed so Z-Assistant can initiate the CIBA flow for sensitive operations and await human approval."
+    }
+  ]
+}

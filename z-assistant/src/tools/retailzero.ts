@@ -1,9 +1,18 @@
 import { tool, jsonSchema } from 'ai';
 import { z } from 'zod';
-// TODO (Tour 05 - #6): After completing auth0-ai.ts, uncomment this import:
+// TODO (Tour 04 - Step 8): Uncomment after implementing token-exchange.ts:
+// import { getRetailZeroToken } from '../lib/token-exchange.js';
+// TODO (Tour 06 - #6): After completing auth0-ai.ts, uncomment this import:
 // import { withRefundApproval, withCustomerDataApproval } from '../lib/auth0-ai.js';
 
 const RETAILZERO_API = process.env.RETAILZERO_API_URL ?? 'http://localhost:3001';
+
+// TODO (Tour 04 - Step 8): Uncomment this helper. It adds an Authorization header to every
+// RetailZero API call using a delegated access token obtained via Custom Token Exchange.
+// async function apiFetch(url: string, init?: RequestInit): Promise<Response> {
+//   const token = await getRetailZeroToken();
+//   return fetch(url, { ...init, headers: { ...init?.headers, Authorization: `Bearer ${token}` } });
+// }
 
 // ─── Standard Tools ───────────────────────────────────────────────────────────
 // These tools are safe for the AI agent to call without additional authorization.
@@ -29,6 +38,7 @@ export const listProductsTool = tool({
     const params = new URLSearchParams();
     if (category) params.set('category', category);
     if (inStockOnly) params.set('inStock', 'true');
+    // TODO (Tour 04 - Step 8): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/products?${params}`);
     if (!res.ok) return { error: 'Failed to fetch products.' };
     return await res.json();
@@ -57,6 +67,7 @@ export const searchOrdersTool = tool({
     const params = new URLSearchParams();
     if (query) params.set('q', query);
     if (status) params.set('status', status);
+    // TODO (Tour 04 - Step 8): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/orders?${params}`);
     if (!res.ok) return { error: 'Failed to fetch orders.' };
     return await res.json();
@@ -69,6 +80,7 @@ export const getOrderDetailsTool = tool({
     orderId: z.string().describe('The order ID (e.g. ORD-1001)'),
   }),
   execute: async ({ orderId }) => {
+    // TODO (Tour 04 - Step 8): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/orders/${orderId}`);
     if (!res.ok) return { error: `Order ${orderId} not found.` };
     return await res.json();
@@ -81,7 +93,7 @@ export const getOrderDetailsTool = tool({
 // registered device before the operation can execute.
 
 export const processRefundTool = tool({
-  // TODO (Tour 05 - #7): Replace `tool({` on this line with `withRefundApproval(tool({`
+  // TODO (Tour 06 - #7): Replace `tool({` on this line with `withRefundApproval(tool({`
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
     'Process a refund for a delivered order.',
@@ -91,6 +103,7 @@ export const processRefundTool = tool({
     reason: z.string().describe('Reason for the refund'),
   }),
   execute: async ({ orderId, amount, reason }) => {
+    // TODO (Tour 04 - Step 8): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/refunds`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -105,7 +118,7 @@ export const processRefundTool = tool({
 });
 
 export const getCustomerProfileTool = tool({
-  // TODO (Tour 05 - #8): Replace `tool({` on this line with `withCustomerDataApproval(tool({`
+  // TODO (Tour 06 - #8): Replace `tool({` on this line with `withCustomerDataApproval(tool({`
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
     'Retrieve a customer\'s full profile including private contact details (phone, address) and payment information.',
@@ -113,6 +126,7 @@ export const getCustomerProfileTool = tool({
     customerId: z.string().describe('The customer ID (e.g. CUST-001)'),
   }),
   execute: async ({ customerId }) => {
+    // TODO (Tour 04 - Step 8): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/customers/${customerId}/profile`);
     if (!res.ok) return { error: `Customer ${customerId} not found.` };
     return await res.json();

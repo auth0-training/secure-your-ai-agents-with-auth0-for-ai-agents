@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "express": "^4.21.2",
+    "express-oauth2-jwt-bearer": "^1.6.0",
     "dotenv": "^16.4.7"
   },
   "devDependencies": {

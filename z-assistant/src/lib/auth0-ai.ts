@@ -15,16 +15,16 @@ config({ path: '.env', override: false });
 export type SendFn = (event: string, data: unknown) => void;
 export const sseStore = new AsyncLocalStorage<SendFn>();
 
-// TODO (Tour 05 - #2): Import Auth0AI and getUserID
+// TODO (Tour 06 - #2): Import Auth0AI and getUserID
 //
 // import { Auth0AI } from '@auth0/ai-vercel';
 // import { getUserID } from './auth0.js';
 
-// TODO (Tour 05 - #3): Initialize the Auth0AI client
+// TODO (Tour 06 - #3): Initialize the Auth0AI client
 //
 // const auth0AI = new Auth0AI();
 
-// TODO (Tour 05 - #4): Export withRefundApproval
+// TODO (Tour 06 - #4): Export withRefundApproval
 //
 // This CIBA wrapper intercepts the processRefund tool. Before the tool executes,
 // Auth0 sends an out-of-band approval notification to the logged-in user's
@@ -44,7 +44,7 @@ export const sseStore = new AsyncLocalStorage<SendFn>();
 //   onUnauthorized: (err: unknown) => { throw err; },
 // });
 
-// TODO (Tour 05 - #5): Export withCustomerDataApproval
+// TODO (Tour 06 - #5): Export withCustomerDataApproval
 //
 // This CIBA wrapper intercepts the getCustomerProfile tool. Accessing a customer's
 // private profile (phone, address, payment methods) requires explicit approval,

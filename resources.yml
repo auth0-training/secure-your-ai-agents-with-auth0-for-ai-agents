@@ -1,0 +1,15 @@
+apis:
+  - name: RetailZero API
+    identifier: "https://retailzero-api/"
+    signing_alg: RS256
+    token_lifetime: 86400
+    allow_offline_access: false
+    scopes:
+      - value: read:catalog
+        description: Read the product catalog
+      - value: read:orders
+        description: Read customer orders
+      - value: read:customer-profile
+        description: Read private customer profiles including contact and payment details
+      - value: write:refunds
+        description: Process refunds on delivered orders

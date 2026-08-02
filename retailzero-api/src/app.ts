@@ -7,11 +7,15 @@ import { products } from './data/products.js';
 import { orders as ordersData } from './data/orders.js';
 import { customers } from './data/customers.js';
 import type { Order } from './data/orders.js';
+// TODO (Tour 04 - Step 5): Import the token validation middleware
+// import { validateToken } from './middleware/auth.js';
 
 const app = express();
 const PORT = Number(process.env.PORT ?? 3001);
 
 app.use(express.json());
+// TODO (Tour 04 - Step 5): Uncomment to require a valid Auth0 access token on all /api/* routes
+// app.use('/api/', validateToken);
 
 const orders: Order[] = [...ordersData];
 

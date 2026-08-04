@@ -22,7 +22,7 @@
   },
 
   "shutdownAction": "stopCompose",
-  "postCreateCommand": "cp z-assistant/.env.example z-assistant/.env.local && cd z-assistant && npm install && cd ../retailzero-api && npm install",
+  "postCreateCommand": "cp z-assistant/.env.example z-assistant/.env.local && cp retailzero-api/.env.example retailzero-api/.env && cd z-assistant && npm install && cd ../retailzero-api && npm install",
   "waitFor": "postStartCommand",
   "remoteUser": "node"
 }

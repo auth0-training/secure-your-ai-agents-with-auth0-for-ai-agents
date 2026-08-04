@@ -101,19 +101,23 @@
     },
     {
       "file": "z-assistant/src/tools/retailzero.ts",
-      "description": "## Wire the token into the tools\n\n**Step 1 — Uncomment the import and `apiFetch` helper** (lines 3–15):\n\n```ts\nimport { getRetailZeroToken } from '../lib/token-exchange.js';\n```\n\nand:\n\n```ts\nasync function apiFetch(url: string, init?: RequestInit): Promise<Response> {\n  const token = getRetailZeroToken();\n  return fetch(url, { ...init, headers: { ...init?.headers, Authorization: `Bearer ${token}` } });\n}\n```\n\n**Step 2 — Replace `fetch(` with `apiFetch(` in all five tool `execute` functions.**\n\nSearch for `// TODO (Tour 04 - Step 7): Change fetch → apiFetch` — there are five occurrences. For each one:\n\n- Change `const res = await fetch(` → `const res = await apiFetch(`\n\nThe `apiFetch` helper transparently reads the session token and adds the `Authorization` header on every call.",
-      "line": 3,
-      "title": "Wire the token into the tools",
+      "description": "## Import getRetailZeroToken\n\nNext we'll import the `getRetailZeroToken` helper function we just defined to our tools definition.\n\n1. Select the **Insert code** link to import the helper function:\n\n```ts\nimport { getRetailZeroToken } from '../lib/token-exchange.js';\n```\n",
+      "line": 4,
+      "title": "Import getRetailZeroToken",
       "selection": {
         "start": {
           "line": 3,
           "character": 1
         },
         "end": {
-          "line": 15,
+          "line": 4,
           "character": 100
         }
       }
+    },
+    {
+      "title": "Call the helper function",
+      "description": "\nand:\n\n```ts\nasync function apiFetch(url: string, init?: RequestInit): Promise<Response> {\n  const token = getRetailZeroToken();\n  return fetch(url, { ...init, headers: { ...init?.headers, Authorization: `Bearer ${token}` } });\n}\n```\n\n**Step 2 — Replace `fetch(` with `apiFetch(` in all five tool `execute` functions.**\n\nSearch for `// TODO (Tour 04 - Step 7): Change fetch → apiFetch` — there are five occurrences. For each one:\n\n- Change `const res = await fetch(` → `const res = await apiFetch(`\n\nThe `apiFetch` helper transparently reads the session token and adds the `Authorization` header on every call."
     },
     {
       "title": "Test the secured API",

@@ -38,7 +38,7 @@ export const listProductsTool = tool({
     const params = new URLSearchParams();
     if (category) params.set('category', category);
     if (inStockOnly) params.set('inStock', 'true');
-    // TODO (Tour 04 - Step 7): Change fetch → apiFetch
+    // TODO (Tour 04 - Step 12): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/products?${params}`);
     if (!res.ok) return { error: 'Failed to fetch products.' };
     return await res.json();
@@ -67,7 +67,7 @@ export const searchOrdersTool = tool({
     const params = new URLSearchParams();
     if (query) params.set('q', query);
     if (status) params.set('status', status);
-    // TODO (Tour 04 - Step 7): Change fetch → apiFetch
+    // TODO (Tour 04 - Step 13): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/orders?${params}`);
     if (!res.ok) return { error: 'Failed to fetch orders.' };
     return await res.json();
@@ -80,7 +80,7 @@ export const getOrderDetailsTool = tool({
     orderId: z.string().describe('The order ID (e.g. ORD-1001)'),
   }),
   execute: async ({ orderId }) => {
-    // TODO (Tour 04 - Step 7): Change fetch → apiFetch
+    // TODO (Tour 04 - Step 14): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/orders/${orderId}`);
     if (!res.ok) return { error: `Order ${orderId} not found.` };
     return await res.json();
@@ -93,7 +93,7 @@ export const getOrderDetailsTool = tool({
 // registered device before the operation can execute.
 
 export const processRefundTool = tool({
-  // TODO (Tour 06 - #7): Replace `tool({` on this line with `withRefundApproval(tool({`
+  // TODO (Tour 06 - #15): Replace `tool({` on this line with `withRefundApproval(tool({`
   //   and add a closing `)` after the final `})` of this tool definition.
   description:
     'Process a refund for a delivered order.',
@@ -126,7 +126,7 @@ export const getCustomerProfileTool = tool({
     customerId: z.string().describe('The customer ID (e.g. CUST-001)'),
   }),
   execute: async ({ customerId }) => {
-    // TODO (Tour 04 - Step 7): Change fetch → apiFetch
+    // TODO (Tour 04 - Step 16): Change fetch → apiFetch
     const res = await fetch(`${RETAILZERO_API}/api/customers/${customerId}/profile`);
     if (!res.ok) return { error: `Customer ${customerId} not found.` };
     return await res.json();

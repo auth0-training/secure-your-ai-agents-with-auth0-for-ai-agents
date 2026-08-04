@@ -116,8 +116,100 @@
       }
     },
     {
-      "title": "Call the helper function",
-      "description": "\nand:\n\n```ts\nasync function apiFetch(url: string, init?: RequestInit): Promise<Response> {\n  const token = getRetailZeroToken();\n  return fetch(url, { ...init, headers: { ...init?.headers, Authorization: `Bearer ${token}` } });\n}\n```\n\n**Step 2 — Replace `fetch(` with `apiFetch(` in all five tool `execute` functions.**\n\nSearch for `// TODO (Tour 04 - Step 7): Change fetch → apiFetch` — there are five occurrences. For each one:\n\n- Change `const res = await fetch(` → `const res = await apiFetch(`\n\nThe `apiFetch` helper transparently reads the session token and adds the `Authorization` header on every call."
+      "file": "z-assistant/src/tools/retailzero.ts",
+      "line": 15,
+      "selection": {
+        "start": {
+          "line": 10,
+          "character": 1
+        },
+        "end": {
+          "line": 15,
+          "character": 100
+        }
+      },
+      "title": "Create the apiFetch helper function",
+      "description": "## Create the apiFetch helper function\n\nSince our tooling calls the protected RetailZero API, we need to read the access token and add it to the `Authorization` header any time the tool is called. To get the session token, we will use the `getRetailZeroToken` helper function we just imported. We'll add some additional logic to another helper function called apiFetch that will called `getRetailZeroToken` and add the resulting token to the `Authorization` header.\n\n1. Select the **Insert code** link to implement this helper function:\n\n```ts\nasync function apiFetch(url: string, init?: RequestInit): Promise<Response> {\n  const token = getRetailZeroToken();\n  return fetch(url, { ...init, headers: { ...init?.headers, Authorization: `Bearer ${token}` } });\n}\n```\n"
+    },
+    {
+      "title": "Update the listProductsTool ",
+      "file": "z-assistant/src/tools/retailzero.ts",
+      "line": 42,
+      "selection": {
+        "start": {
+          "line": 42,
+          "character": 23
+        },
+        "end": {
+          "line": 42,
+          "character": 28
+        }
+      },
+      "description": "## Update the listProductsTool\n\nNow here comes the fun part! We will need to replace the `fetch` call in all five tool `execute` functions with our newly created `apiFetch` helper function. This will ensure that the access token is added to the `Authorization` header for all tool calls.\n\n1. Select the **Insert code** link below to replace `fetch` with `apiFetch`\n\n```ts\napiFetch\n```"
+    },
+    {
+      "title": "Update the searchOrdersTool ",
+      "file": "z-assistant/src/tools/retailzero.ts",
+      "line": 71,
+      "selection": {
+        "start": {
+          "line": 71,
+          "character": 23
+        },
+        "end": {
+          "line": 71,
+          "character": 28
+        }
+      },
+      "description": "## Update the searchOrdersTool\n\nNext we'll update the `searchOrdersTool` with `apiFetch`.\n\n1. Select the **Insert code** link below to replace `fetch` with `apiFetch`:\n\n```ts\napiFetch\n```"
+    },
+    {
+      "title": "Update the getOrderDetailsTool ",
+      "file": "z-assistant/src/tools/retailzero.ts",
+      "line": 84,
+      "selection": {
+        "start": {
+          "line": 84,
+          "character": 23
+        },
+        "end": {
+          "line": 84,
+          "character": 28
+        }
+      },
+      "description": "## Update the getOrderDetailsTool\n\nNext we'll update the `getOrderDetailsTool` with `apiFetch`.\n\n1. Select the **Insert code** link below to replace `fetch` with `apiFetch`:\n\n```ts\napiFetch\n```"
+    },
+    {
+      "title": "Update the processRefundTool ",
+      "file": "z-assistant/src/tools/retailzero.ts",
+      "line": 107,
+      "selection": {
+        "start": {
+          "line": 107,
+          "character": 23
+        },
+        "end": {
+          "line": 107,
+          "character": 28
+        }
+      },
+      "description": "## Update the processRefundTool\n\nNext we'll update the `processRefundTool` with `apiFetch`.\n\n1. Select the **Insert code** link below to replace `fetch` with `apiFetch`:\n\n```ts\napiFetch\n```"
+    },
+    {
+      "title": "Update the getCustomerProfileTool ",
+      "file": "z-assistant/src/tools/retailzero.ts",
+      "line": 130,
+      "selection": {
+        "start": {
+          "line": 130,
+          "character": 23
+        },
+        "end": {
+          "line": 130,
+          "character": 28
+        }
+      },
+      "description": "## Update the getCustomerProfileTool\n\nNext we'll update the `getCustomerProfileTool` with `apiFetch`.\n\n1. Select the **Insert code** link below to replace `fetch` with `apiFetch`:\n\n```ts\napiFetch\n```"
     },
     {
       "title": "Test the secured API",

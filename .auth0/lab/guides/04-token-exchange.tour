@@ -26,25 +26,35 @@
       "description": "## Set permissions for RetailZero API\n\n   \n1. Once you create the RetailZero API in your tenant, select the **Permissions** tab.\n2. Add the following permissions with the corresponding descriptions:\n\n   - **Permission**: `read:catalog`  \n   > **Description**: read-only access to the catalog\n   - **Permission**: `read:orders`  \n   > **Description**: read-only access to customer orders\n   - **Permission**: `read:customer-profile`   \n   > **Description**: read-only access to customer profiledata\n   - **Permission**: `write:refunds`   \n   > **Description**: write access to refunds to allow refund processing\n\nThese scopes represent what the agent is allowed to do on behalf of the user. The access token issued at login will include any scopes that the user is permitted to grant."
     },
     {
+      "title": "Assign permissions to user account",
+      "description": "## Assign permissions to user account\n\nNext, we'll assign the permissions we created to the user account you created when you signed up for Z-Assistant. In order to successfully call the RetailZero API on the user's behalf, the user must have the appropriate permissions on the API.\n\n1. From the Auth0 dashboard, go to **User Management** > **Users**.\n1. Select the user account you created when you signed up for Z-Assistant.\n1. Select the **Permissions** tab.\n1. From the drop-down menu labelled **Select an API to view permissions**, select **RetailZero API**.\n1. Select **Assign Permissions**\n1. Select **All** and then **Add Permissions**.\n\n>Note: Alternatively, you could enable RBAC for this API and create different roles with select permissions to assign to your users."
+    },
+    {
+      "file": "retailzero-api/.env.example",
+      "description": "## Update the RetailZero API .env file\n\nTo secure the RetailZero API with Auth0, we will use middleware to validate the access tokens issued by Auth0. This middleware will read the `AUTH0_DOMAIN` and `RETAILZERO_API_AUDIENCE` from this `.env` file. Notice that `RETAILZERO_API_AUDIENCE` has already been set as `https://retailzero-api/` for you.\n\n1. From the Auth0 Dashboard, go to **Applicatiosn** > **Applications** and select **Z-Assistant**.\n\n1. Copy the **Domain** from this page.\n\n1. Update the `AUTH_DOMAIN` variable highlighted in the `.env` file by pasting the value.\n\n",
+      "line": 1,
+      "title": "Update the RetailZero API .env file"
+    },
+    {
       "file": "z-assistant/src/app.ts",
       "description": "## Request the RetailZero API audience at login\n\nTo get an access token for the RetailZero API, you just need to include its audience in the Auth0 authorization request. `express-openid-connect` takes care of the rest — it stores the resulting access token in the encrypted session cookie alongside the ID token.\n\nUncomment the `audience` line inside `authorizationParams`:\n\n```ts\naudience: process.env.RETAILZERO_API_AUDIENCE,\n```\n\nAfter this change, every new login will result in Auth0 issuing a JWT access token for `https://retailzero-api/` that the agent can retrieve from the session.",
-      "line": 44,
+      "line": 49,
       "title": "Request the RetailZero API audience at login",
       "selection": {
         "start": {
-          "line": 44,
+          "line": 47,
           "character": 1
         },
         "end": {
-          "line": 50,
+          "line": 49,
           "character": 100
         }
       }
     },
     {
       "file": "retailzero-api/src/app.ts",
-      "description": "## Protect the RetailZero API\n\nThe JWT validation middleware is already written in `retailzero-api/src/middleware/auth.ts`. Open that file and review it — it uses `express-oauth2-jwt-bearer` (Auth0's official Express middleware) to validate every incoming Bearer token against your tenant's JWKS endpoint.\n\nUncomment both lines:\n\n```ts\nimport { validateToken } from './middleware/auth.js';\n```\n\nand:\n\n```ts\napp.use('/api/', validateToken);\n```\n\nOnce active, every request to any `/api/*` route must include a valid `Authorization: Bearer <token>` header signed by your Auth0 tenant. Requests without a token receive `401 Unauthorized`.",
-      "line": 10,
+      "description": "## Import the JWT calidation middleware\n\nThe JWT validation middleware is already written in `retailzero-api/src/middleware/auth.ts`. It uses Auth0's official Express middleware `express-oauth2-jwt-bearer`  to validate every incoming Bearer token against your tenant's JWKS endpoint.\n\n1. Select the **Insert code** link below to import the middleware:\n\n```ts\nimport { validateToken } from './middleware/auth.js';\n```\n",
+      "line": 11,
       "title": "Protect the RetailZero API",
       "selection": {
         "start": {
@@ -52,20 +62,30 @@
           "character": 1
         },
         "end": {
-          "line": 18,
+          "line": 11,
           "character": 100
         }
       }
     },
     {
-      "file": "retailzero-api/.env.example",
-      "description": "## Configure the RetailZero API environment\n\nThe JWT middleware reads `AUTH0_DOMAIN` and `RETAILZERO_API_AUDIENCE` from the environment. Create a `.env` file for the RetailZero API:\n\n1. In a terminal:\n   ```\n   cd retailzero-api && cp .env.example .env\n   ```\n2. Open `retailzero-api/.env` and fill in your Auth0 domain:\n   ```\n   PORT=3001\n   AUTH0_DOMAIN=\"{yourTenantDomain}.auth0.com\"\n   RETAILZERO_API_AUDIENCE=\"https://retailzero-api/\"\n   ```\n3. Restart the RetailZero API:\n   ```\n   cd retailzero-api && npm run dev\n   ```\n\nThe audience value must match exactly what is configured in your Auth0 API resource.",
-      "line": 1,
-      "title": "Configure the RetailZero API environment"
+      "title": "Require a valid Auth0 access token on all API routes",
+      "file": "retailzero-api/src/app.ts",
+      "line": 18,
+      "selection": {
+        "start": {
+          "line": 17,
+          "character": 1
+        },
+        "end": {
+          "line": 18,
+          "character": 100
+        }
+      },
+      "description": "## Require a valid Auth0 access token on all API routes\n\nTo require a valid Auth0 access token on all RetailZero API routes, we'll use the JWT validation middleware on any `/api/` endpoint.\n\n1. Select the **Insert code** link below to implement this change:\n\n\n```ts\napp.use('/api/', validateToken);\n```\n\nOnce active, every request to any `/api/*` route must include a valid `Authorization: Bearer <token>` header signed by your Auth0 tenant. Requests without a token receive `401 Unauthorized`."
     },
     {
       "file": "z-assistant/src/lib/token-exchange.ts",
-      "description": "## Implement the token helper\n\nUncomment the `getRetailZeroToken()` function by replacing the TODO block with:\n\n```ts\nexport function getRetailZeroToken(): string {\n  const req = requestStore.getStore();\n  const token = (req as any)?.oidc?.accessToken?.access_token as string | undefined;\n  if (!token) throw new Error('No RetailZero access token in session — ensure RETAILZERO_API_AUDIENCE is set and the user is logged in');\n  return token;\n}\n```\n\n**What this does:**\n\n- `requestStore.getStore()` retrieves the current HTTP request from `AsyncLocalStorage` — the same mechanism that makes `getUserID()` work inside tool `execute()` functions.\n- `req.oidc.accessToken.access_token` is the JWT that Auth0 issued for the RetailZero API at login time. `express-openid-connect` stores it in the encrypted session cookie and makes it available here.\n- No network call, no token exchange — the token is already in the session.",
+      "description": "## Implement the token helper\n\nNext, we'll implement a function that will👍\n\n- Retrieve the current HTTP request from `AsyncLocalStorage` by calling `requestStore.getStore()`\n- Using the `express-openid-connect` middleware, retrieve the JWT-formated access token issued by Auth0 for the RetailZero API (`req.oidc.accessToken.access_token`) \n- Store the access token in the encrypted session cookie for later usage.\n- If the access token was not retrieved and stored, throw an error.\n\n1. To implement this in a function called `getRetailZeroToken`, select the **Inser code** link below:\n\n```ts\nexport function getRetailZeroToken(): string {\n  const req = requestStore.getStore();\n  const token = (req as any)?.oidc?.accessToken?.access_token as string | undefined;\n  if (!token) throw new Error('No RetailZero access token in session — ensure RETAILZERO_API_AUDIENCE is set and the user is logged in');\n  return token;\n}\n```\n",
       "line": 3,
       "title": "Implement the token helper",
       "selection": {

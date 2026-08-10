@@ -48,15 +48,15 @@
     {
       "file": "z-assistant/src/app.ts",
       "description": "## Request the RetailZero API audience at login\n\nTo get an access token for the RetailZero API, you just need to include its audience in the Auth0 authorization request. `express-openid-connect` takes care of the rest — it stores the resulting access token in the encrypted session cookie alongside the ID token.\n\nUncomment the `audience` line inside `authorizationParams`:\n\n```ts\naudience: process.env.RETAILZERO_API_AUDIENCE,\n```\n\nAfter this change, every new login will result in Auth0 issuing a JWT access token for `https://retailzero-api/` that the agent can retrieve from the session.",
-      "line": 49,
+      "line": 63,
       "title": "Request the RetailZero API audience at login",
       "selection": {
         "start": {
-          "line": 47,
+          "line": 63,
           "character": 1
         },
         "end": {
-          "line": 49,
+          "line": 63,
           "character": 100
         }
       }
@@ -68,7 +68,7 @@
       "title": "Protect the RetailZero API",
       "selection": {
         "start": {
-          "line": 10,
+          "line": 11,
           "character": 1
         },
         "end": {
@@ -83,7 +83,7 @@
       "line": 18,
       "selection": {
         "start": {
-          "line": 17,
+          "line": 18,
           "character": 1
         },
         "end": {
@@ -96,11 +96,11 @@
     {
       "file": "z-assistant/src/lib/token-exchange.ts",
       "description": "## Implement the token helper\n\nNext, we'll implement a function that will👍\n\n- Retrieve the current HTTP request from `AsyncLocalStorage` by calling `requestStore.getStore()`\n- Using the `express-openid-connect` middleware, retrieve the JWT-formated access token issued by Auth0 for the RetailZero API (`req.oidc.accessToken.access_token`) \n- Store the access token in the encrypted session cookie for later usage.\n- If the access token was not retrieved and stored, throw an error.\n\n1. To implement this in a function called `getRetailZeroToken`, select the **Inser code** link below:\n\n```ts\nexport function getRetailZeroToken(): string {\n  const req = requestStore.getStore();\n  const token = (req as any)?.oidc?.accessToken?.access_token as string | undefined;\n  if (!token) throw new Error('No RetailZero access token in session — ensure RETAILZERO_API_AUDIENCE is set and the user is logged in');\n  return token;\n}\n```\n",
-      "line": 3,
+      "line": 10,
       "title": "Implement the token helper",
       "selection": {
         "start": {
-          "line": 3,
+          "line": 10,
           "character": 1
         },
         "end": {
@@ -116,7 +116,7 @@
       "title": "Import getRetailZeroToken",
       "selection": {
         "start": {
-          "line": 3,
+          "line": 4,
           "character": 1
         },
         "end": {
@@ -130,7 +130,7 @@
       "line": 15,
       "selection": {
         "start": {
-          "line": 10,
+          "line": 12,
           "character": 1
         },
         "end": {

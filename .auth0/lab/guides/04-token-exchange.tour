@@ -160,14 +160,14 @@
     {
       "title": "Update the searchOrdersTool ",
       "file": "z-assistant/src/tools/retailzero.ts",
-      "line": 76,
+      "line": 77,
       "selection": {
         "start": {
-          "line": 76,
+          "line": 77,
           "character": 23
         },
         "end": {
-          "line": 76,
+          "line": 77,
           "character": 28
         }
       },
@@ -176,14 +176,14 @@
     {
       "title": "Update the getOrderDetailsTool ",
       "file": "z-assistant/src/tools/retailzero.ts",
-      "line": 89,
+      "line": 91,
       "selection": {
         "start": {
-          "line": 89,
+          "line": 91,
           "character": 23
         },
         "end": {
-          "line": 89,
+          "line": 91,
           "character": 28
         }
       },
@@ -192,14 +192,14 @@
     {
       "title": "Update the processRefundTool ",
       "file": "z-assistant/src/tools/retailzero.ts",
-      "line": 122,
+      "line": 113,
       "selection": {
         "start": {
-          "line": 122,
+          "line": 113,
           "character": 23
         },
         "end": {
-          "line": 122,
+          "line": 113,
           "character": 28
         }
       },
@@ -208,14 +208,14 @@
     {
       "title": "Update the getCustomerProfileTool ",
       "file": "z-assistant/src/tools/retailzero.ts",
-      "line": 135,
+      "line": 136,
       "selection": {
         "start": {
-          "line": 135,
+          "line": 136,
           "character": 23
         },
         "end": {
-          "line": 135,
+          "line": 136,
           "character": 28
         }
       },

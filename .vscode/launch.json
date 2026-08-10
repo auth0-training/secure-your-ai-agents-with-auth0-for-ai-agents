@@ -21,5 +21,15 @@
       "cwd": "${workspaceFolder}/retailzero-api",
       "console": "integratedTerminal"
     }
+  ],
+  "compounds": [
+    {
+      "name": "Launch Z-Assistant & API",
+      "configurations": [
+        "Launch Z-Assistant",
+        "Launch RetailZero API"
+      ],
+      "stopAll": true
+    }
   ]
 }

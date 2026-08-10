@@ -30,7 +30,7 @@
       "description": "## Assign permissions to user account\n\nNext, we'll assign the permissions we created to the user account you created when you signed up for Z-Assistant. In order to successfully call the RetailZero API on the user's behalf, the user must have the appropriate permissions on the API.\n\n1. From the Auth0 dashboard, go to **User Management** > **Users**.\n1. Select the user account you created when you signed up for Z-Assistant.\n1. Select the **Permissions** tab.\n1. From the drop-down menu labelled **Select an API to view permissions**, select **RetailZero API**.\n1. Select **Assign Permissions**\n1. Select **All** and then **Add Permissions**.\n\n>Note: Alternatively, you could enable RBAC for this API and create different roles with select permissions to assign to your users."
     },
     {
-      "file": "retailzero-api/.env.example",
+      "file": "retailzero-api/.env",
       "description": "## Update the RetailZero API .env file\n\nTo secure the RetailZero API with Auth0, we will use middleware to validate the access tokens issued by Auth0. This middleware will read the `AUTH0_DOMAIN` and `RETAILZERO_API_AUDIENCE` from this `.env` file. Notice that `RETAILZERO_API_AUDIENCE` has already been set as `https://retailzero-api/` for you.\n\n1. From the Auth0 Dashboard, go to **Applicatiosn** > **Applications** and select **Z-Assistant**.\n\n1. Copy the **Domain** from this page.\n\n1. Update the `AUTH_DOMAIN` variable highlighted in the `.env` file by pasting the value.\n\n",
       "line": 2,
       "selection": {

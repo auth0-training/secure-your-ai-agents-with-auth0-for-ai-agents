@@ -43,15 +43,15 @@
     {
       "file": "z-assistant/src/app.ts",
       "description": "## Add tools to the chat endpoint\n\nNow add the tools to the `streamText` call so the model can use them.\n\n1. Replace the empty `tools: {}` with the snippet below by selecting **Insert Code**:\n\n```ts\n\ttools: {\n        listProducts: listProductsTool,\n        searchOrders: searchOrdersTool,\n        getOrderDetails: getOrderDetailsTool,\n        processRefund: processRefundTool,\n        getCustomerProfile: getCustomerProfileTool,\n      },\n```",
-      "line": 116,
+      "line": 138,
       "title": "Add tools to the chat endpoint",
       "selection": {
         "start": {
-          "line": 116,
+          "line": 138,
           "character": 1
         },
         "end": {
-          "line": 116,
+          "line": 138,
           "character": 100
         }
       }

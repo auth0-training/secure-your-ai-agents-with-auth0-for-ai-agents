@@ -12,7 +12,7 @@
       "description": "## Register the RetailZero API in your tenant\n\n\n1. From the Auth0 Dashboard, go to **Applications** > **APIs**.\n2. Create a new API integration with the following details:\n    - **Name**: RetailZero API\n    - **API Audience**: `https://retailzero-api/`\n    >Note: This value is already set already set as an environment variable `RETAILZERO_API_AUDIENCE` in the Z-Assistant `.env` file.\n    - Leave all other settings as their defaults.\n ",
       "selection": {
         "start": {
-          "line": 1,
+          "line": 2,
           "character": 4
         },
         "end": {
@@ -32,7 +32,17 @@
     {
       "file": "retailzero-api/.env.example",
       "description": "## Update the RetailZero API .env file\n\nTo secure the RetailZero API with Auth0, we will use middleware to validate the access tokens issued by Auth0. This middleware will read the `AUTH0_DOMAIN` and `RETAILZERO_API_AUDIENCE` from this `.env` file. Notice that `RETAILZERO_API_AUDIENCE` has already been set as `https://retailzero-api/` for you.\n\n1. From the Auth0 Dashboard, go to **Applicatiosn** > **Applications** and select **Z-Assistant**.\n\n1. Copy the **Domain** from this page.\n\n1. Update the `AUTH_DOMAIN` variable highlighted in the `.env` file by pasting the value.\n\n",
-      "line": 1,
+      "line": 2,
+      "selection": {
+        "start": {
+          "line": 2,
+          "character": 15
+        },
+        "end": {
+          "line": 2,
+          "character": 27
+        }
+      },
       "title": "Update the RetailZero API .env file"
     },
     {

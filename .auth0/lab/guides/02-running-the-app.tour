@@ -93,7 +93,7 @@
     },
     {
       "title": "Start the RetailZero API",
-      "description": "## Start the RetailZero API\n\nZ-Assistant's tools call the **RetailZero API** which runs separately on port 3001.\n\n1. [Select this link](command:codetour.sendTextToTerminal?[\"cd retailzero-api && npm run dev\"]) to start the RetailZero API.\n    >When the dialog appears, select Open in Browser to open the app.\n    >Alternatively, go to the PORTS tab and select the globe icon next to port 3001.\n\n    In the terminal, you should see:\n    ```\n    RetailZero API running at http://localhost:3001\n    ```",
+      "description": "## Start the Z-Assistant app and RetailZero API\n\nLet's start the Z-Assistant app and the RetailZero API. Z-Assistant will run on port 3000. Its tools call the RetailZero API which runs separately on port 3001.\n\n1. [Select this link](command:workbench.action.debug.start) to start both the Z-Assistant app and RetailZero API.\n1. Select **PORTS** tab at the bottom of this Codespace.\n1. Right-click on port **3000** and select **Port visibility** > **Public**.\n1. Repeat this step for port **3001**.\n\n\n### Check that everything launched successfully:\n\nIn the terminal, you should see two new terminal instances that have been added in the list to the right of the terminal: \n- Launch Z-Assistant\n- Launch RetailZero API\n\n#### If you select the **Launch Z-Assistant** tab, you should see something like:\n\n```\nDebugger attached.\nZ-Assistant running at http://localhost:3000\n```\n\n#### When you select the **Launch RetailZero API** tab, you should see something like:\n\n```\nDebugger attached.\nRetailZero API running at http://localhost:3001\n```",
       "selection": {
         "start": {
           "line": 6,
@@ -107,7 +107,7 @@
     },
     {
       "title": "Test Z-Assistant",
-      "description": "## Test Z-Assistant\n\nNow let's run Z-Assistant and verify the Auth0 integration works.\n\n1. [Start Z-Assistant](command:workbench.action.debug.start).\n2. When the dialog appears, select **Open in Browser** to open the app.\n   > Alternatively, go to the **PORTS** tab and select the globe icon next to port 3000.\n3. Log in to the application.\n4. Ask Z-Assistant something simple: _\"What can you help me with?\"_\n    > You should get a response describing Z-Assistant's capabilities. Since we haven't added tools yet, it can only reply from its training knowledge, not from live RetailZero data.\n\n5. [Stop the application](command:workbench.action.debug.stop) when done.\n\nIn the next tour we will add the RetailZero tools."
+      "description": "## Test Z-Assistant\n\nNow let's verify that the Auth0 integration works.\n\n1. Select the **PORTS** tab. \n1. Hover over Port **3000** and select the globe icon that appear to visit the app in a new browser tab.\n3. Sign up for the application using a username and password you will be able to recall later.\n4. Ask Z-Assistant something simple: _\"What can you help me with?\"_\n    > You should get a response describing Z-Assistant's capabilities. Since we haven't added tools yet, it can only reply from its training knowledge, not from live RetailZero data.\n\n5. [Stop the application and API](command:workbench.action.debug.stop) when done.\n\nIn the next tour we will add the RetailZero tools."
     }
   ]
 }

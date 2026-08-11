@@ -7,7 +7,7 @@ By the end of the lab you will have implemented **Client-Initiated Backchannel A
 ---
 # How to Get Started with this Lab
 
-### This lab requires an OpenAI API key: **⚠️ You will need to set up billing to make calls using this API key.** You will be walked through how to set this up in the lab.
+### This lab requires an OpenAI API key: **⚠️ You will need to set up billing to make calls using this API key.** If you are completing this lab at Oktane, you will be provided with a key.
 
 ## Create Required Free Accounts
 
@@ -15,7 +15,7 @@ By the end of the lab you will have implemented **Client-Initiated Backchannel A
 
     **⚠️ Note to internal Okta employees: Do NOT use your EMU (Enterprise-managed user) account since Codespaces are disabled.**
 
-2. An Auth0 account: You'll also need an Auth0 account. If you do not already have one, you can create a free one [here](https://auth0.com/signup).
+2. An Auth0 account with CIBA enabled: If you are complething this lab at Oktane, you will be provided with a demo tenant with everything enabled that you need.
 
 3. The **Auth0 Guardian** app on your smartphone ([iOS](https://apps.apple.com/us/app/auth0-guardian/id1093100804) / [Android](https://play.google.com/store/apps/details?id=com.auth0.guardian)) — required for the CIBA push notification flow in Tour 5.
 

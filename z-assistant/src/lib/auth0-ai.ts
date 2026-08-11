@@ -53,7 +53,7 @@ export const sseStore = new AsyncLocalStorage<SendFn>();
 // export const withCustomerDataApproval = auth0AI.withAsyncAuthorization({
 //   userID: () => getUserID(),
 //   bindingMessage: (toolArgs: { customerId: string }) =>
-//     `Allow Z-Assistant to access private profile data for customer ${toolArgs.customerId}`,
+//     `Access private data for customer ${toolArgs.customerId}`,
 //   scopes: ['openid', 'profile'],
 //   onAuthorizationRequest: async (_authReq: any, creds: Promise<any>) => {
 //     sseStore.getStore()?.('ciba_pending', { message: 'An approval request has been sent to your device. Approve it to access the customer profile.' });

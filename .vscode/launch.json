@@ -9,7 +9,10 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}/z-assistant",
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+       "presentation": {
+        "hidden":true
+      }
     },
     {
       "type": "node",
@@ -19,7 +22,10 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}/retailzero-api",
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+       "presentation": {
+        "hidden":true
+      }
     }
   ],
   "compounds": [

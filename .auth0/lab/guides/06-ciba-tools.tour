@@ -105,7 +105,7 @@
     {
       "file": "z-assistant/src/tools/retailzero.ts",
       "description": "## Wrap getCustomerProfileTool\n\nWe also don't want the agent to expose customer PII without approval. Similar to the last step, we'll wrap the `tool` object associated with `getCustomerProfileTool` with the `withCustomerDataApproval` function to kick off the CIBA flow before the tool's `execute` function can be triggered.\n\n### 1. Select the **Insert code** link below to apply this change to `getCustomerProfileTool`:\n\n```ts\nexport const getCustomerProfileTool = withCustomerDataApproval(tool({\n  description:\n    'Retrieve a customer\\'s full profile including private contact details (phone, address) and payment information.',\n  inputSchema: z.object({\n    customerId: z.string().describe('The customer ID (e.g. CUST-001)'),\n  }),\n  execute: async ({ customerId }) => {\n    const res = await fetch(`${RETAILZERO_API}/api/customers/${customerId}/profile`);\n    if (!res.ok) return { error: `Customer ${customerId} not found.` };\n    return await res.json();\n  },\n}));\n```",
-      "line": 142,
+      "line": 1145,
       "title": "Wrap getCustomerProfileTool",
       "selection": {
         "start": {
@@ -113,7 +113,7 @@
           "character": 1
         },
         "end": {
-          "line": 142,
+          "line": 145,
           "character": 47
         }
       }

@@ -223,7 +223,17 @@
     },
     {
       "title": "Test the secured API",
-      "description": "## Test the secured API\n\n1. Log out of Z-Assistant and log back in so the session includes the new RetailZero access token.\n2. Make sure the **RetailZero API** has been restarted with the new `.env` file (Step 5).\n3. [Start Z-Assistant and the API](command:workbench.action.debug.start).\n4. Send this prompt:\n   > _\"Search for all electronics products.\"_\n5. Z-Assistant should respond with the product list. The access token from your session was attached to the API call automatically.\n\n---\n\n**Verify the API rejects unauthenticated requests:**\n\n6. In a terminal:\n   ```\n   curl http://localhost:3001/api/products\n   ```\n7. You should receive `401 Unauthorized` — the API now enforces Auth0 token validation on every route.\n\n8. [Stop the application and API](command:workbench.action.debug.stop) when done.\n\n---\n\n**Congratulations!** Z-Assistant now acts on behalf of the logged-in user when calling the RetailZero API. Every tool call carries a session-backed access token issued by Auth0, and the API validates it on every request.\n\nNext up: Tour 5 — Configure CIBA in Auth0, which adds human-in-the-loop approval for sensitive operations on top of this foundation."
+      "description": "## Test the secured API\n\n1. [Start Z-Assistant and the API](command:workbench.action.debug.start).\n1. Go to the **PORTS** tab and set both ports to public (right-click each port and select **Port visibility** > **Public**).\n1. Open Z-Assistant by using the globe icon for port 3000 under the PORTS tab.\n1. Log out of Z-Assistant and log back in so the session includes the new Auth0 access token for RetailZero.\n4. Send this prompt:\n   > _\"Search for all electronics products.\"_\n5. Z-Assistant should respond with the product list. The access token from your session was attached to the API call automatically.\n\n---\n\n**Verify the API rejects unauthenticated requests:**\n\n6. In a terminal:\n   ```\n   curl http://localhost:3001/api/products\n   ```\n7. You should receive `401 Unauthorized` — the API now enforces Auth0 token validation on every route.\n\n8. [Stop the application and API](command:workbench.action.debug.stop) when done.\n\n---\n\n**Congratulations!** Z-Assistant now acts on behalf of the logged-in user when calling the RetailZero API. Every tool call carries a session-backed access token issued by Auth0, and the API validates it on every request.\n\nNext up: Tour 5 — Configure CIBA in Auth0, which adds human-in-the-loop approval for sensitive operations on top of this foundation.",
+      "selection": {
+        "start": {
+          "line": 4,
+          "character": 1
+        },
+        "end": {
+          "line": 5,
+          "character": 79
+        }
+      }
     }
   ]
 }

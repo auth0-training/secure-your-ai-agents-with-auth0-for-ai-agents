@@ -31,7 +31,7 @@
     },
     {
       "title": "Add API permissions to Z-Assistant",
-      "description": "## Add API permissions to Z-Assistant\n\nNow that the RetailZero API is secured with Auth0, Z-Assistant needs permissions on this API.\n\n1. From the Auth0 Dashboard, go to **Applications** > **Applications** and select **Z-Assistant**.\n1. Select the **API Access** tab.\n1. Next to RetailZero API, select **Edit**.\n1. Select the **Client Access** tab.\n1. Select **Grant Access**\n1. Select **All** and then **Save**."
+      "description": "## Add API permissions to Z-Assistant\n\nNow that the RetailZero API is secured with Auth0, Z-Assistant needs permissions on this API.\n\n1. From the Auth0 Dashboard, go to **Applications** > **Applications** and select **Z-Assistant**.\n1. Select the **API Access** tab.\n1. Next to RetailZero API, select **Edit**.\n1. Select the **User-Delegated Access** tab.\n1. Select **Grant Access**\n1. Select **All** and then **Save**."
     },
     {
       "file": "retailzero-api/.env",

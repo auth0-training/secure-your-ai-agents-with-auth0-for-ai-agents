@@ -17,7 +17,7 @@ By the end of the lab you will have implemented **Client-Initiated Backchannel A
 
 2. An Auth0 account with CIBA enabled: If you are complething this lab at Oktane, you will be provided with a demo tenant with everything enabled that you need.
 
-3. The **Auth0 Guardian** app on your smartphone ([iOS](https://apps.apple.com/us/app/auth0-guardian/id1093100804) / [Android](https://play.google.com/store/apps/details?id=com.auth0.guardian)) — required for the CIBA push notification flow in Tour 5.
+3. The **Auth0 Guardian** app on your smartphone ([iOS](https://apps.apple.com/us/app/auth0-guardian/id1093100804) / [Android](https://play.google.com/store/apps/details?id=com.auth0.guardian)) — required for the CIBA push notification flow in Tours 5 and 6.
 
 ## Accessing and Working with Auth0 Labs
 

@@ -121,6 +121,10 @@
     {
       "title": "Test the CIBA flow",
       "description": "## Test the CIBA flow\n\n1. [Start Z-Assistant and the API](command:workbench.action.debug.start).\n\n1. Go to the **PORTS** tab and set both ports to public (right-click each port and select **Port visibility** > **Public**).\n1. Open Z-Assistant by using the globe icon for port 3000 under the PORTS tab.\n\n3. Send this prompt:\n   > _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\n4. The status bar will show **\"Using processRefund…\"** then switch to **\"An approval request has been sent to your device.\"**\n\n5. Check your phone; you should see a **Guardian push notification**:\n   > _\"Approve refund of 216.99 USD for order ORD-1001\"_\n\n6. Select **Approve** in Auth0 Guardian.\n7. Since Z-Assistant periodically polls the CIBA flow, it will automatically resumes and completes the refund once your approval is in the CIBA response.\n\n---\n\n**Optionally, you can test denial:**\n\n1. Ask for another refund and tap **Deny** on Guardian instead.\n2. Z-Assistant should respond that the authorization was denied and the refund was not processed.\n\n---\n\n**Congratulations!** Z-Assistant now enforces human-in-the-loop authorization for all sensitive operations. Financial refunds and customer PII access can no longer be executed autonomously — every request requires explicit approval from the authenticated user on their registered device."
+    },
+    {
+      "title": "Earn an Auth0 for AI Agents skill badge!",
+      "description": "## Earn an Auth0 for AI Agents skill badge!\n\nWant to learn more about Auth0 for AI Agents and other use cases it solves for? Check out our Auth0 for AI Agents content on Auth0 Learning: \nhttps://learning.auth0.com/page/auth0-for-ai-agents \n\nYou don't even have to sign up or sign in to get started. However, if you want to track your learning and earn skill badges, you'll have to sign in to a registered account."
     }
   ]
 }

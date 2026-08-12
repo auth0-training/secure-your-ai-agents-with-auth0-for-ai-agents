@@ -31,7 +31,7 @@
     },
     {
       "title": "Enable Auth0 Guardian push notifications",
-      "description": "## Enable Auth0 Guardian push notifications and enable MFA\n\n1. From the Auth0 Dashboard, go to **Security** > **Multi-Factor Auth**.\n2. Select **Push Notification using Auth0 Guardian**.\n3. **Enable** the toggle switch on the next page and this will automatically be saved.\n4. Return to the previous page by selecting the **Back to Multi-factor Authentication** link.\n5. Scroll down to the **Define policies** section of the page.\n6. Next to **Require Multi-factor Auth**, select **Always**.\n\nNext, we'll enroll your user in the mobile push with Auth0 Guardian factor.\n"
+      "description": "## Enable Auth0 Guardian push notifications and enable MFA\n\n1. From the Auth0 Dashboard, go to **Security** > **Multi-Factor Auth**.\n2. Select **Push Notification using Auth0 Guardian**.\n3. **Enable** the toggle switch on the next page and this will automatically be saved.\n>Note: The toggle switch is at the top right of the page next to the title **Push Notification using Auth0 Guardian**.\n4. Return to the previous page by selecting the **Back to Multi-factor Authentication** link.\n5. Scroll down to the **Define policies** section of the page.\n6. Next to **Require Multi-factor Auth**, select **Always**.\n\nNext, we'll enroll your user in the mobile push with Auth0 Guardian factor.\n"
     },
     {
       "title": "Enroll push notifications with Auth0 Guardian",

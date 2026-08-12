@@ -9,21 +9,21 @@
     },
     {
       "title": "Register the RetailZero API in your tenant",
-      "description": "## Register the RetailZero API in your tenant\n\n\n1. From the Auth0 Dashboard, go to **Applications** > **APIs**.\n2. Create a new API integration with the following details:\n    - **Name**: RetailZero API\n    - **API Audience**: `https://retailzero-api/`\n    >Note: This value is already set already set as an environment variable `RETAILZERO_API_AUDIENCE` in the Z-Assistant `.env` file.\n    - Leave all other settings as their defaults.\n ",
+      "description": "## Register the RetailZero API in your tenant\n\n\n1. From the Auth0 Dashboard, go to **Applications** > **APIs**.\n2. Create a new API integration with the following details:\n    - **Name**: RetailZero API\n    - **Identifier**: `https://retailzero-api/`\n    >Note: This value is already set already set as an environment variable `RETAILZERO_API_AUDIENCE` in the Z-Assistant `.env` file.\n    - Leave all other settings as their defaults.\n ",
       "selection": {
         "start": {
           "line": 2,
-          "character": 4
+          "character": 1
         },
         "end": {
           "line": 2,
-          "character": 1
+          "character": 4
         }
       }
     },
     {
       "title": "Set permissions for RetailZero API",
-      "description": "## Set permissions for RetailZero API\n\n   \n1. Once you create the RetailZero API in your tenant, select the **Permissions** tab.\n2. Add the following permissions with the corresponding descriptions:\n\n   - **Permission**: `read:catalog`  \n   > **Description**: read-only access to the catalog\n   - **Permission**: `read:orders`  \n   > **Description**: read-only access to customer orders\n   - **Permission**: `read:customer-profile`   \n   > **Description**: read-only access to customer profiledata\n   - **Permission**: `write:refunds`   \n   > **Description**: write access to refunds to allow refund processing\n\nThese scopes represent what the agent is allowed to do on behalf of the user. The access token issued at login will include any scopes that the user is permitted to grant."
+      "description": "## Set permissions for RetailZero API\n\n   \n1. Once you create the RetailZero API in your tenant, select the **Permissions** tab.\n2. Add the following permissions with the corresponding descriptions:\n\n   - **Permission**: `read:catalog`  \n   > **Description**: read-only access to the catalog\n   - **Permission**: `read:orders`  \n   > **Description**: read-only access to customer orders\n   - **Permission**: `read:customer-profile`   \n   > **Description**: read-only access to customer profile data\n   - **Permission**: `write:refunds`   \n   > **Description**: write access to refunds to allow refund processing\n\nThese scopes represent what the agent is allowed to do on behalf of the user. The access token issued at login will include any scopes that the user is permitted to grant."
     },
     {
       "title": "Assign permissions to user account",
@@ -99,7 +99,7 @@
     },
     {
       "file": "z-assistant/src/lib/token-exchange.ts",
-      "description": "## Implement the token helper\n\nNext, we'll implement a function that will👍\n\n- Retrieve the current HTTP request from `AsyncLocalStorage` by calling `requestStore.getStore()`\n- Using the `express-openid-connect` middleware, retrieve the JWT-formated access token issued by Auth0 for the RetailZero API (`req.oidc.accessToken.access_token`) \n- Store the access token in the encrypted session cookie for later usage.\n- If the access token was not retrieved and stored, throw an error.\n\n1. To implement this in a function called `getRetailZeroToken`, select the **Inser code** link below:\n\n```ts\nexport function getRetailZeroToken(): string {\n  const req = requestStore.getStore();\n  const token = (req as any)?.oidc?.accessToken?.access_token as string | undefined;\n  if (!token) throw new Error('No RetailZero access token in session — ensure RETAILZERO_API_AUDIENCE is set and the user is logged in');\n  return token;\n}\n```\n",
+      "description": "## Implement the token helper\n\nNext, we'll implement a function that will👍\n\n- Retrieve the current HTTP request from `AsyncLocalStorage` by calling `requestStore.getStore()`\n- Using the `express-openid-connect` middleware, retrieve the JWT-formated access token issued by Auth0 for the RetailZero API (`req.oidc.accessToken.access_token`) \n- Store the access token in the encrypted session cookie for later usage.\n- If the access token was not retrieved and stored, throw an error.\n\n1. To implement this in a function called `getRetailZeroToken`, select the **Insert code** link below:\n\n```ts\nexport function getRetailZeroToken(): string {\n  const req = requestStore.getStore();\n  const token = (req as any)?.oidc?.accessToken?.access_token as string | undefined;\n  if (!token) throw new Error('No RetailZero access token in session — ensure RETAILZERO_API_AUDIENCE is set and the user is logged in');\n  return token;\n}\n```\n",
       "line": 15,
       "title": "Implement the token helper",
       "selection": {
@@ -143,7 +143,7 @@
         }
       },
       "title": "Create the apiFetch helper function",
-      "description": "## Create the apiFetch helper function\n\nSince our tooling calls the protected RetailZero API, we need to read the access token and add it to the `Authorization` header any time the tool is called. To get the session token, we will use the `getRetailZeroToken` helper function we just imported. We'll add some additional logic to another helper function called apiFetch that will called `getRetailZeroToken` and add the resulting token to the `Authorization` header.\n\n1. Select the **Insert code** link to implement this helper function:\n\n```ts\nasync function apiFetch(url: string, init?: RequestInit): Promise<Response> {\n  const token = getRetailZeroToken();\n  return fetch(url, { ...init, headers: { ...init?.headers, Authorization: `Bearer ${token}` } });\n}\n```\n"
+      "description": "## Create the apiFetch helper function\n\nSince our tooling calls the protected RetailZero API, we need to read the access token and add it to the `Authorization` header any time the tool is called. To get the session token, we will use the `getRetailZeroToken` helper function we just imported. We'll add some additional logic to another helper function called apiFetch that will call `getRetailZeroToken` and add the resulting token to the `Authorization` header.\n\n1. Select the **Insert code** link to implement this helper function:\n\n```ts\nasync function apiFetch(url: string, init?: RequestInit): Promise<Response> {\n  const token = getRetailZeroToken();\n  return fetch(url, { ...init, headers: { ...init?.headers, Authorization: `Bearer ${token}` } });\n}\n```\n"
     },
     {
       "title": "Update the listProductsTool ",

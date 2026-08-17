@@ -9,7 +9,7 @@
     },
     {
       "title": "Prerequisites",
-      "description": "## Prerequisites\n\nYou will need:\n\n1. An **Auth0 account** (free tier is fine) — [sign up here](https://auth0.com/signup) if you don't have one.\n2. An **OpenAI API key** — this is provided to you.\n3. For CIBA (Tour 5): the **Auth0 Guardian** mobile app installed on your phone.\n\nThat's it! No third-party API credentials required. RetailZero's API is included in this repository."
+      "description": "## Prerequisites\n\nYou will need:\n\n1. An **Auth0 account** with CIBA — This is provided to you at the Oktane lab.\n2. An **OpenAI API key** — this is provided to you at the Oktane lab.\n3. For CIBA (Tour 5): the **Auth0 Guardian** mobile app installed on your phone.\n\nThat's it! No third-party API credentials required. RetailZero's API is included in this repository."
     },
     {
       "title": "Get your OpenAI API key",

@@ -1,7 +1,7 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
   "title": "3: Add Standard Tools",
-  "nextTour": "4: Configure CIBA in Auth0",
+  "nextTour": "4: Secure the RetailZero API with Access Tokens",
   "steps": [
     {
       "title": "Tool calling in Z-Assistant",

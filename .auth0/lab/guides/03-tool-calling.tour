@@ -1,4 +1,4 @@
-{
+bug{
   "$schema": "https://aka.ms/codetour-schema",
   "title": "3: Add Standard Tools",
   "nextTour": "4: Secure the RetailZero API with Access Tokens",
@@ -58,7 +58,7 @@
     },
     {
       "title": "Test the tools",
-      "description": "## Test the tools\n\n1. [Start Z-Assistant and the API](command:workbench.action.debug.start).\n1. Go to the **PORTS** tab and set both ports to public (right-click each port and select **Port visibility** > **Public**).\n1. Open Z-Assistant by using the globe icon for port 3000 under the PORTS tab.\n\n3. Try these prompts to test the standard tools:\n\n   - _\"Show me all Electronics products that are in stock.\"_\n   - _\"Find orders for Sarah Mitchell.\"_\n   - _\"What are the details of order ORD-1001?\"_\n\nWhile waiting for a response, watch the terminal — you'll see logs like:\n```\n[chat] tool-call: searchOrders\n[chat] tool-result: searchOrders\n[chat] finished — finishReason: stop\n```\n\nNow try a **sensitive operation**:\n\n   - _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\nNotice that Z-Assistant processes this refund **immediately** without asking for any approval! This is the security gap we will fix in Tour 5 with CIBA.\n\n4. [Stop Z-Assistant and the API](command:workbench.action.debug.stop) when done.",
+      "description": "## Test the tools\n\n1. [Start Z-Assistant and the API](command:workbench.action.debug.start).\n1. Go to the **PORTS** tab and set both ports to public (right-click each port and select **Port visibility** > **Public**).\n1. Open Z-Assistant by using the globe icon for port 3000 under the PORTS tab.\n\n3. Try these prompts to test the standard tools:\n\n   - _\"Show me all Electronics products that are in stock.\"_\n   - _\"Find orders for Sarah Mitchell.\"_\n   - _\"What are the details of order ORD-1001?\"_\n\nWhile waiting for a response, watch the **Debug Console** — you'll see logs like:\n```\n[chat] tool-call: searchOrders\n[chat] tool-result: searchOrders\n[chat] finished — finishReason: stop\n```\n\nNow try a **sensitive operation**:\n\n   - _\"Process a refund of $216.99 for order ORD-1001, reason: customer not satisfied.\"_\n\nNotice that Z-Assistant processes this refund **immediately** without asking for any approval! This is the security gap we will fix in Tour 5 with CIBA.\n\n4. [Stop Z-Assistant and the API](command:workbench.action.debug.stop) when done.",
       "selection": {
         "start": {
           "line": 4,

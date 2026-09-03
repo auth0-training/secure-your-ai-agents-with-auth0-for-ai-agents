@@ -1,7 +1,7 @@
 # Lab: Secure Your AI Agents to Act on the Behalf of Users
 
 
-As part of Auth0 for AI Agents, you can securely manage users and control the actions your AI agent takes when calling external tools and APIs. Assistant0 an AI chat agent exposed by an Express backend integrated with an OpenAI LLM. First, we will integrate the AI app with Auth0 for user authentication. Then, we'll enable the app to use Auth0 Token Vault for secure token storage and exchange. This way, the agent never has to manage the user's OAuth tokens directly. Finally, we'll equip the agent with Gmail tooling through Google's APIs so that the agent can search and compose emails on behalf of the logged in user.
+As part of Auth0's AI Identity for Agentic SaaS, you can securely manage users and control the actions your AI agent takes when calling external tools and APIs. Assistant0 an AI chat agent exposed by an Express backend integrated with an OpenAI LLM. First, we will integrate the AI app with Auth0 for user authentication. Then, we'll enable the app to use Auth0 Token Vault for secure token storage and exchange. This way, the agent never has to manage the user's OAuth tokens directly. Finally, we'll equip the agent with Gmail tooling through Google's APIs so that the agent can search and compose emails on behalf of the logged in user.
 
 ---
 # How to Get Started with this Lab

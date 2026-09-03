@@ -1,6 +1,6 @@
-# Oktane Lab: Secure Your AI Agents with Auth0 for AI Agents
+# Oktane Lab: Securing a Retail Assistant
 
-In this lab you will work with **Z-Assistant**, an AI-powered customer service agent for **RetailZero** — a fictitious e-commerce platform. You will progressively secure Z-Assistant using **Auth0 for AI Agents**, learning how to prevent an AI agent from autonomously executing sensitive operations like financial refunds or exposing private customer data.
+In this lab you will work with **Z-Assistant**, an AI-powered customer service agent for **RetailZero** — a fictitious e-commerce platform. You will progressively secure Z-Assistant using **AI Identity for Agentic SaaS**, learning how to prevent an AI agent from autonomously executing sensitive operations like financial refunds or exposing private customer data.
 
 By the end of the lab you will have implemented **Client-Initiated Backchannel Authentication (CIBA)** — a human-in-the-loop authorization pattern that requires the logged-in user to approve sensitive actions on their mobile device before the agent can proceed.
 

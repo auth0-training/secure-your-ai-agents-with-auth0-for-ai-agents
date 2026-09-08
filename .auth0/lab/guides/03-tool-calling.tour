@@ -1,4 +1,4 @@
-bug{
+{
   "$schema": "https://aka.ms/codetour-schema",
   "title": "3: Add Standard Tools",
   "nextTour": "4: Secure the RetailZero API with Access Tokens",

@@ -35,7 +35,7 @@
     },
     {
       "file": "retailzero-api/.env",
-      "description": "## Update the RetailZero API .env file\n\nTo secure the RetailZero API with Auth0, we will use middleware to validate the access tokens issued by Auth0. This middleware will read the `AUTH0_DOMAIN` and `RETAILZERO_API_AUDIENCE` from this `.env` file. Notice that `RETAILZERO_API_AUDIENCE` has already been set as `https://retailzero-api/` for you.\n\n1. From the Auth0 Dashboard, go to **Applications** > **Applications** and select **Z-Assistant**.\n\n1. Copy the **Domain** from this page.\n\n1. Update the `AUTH0_DOMAIN` variable highlighted in the `.env` file by pasting the value.\n    > **Note:** Do **NOT** add `https://`. Just paste the domain as is.\n\n",
+      "description": "## Update the RetailZero API .env file\n\nTo secure the RetailZero API with Auth0, we will use middleware to validate the access tokens issued by Auth0. This middleware will read the `AUTH0_DOMAIN` and `RETAILZERO_API_AUDIENCE` from this `.env` file. Notice that `RETAILZERO_API_AUDIENCE` has already been set as `https://retailzero-api/` for you.\n\n1. From the Auth0 Dashboard, go to **Applications** > **Applications** and select **Z-Assistant**.\n\n1. Copy the **Domain** from this page.\n\n1. Update the `AUTH0_DOMAIN` variable highlighted in the `.env` file by pasting the value. It should look something like:\n   \n    > `AUTH_DOMAIN=\"xxxxxxx.cic-demo-platform.auth0app.com\"`\n    \n> **Note:** Do **NOT** add `https://`. Just paste the domain as is.\n    \n\n",
       "line": 2,
       "selection": {
         "start": {

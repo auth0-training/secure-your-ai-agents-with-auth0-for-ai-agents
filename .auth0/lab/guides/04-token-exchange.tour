@@ -51,7 +51,7 @@
     },
     {
       "file": "z-assistant/src/app.ts",
-      "description": "## Request the RetailZero API audience at login\n\nTo get an access token for the RetailZero API, you just need to include its audience in the Auth0 authorization request. `express-openid-connect` takes care of the rest — it stores the resulting access token in the encrypted session cookie alongside the ID token.\n\nUncomment the `audience` line inside `authorizationParams`:\n\n```ts\naudience: process.env.RETAILZERO_API_AUDIENCE,\n```\n\nAfter this change, every new login will result in Auth0 issuing a JWT access token for `https://retailzero-api/` that the agent can retrieve from the session.",
+      "description": "## Request the RetailZero API audience at login\n\nTo get an access token for the RetailZero API, you just need to include its audience in the Auth0 authorization request. `express-openid-connect` takes care of the rest — it stores the resulting access token in the encrypted session cookie alongside the ID token.\n\nSelect the **Insert code** link below to uncomment the `audience` line inside `authorizationParams`:\n\n```ts\naudience: process.env.RETAILZERO_API_AUDIENCE,\n```\n\nAfter this change, every new login will result in Auth0 issuing a JWT access token for `https://retailzero-api/` that the agent can retrieve from the session.",
       "line": 63,
       "title": "Request the RetailZero API audience at login",
       "selection": {

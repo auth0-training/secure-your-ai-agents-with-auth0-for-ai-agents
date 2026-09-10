@@ -125,6 +125,10 @@
     {
       "title": "Earn a skill badge!",
       "description": "## Earn an AI Identity for Agentic SaaS skill badge!\n\nWant to learn more about AI Identity for Agentic SaaS and other use cases it solves for? Check out our AI Identity for Agentic SaaS content on Auth0 Learning: \nhttps://learning.auth0.com/page/auth0-for-ai-agents \n\nYou don't even have to sign up or sign in to get started. However, if you want to track your learning and earn skill badges, you'll have to sign in to a registered account."
+    },
+    {
+      "title": "Lab teardown",
+      "description": "## Lab teardown\n\nRemember that you're logged in to your personal GitHub account on this public device. Before you leave, make sure you **log out**!\n\nJust in case, our lab assistants will run a script on every lab laptop to end all sessions and clear all cookies.\n\nIf you enjoyed this lab and want to come back to it later, make sure you [star](https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars) this [GitHub repo](https://github.com/auth0-training/secure-your-ai-agents-with-auth0-for-ai-agents/tree/oktane)!\n\n>Note: If you ever want to redo this lab, you will need your own OpenAI API key and an Auth0 tenant with [CIBA](https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-initiated-backchannel-authentication-flow) enabled (requires an Enterprise subscription or appropriate add-on)!"
     }
   ]
 }

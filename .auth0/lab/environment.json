@@ -1,5 +1,5 @@
 {
-  "name": "Lab: Secure Your AI Agents with Auth0 for AI Agents",
+  "name": "Oktane Lab",
   "version": "2.0.0",
   "resources": "resources.yml",
   "unauthenticatedTour": ".auth0/lab/guides/01-intro.tour",

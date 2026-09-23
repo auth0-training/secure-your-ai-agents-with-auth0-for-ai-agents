@@ -48,16 +48,16 @@
     },
     {
       "file": "z-assistant/.env.local",
-      "description": "## Set AUTH0_DOMAIN\n\n1. On your Auth0 application's **Settings** tab, find the **Domain** field in Basic Information.\n2. Copy the domain value (e.g. `dev-abc123.us.auth0.com`) and paste it on the highlighted line above.\n\n    > Note: Do **not** add `https://` to this. Just copy and paste the domain as-is.",
+      "description": "## Set AUTH0_DOMAIN\n\n1. On your Auth0 application's **Settings** tab, find the **Domain** field in Basic Information.\n2. Copy the domain value (e.g. `XXXXXX.cic-demo-platform.auth0app.com) and paste it on the highlighted line above.\n\n    > Note: It should now look like `AUTH0_DOMAIN=\"XXXXXX.cic-demo-platform.auth0app.com\"`",
       "line": 4,
       "selection": {
         "start": {
           "line": 4,
-          "character": 15
+          "character": 1
         },
         "end": {
           "line": 4,
-          "character": 27
+          "character": 57
         }
       }
     },

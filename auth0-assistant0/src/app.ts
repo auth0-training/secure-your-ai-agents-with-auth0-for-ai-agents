@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
 import express from 'express';
-import rateLimit from 'express-rate-limit';
+import {rateLimit, ipKeyGenerator} from 'express-rate-limit';
 import type { Request as ExpressRequest, Response as ExpressResponse } from 'express';
 import { createRequire } from 'module';
 import type * as ExpressOIDC from 'express-openid-connect';
@@ -273,7 +273,7 @@ const chatRateLimit = rateLimit({
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req: ExpressRequest) => req.oidc?.user?.sub ?? req.ip,
+  keyGenerator: (req: ExpressRequest) => req.oidc?.user?.sub ?? ipKeyGenerator(req.ip),
 });
 
 app.post('/api/chat', requiresAuth(), chatRateLimit, async (req: ExpressRequest, res: ExpressResponse) => {

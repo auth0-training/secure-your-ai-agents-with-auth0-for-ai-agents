@@ -56,15 +56,15 @@
     {
       "file": "auth0-assistant0/src/app.ts",
       "description": "## Import the Gmail tools\n\n**Notice that the Express app code in `src/app.ts` has been opened for you above. We will add some code in this step.**\n\nIn order to implement Gmail tool-calling, we'll need to import the Gmail tools.\n\n1. Import the Gmail tools with the code below by selecting **Insert Code**.\n\n```ts\nimport { gmailSearchTool, gmailComposeTool } from './tools/gmail.js';\n```\n\n> The `gmailComposeTool` is used to send email while `gmailSearchTool` is used to search and read emails from your inbox.",
-      "line": 17,
+      "line": 18,
       "title": "Import the Gmail tools",
       "selection": {
         "start": {
-          "line": 17,
+          "line": 18,
           "character": 1
         },
         "end": {
-          "line": 17,
+          "line": 18,
           "character": 33
         }
       }
